@@ -1,0 +1,104 @@
+CREATE SCHEMA `cluck` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+
+CREATE TABLE `cluck`.`users` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL, 
+  `surname` VARCHAR(255) NOT NULL,  
+  `password_hash` VARCHAR(255) NOT NULL, 
+  `access_token` VARCHAR(255) DEFAULT NULL, 
+  `auth_key` VARCHAR(255) DEFAULT NULL,
+  `created_at` TIMESTAMP(6) NULL DEFAULT NULL,  
+  PRIMARY KEY (`id`));
+
+  CREATE TABLE `cluck`.`questions` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` INT UNSIGNED NOT NULL,
+  `category_id` INT UNSIGNED NOT NULL,
+  `question_body` LONGTEXT NOT NULL,
+  `subject` VARCHAR(255) NOT NULL,  
+  `created_at` TIMESTAMP(6) NULL DEFAULT NULL, 
+  `updated_at` TIMESTAMP(6) NULL DEFAULT NULL, 
+  `views` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_id_questions`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cluck`.`users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+  CREATE TABLE `cluck`.`tags` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tag_name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`));
+
+ CREATE TABLE `cluck`.`question_tags` (
+  `question_id` INT UNSIGNED NOT NULL,
+  `tag_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`question_id`, `tag_id`),
+  INDEX `fk_id_question_tags` (`question_id` ASC),
+  INDEX `fk_id_tag` (`tag_id` ASC),
+  CONSTRAINT `fk_id_question_tags`
+    FOREIGN KEY (`question_id`)
+    REFERENCES `cluck`.`questions` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_tag`
+  	FOREIGN KEY (`tag_id`)
+  	REFERENCES `cluck`.`tags` (`id`)
+  	ON DELETE CASCADE
+  	ON UPDATE NO ACTION);
+
+  CREATE TABLE `cluck`.`categories` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_name` VARCHAR(128) NOT NULL, 
+  PRIMARY KEY (`id`));
+
+  CREATE TABLE `cluck`.`question_categories` (
+  `question_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_id` INT UNSIGNED NOT NULL, 
+  PRIMARY KEY (`question_id`, `category_id`),
+  INDEX `fk_id_question_category` (`question_id` ASC),
+  INDEX `fk_id_category` (`category_id` ASC),
+  CONSTRAINT `fk_id_question_category`
+    FOREIGN KEY (`question_id`)
+    REFERENCES `cluck`.`questions` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_category`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `cluck`.`categories` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+  CREATE TABLE `cluck`.`answers` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `question_id` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
+  `answer_body` LONGTEXT NOT NULL, 
+  `created_at` TIMESTAMP(6) NULL DEFAULT NULL, 
+  `updated_at` TIMESTAMP(6) NULL DEFAULT NULL, 
+  PRIMARY KEY (`id`),
+  INDEX `fk_question_id` (`question_id` ASC),
+  INDEX `fk_id_user` (`user_id` ASC),
+  CONSTRAINT `fk_question_id`
+    FOREIGN KEY (`question_id`)
+    REFERENCES `cluck`.`questions` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_user_answer`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cluck`.`users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+  CREATE TABLE `cluck`.`answer_votes` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `answer_id` INT UNSIGNED NOT NULL,
+    `vote` ENUM('like', 'dislike'),
+   PRIMARY KEY (`id`),
+   CONSTRAINT `fk_vote`
+    FOREIGN KEY (`answer_id`)
+    REFERENCES `cluck`.`answers` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
