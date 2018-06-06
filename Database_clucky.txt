@@ -2,14 +2,20 @@ CREATE SCHEMA `cluck` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
 CREATE TABLE `cluck`.`users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(255) NOT NULL,
+  `login` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
   `name` VARCHAR(255) NOT NULL, 
   `surname` VARCHAR(255) NOT NULL,  
   `password_hash` VARCHAR(255) NOT NULL, 
-  `access_token` VARCHAR(255) DEFAULT NULL, 
-  `auth_key` VARCHAR(255) DEFAULT NULL,
+  `access_token` VARCHAR(255) NULL DEFAULT NULL, 
+  `acc_action_token` VARCHAR(255) NULL DEFAULT NULL,
+  `refresh_token` VARCHAR(255) NULL DEFAULT NULL,
+  `status` ENUM('New', 'Active', 'Disabled', 'Reseting') NULL DEFAULT NULL,
   `created_at` TIMESTAMP(6) NULL DEFAULT NULL,  
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC));
 
   CREATE TABLE `cluck`.`questions` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
