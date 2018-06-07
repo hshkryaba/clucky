@@ -1,22 +1,31 @@
+
 CREATE SCHEMA `cluck` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
 CREATE TABLE `cluck`.`users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `login` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `name` VARCHAR(255) NOT NULL, 
-  `surname` VARCHAR(255) NOT NULL,  
-  `password_hash` VARCHAR(255) NOT NULL, 
-  `access_token` VARCHAR(255) NULL DEFAULT NULL, 
-  `acc_action_token` VARCHAR(255) NULL DEFAULT NULL,
-  `refresh_token` VARCHAR(255) NULL DEFAULT NULL,
+  `email` VARCHAR(255) NOT NULL, 
+  `password_hash` CHAR(64) NOT NULL, 
+  `access_token` CHAR(64) NULL DEFAULT NULL, 
+  `acc_action_token` CHAR(64) NULL DEFAULT NULL,
+  `refresh_token` CHAR(64) NULL DEFAULT NULL,
   `status` ENUM('New', 'Active', 'Disabled', 'Reseting') NULL DEFAULT NULL,
   `created_at` TIMESTAMP(6) NULL DEFAULT NULL,  
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
-  
   UNIQUE INDEX `login_UNIQUE` (`login` ASC));
 
+CREATE TABLE `cluck`.`profile` (
+  `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL, 
+  `surname` VARCHAR(255) NOT NULL,  
+  PRIMARY KEY (`user_id`),
+  CONSTRAINT `fk_profile`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cluck`.`users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+ 
   CREATE TABLE `cluck`.`questions` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
@@ -108,3 +117,6 @@ CREATE TABLE `cluck`.`users` (
     REFERENCES `cluck`.`answers` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
+
+
+ 
