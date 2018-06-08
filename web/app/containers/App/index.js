@@ -19,10 +19,12 @@ import styles from './style';
 import HomePage from 'containers/HomePage/Loadable';
 import RegistrationPage from 'containers/RegistrationPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import PageHeader from '../PageHeader';
 
 export default function App() {
   return (
     <div className={css(styles.app)}>
+      <PageHeader/>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/registration" component={RegistrationPage} />

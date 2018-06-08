@@ -36,12 +36,24 @@ function routeReducer(state = routeInitialState, action) {
   }
 }
 
+function signUpReducer(state = { auth: false }, action) {
+  switch (action.type) {
+    case 'SUCCESS_AUTH':
+      return state.merge({
+        auth: true,
+      });
+    default:
+      return state;
+  }
+}
+
 /**
  * Creates the main reducer with the dynamically injected ones
  */
 export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
+    signUp: signUpReducer,
     language: languageProviderReducer,
     ...injectedReducers,
   });

@@ -1,6 +1,11 @@
 import { StyleSheet } from 'aphrodite/no-important';
 
 export default StyleSheet.create({
+  authorizeBlock: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   signup: {
     display: 'flex',
     flexDirection: 'row',
@@ -11,5 +16,8 @@ export default StyleSheet.create({
     textDecoration: 'none',
     background: '#ffffff',
     borderRadius: '5px',
+  },
+  or: {
+    margin: '0 10px',
   }
 });

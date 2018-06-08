@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'app.components.SignUpButton.login',
     defaultMessage: 'Log in',
   },
+  logout: {
+    id: 'app.components.SignUpButton.logout',
+    defaultMessage: 'Log out',
+  },
 });
