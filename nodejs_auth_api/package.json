@@ -1,0 +1,17 @@
+{
+  "name": "nodejs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "client-sessions": "^0.8.0",
+    "cookie-parser": "~1.4.3",
+    "express": "~4.16.0",
+    "jsonwebtoken": "^8.2.2",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.37.10"
+  }
+}
