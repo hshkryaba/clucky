@@ -131,22 +131,6 @@
       "created_at": "2018-05-29 20:20:00",
       "score": null,
       "date": "2018-05-29 20:20:00"
-    },
-    {
-      "[[\"name\",\"sword\"],[\"surname\",\"dfh\"],[\"username\",\"admin\"],[\"password\",\"kek\"]]": "",
-      "id": 12
-    },
-    {
-      "name": "lolka",
-      "surname": "kekovna",
-      "username": "lol",
-      "password": "kek",
-      "access_token": null,
-      "password_hash": null,
-      "created_at": "2018-06-09 17:42:54",
-      "score": null,
-      "date": "2018-06-09 17:42:54",
-      "id": 13
     }
   ],
   "questions": [

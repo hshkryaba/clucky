@@ -13,22 +13,22 @@ class SignUpForm extends React.Component { // eslint-disable-line react/prefer-s
     </div>
   );
   render() {
-    const { handleSubmit, reset } = this.props;
+    const { handleSubmit, reset, pristine, submitting } = this.props;
     return (
       <form onSubmit={handleSubmit} className={css(styles.form)}>
         <Field name="name" component={this.renderField} label="Name" type="text" />
         <Field name="surname" component={this.renderField} label="Surname" type="text" />
         <Field name="username" component={this.renderField} label="Login" type="text" />
         <Field name="password" component={this.renderField} label="Password" type="text" />
-        <button type="button" onClick={reset} className={css(styles.formButton)}>Reset</button>
-        <button type="submit" className={css(styles.formButton)}>Submit</button>
+        <button type="button" disabled={pristine || submitting} onClick={reset} className={css(styles.formButton)}>Reset</button>
+        <button type="submit" disabled={pristine || submitting} className={css(styles.formButton)}>Submit</button>
       </form>
     );
   }
 }
 
 SignUpForm = reduxForm({
-  form: 'registration'
+  form: 'registration',
 })(SignUpForm)
 
 export default SignUpForm;
