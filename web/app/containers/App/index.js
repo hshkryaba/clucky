@@ -18,16 +18,20 @@ import styles from './style';
 
 import HomePage from 'containers/HomePage/Loadable';
 import RegistrationPage from 'containers/RegistrationPage/Loadable';
+import LoginPage from 'containers/LoginPage/Loadable';
+import ProfilePage from 'containers/ProfilePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import PageHeader from '../PageHeader';
 
 export default function App() {
   return (
     <div className={css(styles.app)}>
-      <PageHeader/>
+      <PageHeader />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/registration" component={RegistrationPage} />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/profile" component={ProfilePage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

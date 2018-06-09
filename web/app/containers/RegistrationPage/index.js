@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import md5 from 'md5';
 import messages from './messages';
 import SignUpForm from 'components/SignUpForm';
 import axios from 'axios';
@@ -7,9 +8,15 @@ import axios from 'axios';
 export default class RegistrationPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   pairsToObject = (pairs) => {
     const ret = {};
-    pairs.forEach(function (p) { ret[p[0]] = p[1]; });
+    pairs.forEach((p) => {
+      if (p[0] === 'password') {
+        ret.password_hash = md5(p[1]);
+      } else {
+        ret[p[0]] = p[1];
+      }
+    });
     return ret;
-}
+  };
   handleSubmit = (values) => {
     const currentdate = new Date();
     const datetime = currentdate.getFullYear() + '-'
@@ -19,11 +26,10 @@ export default class RegistrationPage extends React.PureComponent { // eslint-di
                 + currentdate.getMinutes() + ':'
                 + currentdate.getSeconds();
     let user = '';
-    if (typeof values._root.entries != 'undefined') {
+    if (typeof values._root.entries !== 'undefined') {
       user = this.pairsToObject(values._root.entries);
     } else return;
     user.access_token = null;
-    user.password_hash = null;
     user.created_at = datetime;
     user.score = null;
     user.date = datetime;
@@ -37,7 +43,7 @@ export default class RegistrationPage extends React.PureComponent { // eslint-di
   }
   render() {
     return (
-      <SignUpForm onSubmit={this.handleSubmit}/>
+      <SignUpForm onSubmit={this.handleSubmit} />
     );
   }
 }

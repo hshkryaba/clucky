@@ -16,6 +16,7 @@ export default StyleSheet.create({
     textDecoration: 'none',
     background: '#ffffff',
     borderRadius: '5px',
+    cursor: 'pointer',
   },
   or: {
     margin: '0 10px',

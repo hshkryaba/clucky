@@ -18,8 +18,4 @@ export default defineMessages({
     id: 'app.components.SignUpButton.logout',
     defaultMessage: 'Log out',
   },
-  profile: {
-    id: 'app.components.SignUpButton.profile',
-    defaultMessage: 'Profile',
-  },
 });

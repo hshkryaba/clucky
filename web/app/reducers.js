@@ -40,9 +40,9 @@ function routeReducer(state = routeInitialState, action) {
 function signUpReducer(state = { auth: false }, action) {
   switch (action.type) {
     case 'SUCCESS_AUTH':
-      return state.merge({
-        auth: true,
-      });
+      return { auth: true };
+    case 'LOGOUT':
+      return { auth: false };
     default:
       return state;
   }

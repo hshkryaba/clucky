@@ -1,6 +1,12 @@
 import { StyleSheet } from 'aphrodite/no-important';
 
 export default StyleSheet.create({
+  formWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '100%',
+  },
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -22,7 +28,6 @@ export default StyleSheet.create({
     background: '#ffffff',
   },
   formButton: {
-    marginBottom: '10px',
     padding: '5px 10px',
     background: '#ffffff',
     border: '2px solid #000000',

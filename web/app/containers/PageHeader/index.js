@@ -11,15 +11,20 @@ class PageHeader extends React.PureComponent { // eslint-disable-line react/pref
   render() {
     return (
       <div className={css(styles.header)}>
-        <Link className={css(styles.logo)} to="/"/>
-        <SignUpButton auth={this.props.auth}/>
+        <div className={css(styles.logoBlock)}>
+          <Link className={css(styles.logo)} to="/" />
+          <div className={css(styles.logoHeader)}>
+            <FormattedMessage {...messages.header} />
+          </div>
+        </div>
+        <SignUpButton auth={this.props.auth} />
       </div>
     );
   }
 }
 export default connect(
-  state => ({
-    auth: state._root.entries.filter(entry => entry[0] == 'signUp')[0][1].auth
+  (state) => ({
+    auth: state._root.entries.filter(entry => entry[0] == 'signUp')[0][1].auth,
   }),
-  dispatch => ({})
+  (dispatch) => ({})
 )(PageHeader);
