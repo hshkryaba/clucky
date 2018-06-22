@@ -63,6 +63,41 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func tapEnterButton(_ sender: Any) {
+        /*app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
+            print("Completion successful")
+        })*/
+        
+        // credentials encoded in base64
+        let username = emailTextField.text!
+        let password = passwordTextField.text!
+        
+        let Url = String(format: "http://cluck-app.org/api/auth/login")
+        guard let serviceUrl = URL(string: Url) else { return }
+        //        let loginParams = String(format: LOGIN_PARAMETERS1, "test", "Hi World")
+        let parameterDictionary = ["login" : username, "password" : password]
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = "POST"
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
+            return
+        }
+        request.httpBody = httpBody
+        
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                }catch {
+                    print(error)
+                }
+            }
+            }.resume()
+        
     }
     
     @IBAction func tapForgetPassButton(_ sender: Any) {
