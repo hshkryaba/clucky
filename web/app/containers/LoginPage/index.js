@@ -15,8 +15,9 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
     const { auth } = this.props;
     axios.get('http://localhost:4000/users')
     .then((response) => {
-      if (response.data.find((user) => user.username === loginPass.username && user.password_hash === md5(loginPass.password))) {
-        this.props.auth();
+      const user = response.data.find((u) => u.username === loginPass.username && u.password_hash === md5(loginPass.password));
+      if (user != null) {
+        this.props.auth(user);
         this.props.history.push('/');
       } else {
         console.log('user not exists');
@@ -35,6 +36,6 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
 export default connect(
   (state) => ({}),
   (dispatch) => ({
-    auth: () => { dispatch({ type: 'SUCCESS_AUTH' }); },
+    auth: (user) => { dispatch({ type: 'SUCCESS_AUTH', authUser: user }); },
   })
 )(LoginPage);

@@ -40,7 +40,7 @@ function routeReducer(state = routeInitialState, action) {
 function signUpReducer(state = { auth: false }, action) {
   switch (action.type) {
     case 'SUCCESS_AUTH':
-      return { auth: true };
+      return { auth: true, user: action.authUser };
     case 'LOGOUT':
       return { auth: false };
     default:

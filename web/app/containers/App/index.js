@@ -27,13 +27,15 @@ export default function App() {
   return (
     <div className={css(styles.app)}>
       <PageHeader />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/registration" component={RegistrationPage} />
-        <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/profile" component={ProfilePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <div className={css(styles.pageContainer)}>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/registration" component={RegistrationPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/profile" component={ProfilePage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </div>
     </div>
   );
 }
