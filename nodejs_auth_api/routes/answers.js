@@ -4,89 +4,16 @@ const router = express.Router();
 const User = require('../models/user.js');
 const Question = require('../models/question.js');
 const Answer = require('../models/answer.js');
-const { Op } = require('sequelize');
+const Vote = require('../models/vote.js')
 const auth = require('../lib/jwt_auth.js');
 
-const attributes = ['id', 'login', 'email', 'status'];
+const attributes = ['id', 'answer', 'user_id', 'question_id'];
 
 router.use(auth(config.jwt.access));
 
-router.get('/users', (req, res, next) => {
-  User.findAll({
-    attributes,
-    offset: +(req.query.offset || 0),
-    limit: +(req.query.limit || 100)
-  }).then((users) => {
-    if (users.length) {
-      res.status(200).json({
-        status: 200,
-        message: 'Users was found',
-        result: users,
-        error: null
-      });
-    } else {
-      let err = new Error('Users was not found');
-      res.status(404).json({
-        status: 404,
-        message: null,
-        result: null,
-        error: {
-          code: err.code || -1,
-          message: err.message || 'UNKNOWN ERROR'
-        }
-      });
-    }
-  }).catch((err) => {
-    res.status(500).json({
-      status: 500,
-      message: null,
-      result: null,
-      error: {
-        code: err.code || -1,
-        message: err.message || 'UNKNOWN ERROR'
-      }
-    });
-  });
-});
-
-router.get('/users/:id(\\d+)', (req, res, next) => {
-  User.findById(req.params.id, { attributes }).then((user) => {
-    if (user) {
-      res.status(200).json({
-        status: 200,
-        message: 'User was found',
-        result: [user],
-        error: null
-      });
-    } else {
-      let err = new Error('User was not found');
-      res.status(404).json({
-        status: 404,
-        message: null,
-        result: null,
-        error: {
-          code: err.code || -1,
-          message: err.message || 'UNKNOWN ERROR'
-        }
-      });
-    }
-  }).catch((err) => {
-    res.status(500).json({
-      status: 500,
-      message: null,
-      result: null,
-      error: {
-        code: err.code || -1,
-        message: err.message || 'UNKNOWN ERROR'
-      }
-    });
-  });
-});
-
-router.get('/users/:id(\\d+)/answers', (req, res, next) => {
+router.get('/answers', (req, res, next) => {
   Answer.findAll({
-    where: { user_id: req.params.id },
-    attributes: ['id', 'answer_body'],
+    attributes,
     offset: +(req.query.offset || 0),
     limit: +(req.query.limit || 100)
   }).then((answers) => {
@@ -122,22 +49,17 @@ router.get('/users/:id(\\d+)/answers', (req, res, next) => {
   });
 });
 
-router.get('/users/:id(\\d+)/questions', (req, res, next) => {
-  Question.findAll({
-    where: { user_id: req.params.id },
-    attributes: ['id', 'subject', 'question_body', 'views'],
-    offset: +(req.query.offset || 0),
-    limit: +(req.query.limit || 100)
-  }).then((questions) => {
-    if (questions.length) {
+router.get('/answers/:id(\\d+)', (req, res, next) => {
+  Answer.findById(req.params.id, { attributes }).then((answer) => {
+    if (answer) {
       res.status(200).json({
         status: 200,
-        message: 'Questions was found',
-        result: questions,
+        message: 'Answer was found',
+        result: [answer],
         error: null
       });
     } else {
-      let err = new Error('Questions was not found');
+      let err = new Error('Answer was not found');
       res.status(404).json({
         status: 404,
         message: null,
@@ -161,76 +83,22 @@ router.get('/users/:id(\\d+)/questions', (req, res, next) => {
   });
 });
 
-router.post('/users', (req, res, next) => {
-  let login = req.body.login;
-  let password = req.body.password;
-  let email = req.body.email;
-  User.findOrCreate({
-    where: { [Op.or]: { login, email } },
-    attributes,
-    defaults: { login, password, email }
-  }).then(([user, created]) => {
-    if (created) {
-      res.status(201).json({
-        status: 201,
-        message: 'New user was successfully registered',
-        result: [{ id: user.id, login, email, status: user.status }],
+router.get('/answers/:id(\\d+)/votes', (req, res, next) => {
+  Vote.findAll({
+    where: { answer_id: req.params.id },
+    attributes: ['id', 'vote'],
+    offset: +(req.query.offset || 0),
+    limit: +(req.query.limit || 100)
+  }).then((votes) => {
+    if (votes.length) {
+      res.status(200).json({
+        status: 200,
+        message: 'Votes was found',
+        result: votes,
         error: null
       });
     } else {
-      let err = new Error('User with this credentials already exist');
-      res.status(400).json({
-        status: 400,
-        message: null,
-        result: null,
-        error: {
-          code: err.code || -1,
-          message: err.message || 'UNKNOWN ERROR'
-        }
-      });
-    }
-  }).catch((err) => {
-    res.status(500).json({
-      status: 500,
-      message: null,
-      result: null,
-      error: {
-        code: err.code || -1,
-        message: err.message || 'UNKNOWN ERROR'
-      }
-    });
-  });
-});
-
-router.put('/users/:id(\\d+)', (req, res, next) => {
-  if (req.authPayload.id !== +req.params.id) {
-    let err = new Error('Сan not update account of another user');
-    res.status(403).json({
-      status: 403,
-      message: null,
-      result: null,
-      error: {
-        code: err.code || -1,
-        message: err.message || 'UNKNOWN ERROR'
-      }
-    });
-    return;
-  };
-  User.findById(req.params.id).then((user) => {
-    if (user) {
-      return user.update(req.body).then((user) => {
-        let { id, login, email, status } = user;
-        res.status(200).json({
-          status: 200,
-          message: 'User data was successfully updated',
-          result: [{ id, login, email, status }],
-          error: null
-        });
-      }).catch((err) => {
-        throw err;
-      });
-    } else {
-      let err = new Error('User was not found');
+      let err = new Error('Votes was not found');
       res.status(404).json({
         status: 404,
         message: null,
@@ -254,11 +122,33 @@ router.put('/users/:id(\\d+)', (req, res, next) => {
   });
 });
 
-router.delete('/users/:id(\\d+)', (req, res, next) => {
-  if (req.authPayload.id !== +req.params.id) {
-    let err = new Error('Сan not delete account of another user');
-    res.status(403).json({
-      status: 403,
+router.get('/answers/:id(\\d+)/user', (req, res, next) => {
+  Answer.findById(req.params.id, {
+    include: [{ model: User, attributes: ['id', 'login', 'email', 'status'] }],
+    attributes
+  }).then((answer) => {
+    if (answer) {
+      res.status(200).json({
+        status: 200,
+        message: 'User was found',
+        result: [answer.user],
+        error: null
+      });
+    } else {
+      let err = new Error('Answer was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
       message: null,
       result: null,
       error: {
@@ -266,23 +156,147 @@ router.delete('/users/:id(\\d+)', (req, res, next) => {
         message: err.message || 'UNKNOWN ERROR'
       }
     });
-    return;
-  };
-  User.findById(req.params.id).then((user) => {
-    if (user) {
-      return user.destroy().then((user) => {
-        let { id, login, email, status } = user;
+  });
+});
+
+router.get('/answers/:id(\\d+)/question', (req, res, next) => {
+  Answer.findById(req.params.id, {
+    include: [{ model: Question, attributes: ['id', 'subject', 'question', 'views'] }],
+    attributes
+  }).then((answer) => {
+    if (answer) {
+      res.status(200).json({
+        status: 200,
+        message: 'Question was found',
+        result: [answer.question],
+        error: null
+      });
+    } else {
+      let err = new Error('Answer was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.post('/answers', (req, res, next) => {
+  req.body.user_id = req.body.user_id || req.authPayload.id;
+  Answer.create(req.body).then(({ id, answer, user_id, question_id }) => {
+    res.status(201).json({
+      status: 201,
+      message: 'New answer was successfully created',
+      result: [{ id, answer, user_id, question_id }],
+      error: null
+    });
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.put('/answers/:id(\\d+)', (req, res, next) => {
+  Answer.findById(req.params.id).then((answer) => {
+    if (answer) {
+      if (req.authPayload.id !== +answer.user_id) {
+        let err = new Error('Сan not update answer of another user');
+        res.status(403).json({
+          status: 403,
+          message: null,
+          result: null,
+          error: {
+            code: err.code || -1,
+            message: err.message || 'UNKNOWN ERROR'
+          }
+        });
+        return;
+      };
+      return answer.update(req.body).then(({ id, answer, user_id, question_id }) => {
         res.status(200).json({
           status: 200,
-          message: 'User was successfully deleted',
-          result: [{ id, login, email, status }],
+          message: 'Answer was successfully updated',
+          result: [{ id, answer, user_id, question_id }],
           error: null
         });
       }).catch((err) => {
         throw err;
       });
     } else {
-      let err = new Error('User was not found');
+      let err = new Error('Answer was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.delete('/answers/:id(\\d+)', (req, res, next) => {
+  Answer.findById(req.params.id).then((answer) => {
+    if (answer) {
+      if (req.authPayload.id !== +answer.user_id) {
+        let err = new Error('Сan not delete question of another user');
+        res.status(403).json({
+          status: 403,
+          message: null,
+          result: null,
+          error: {
+            code: err.code || -1,
+            message: err.message || 'UNKNOWN ERROR'
+          }
+        });
+        return;
+      };
+      return answer.destroy().then(({ id, answer, user_id, question_id }) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Answer was successfully deleted',
+          result: [{ id, answer, user_id, question_id }],
+          error: null
+        });
+      }).catch((err) => {
+        throw err;
+      });
+    } else {
+      let err = new Error('Answer was not found');
       res.status(404).json({
         status: 404,
         message: null,

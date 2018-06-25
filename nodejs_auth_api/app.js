@@ -1,9 +1,8 @@
+const config = require('./config');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const config = require('./config');
-const conection = require('./db/db_sequelize_connection');
-// const conection = require('./db/db_ntive_connection');
+const { db } = require('./models');
 
 const apiRouter = require('./routes/api');
 
@@ -62,7 +61,7 @@ server.on('clientError', (err, socket) => {
 });
 
 process.on('exit', (code) => {
-  conection.end();
+  db.end();
   console.log(`About to exit with code: ${code}`);
 });
 

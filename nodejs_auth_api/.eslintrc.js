@@ -3,6 +3,7 @@ module.exports = {
     "rules": {
         "space-before-function-paren": ["off", "always"],
         "semi": ["off", "never"],
-        "no-unreachable": "off"
+        "no-unreachable": "off",
+        "camelcase": "off"
     }
 };

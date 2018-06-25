@@ -14,14 +14,14 @@ module.exports = {
   jwt: {
     key: 'WhY#=ovjii5|SI6h.77H-8k[];1Q-Zzs_W<M`p8uz,X2uP|=1n|@r@;D7}%@,.*Q',
     access: {
-      expiresIn: 300,
+      expiresIn: 60 * 60,
       notBefore: 1,
       audience: 'Cluck client application',
       issuer: 'Cluck API',
       subject: 'access_token'
     },
     refresh: {
-      expiresIn: 600,
+      expiresIn: 90 * 60,
       notBefore: 1,
       audience: 'Cluck client application',
       issuer: 'Cluck API',
