@@ -1,6 +1,10 @@
 import { StyleSheet } from 'aphrodite/no-important';
 
 export default StyleSheet.create({
+  formWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -27,5 +31,11 @@ export default StyleSheet.create({
     background: '#ffffff',
     border: '2px solid #000000',
     borderRadius: '5px',
+  },
+  statusMsg: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    color: '#6c6c6c',
   },
 });
