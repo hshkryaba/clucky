@@ -63,12 +63,12 @@ class LoginViewController: UIViewController {
     
     
     @IBAction func tapEnterButton(_ sender: Any) {
-        /*app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
+        app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
             print("Completion successful")
-        })*/
+        })
         
         // credentials encoded in base64
-        let username = emailTextField.text!
+        /*let username = emailTextField.text!
         let password = passwordTextField.text!
         
         let Url = String(format: "http://cluck-app.org/api/auth/login")
@@ -96,7 +96,7 @@ class LoginViewController: UIViewController {
                     print(error)
                 }
             }
-            }.resume()
+            }.resume()*/
         
     }
     

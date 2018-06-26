@@ -22,7 +22,7 @@ public typealias JsonArray = [Any]
 
 class API: NSObject, URLSessionDataDelegate {
     
-    let baseURL = URL(string: "http://cluck-app.org/")!
+    let baseURL = URL(string: "http://185.244.173.142/")! //cluck-app.org/")!
 
     var token: String {
         get {
@@ -230,7 +230,7 @@ class API: NSObject, URLSessionDataDelegate {
     func getToken(login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
         let request = self.makeRequest(method: "GET", path: "api/auth/login", parameters: ["login": login, "password": password])//, serialize: true)
         self.passRequest(request: request, completion: { (json) in
-            print(json)
+            print("GET TOKEN METHOD \(json)")
             if let token = json["accessToken"] as? String {
                 self.token = token
                 completion()

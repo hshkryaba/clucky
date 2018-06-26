@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cluck/Api/Api.swift"
-            timestampString = "550874025.729589"
+            timestampString = "551695900.4108469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "233"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cluck/Api/Api.swift"
-            timestampString = "550874025.7334"
+            timestampString = "551695900.414786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "242"
@@ -41,13 +41,13 @@
                   symbolName = "Cluck.API.login(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
                   moduleName = "Cluck"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/natalie/Desktop/Arr/Cluck/Cluck/Api/Api.swift"
-                  timestampString = "550874027.409341"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.1054389"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "242"
                   endingLineNumber = "242"
-                  offsetFromSymbolStart = "68">
+                  offsetFromSymbolStart = "76">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -56,13 +56,13 @@
                   symbolName = "closure #1 () -&gt; () in Cluck.API.login(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
                   moduleName = "Cluck"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/natalie/Desktop/Arr/Cluck/Cluck/Api/Api.swift"
-                  timestampString = "550874027.4159499"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.111716"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "243"
                   endingLineNumber = "243"
-                  offsetFromSymbolStart = "28">
+                  offsetFromSymbolStart = "11">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cluck/Api/Api.swift"
-            timestampString = "550874025.7337461"
+            timestampString = "551695900.415298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "232"
@@ -89,13 +89,13 @@
                   symbolName = "Cluck.API.getToken(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
                   moduleName = "Cluck"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/natalie/Desktop/Arr/Cluck/Cluck/Api/Api.swift"
-                  timestampString = "550874027.428067"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.1283489"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "232"
                   endingLineNumber = "232"
-                  offsetFromSymbolStart = "620">
+                  offsetFromSymbolStart = "782">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -104,13 +104,13 @@
                   symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; () in Cluck.API.getToken(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
                   moduleName = "Cluck"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/natalie/Desktop/Arr/Cluck/Cluck/Api/Api.swift"
-                  timestampString = "550874027.433569"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.132447"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "233"
                   endingLineNumber = "233"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "37">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cluck/Api/Api.swift"
-            timestampString = "550874025.733918"
+            timestampString = "551695900.415862"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "166"
@@ -134,11 +134,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cluck/LoginViewController.swift"
-            timestampString = "550874025.734177"
+            timestampString = "551695900.416152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "94"
