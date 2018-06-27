@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import crypto from 'crypto';
 import LoginForm from 'components/LoginForm';
 import axios from 'axios';
-const config = require('crypto_conf');
 
 class LoginPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -15,13 +13,7 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
   pairsToObject = (pairs) => {
     const ret = {};
     pairs.forEach((p) => {
-      if (p[0] === 'password') {
-        ret.pwd_hash = crypto.createHmac('sha256', config.crypto.key)
-          .update(config.crypto.salt + p[1])
-          .digest('hex');
-      } else {
-        ret[p[0]] = p[1];
-      }
+      ret[p[0]] = p[1];
     });
     return ret;
   };
@@ -31,7 +23,12 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
     console.log(loginPass);
     axios.post('http://localhost:80/api/auth/login', loginPass)
     .then((response) => {
-      console.log(response);
+      let res = JSON.parse(response.request.response.replace(/\\"/g, '"'));
+      this.setState({
+        jwt: res.result[0].accessToken,
+      });
+      auth(this.state.jwt);
+      console.log(res.result[0].accessToken);
     })
     .catch((error) => {
       console.log(error);
