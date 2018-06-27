@@ -8,6 +8,7 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
     super(props);
     this.state = {
       jwt: '',
+      responsiveMsg: '',
     };
   }
   pairsToObject = (pairs) => {
@@ -19,8 +20,7 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
   };
   handleSubmit = (values) => {
     const loginPass = this.pairsToObject(values._root.entries);
-    const { auth } = this.props;
-    console.log(loginPass);
+    const { auth, history } = this.props;
     axios.post('http://localhost:80/api/auth/login', loginPass)
     .then((response) => {
       let res = JSON.parse(response.request.response.replace(/\\"/g, '"'));
@@ -28,15 +28,17 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
         jwt: res.result[0].accessToken,
       });
       auth(this.state.jwt);
-      console.log(res.result[0].accessToken);
+      history.push('/');
     })
     .catch((error) => {
-      console.log(error);
+      this.setState({
+        responsiveMsg: 'Invalid login or password',
+      });
     });
   }
   render() {
     return (
-      <LoginForm onSubmit={this.handleSubmit} />
+      <LoginForm onSubmit={this.handleSubmit} message={this.state.responsiveMsg} />
     );
   }
 }

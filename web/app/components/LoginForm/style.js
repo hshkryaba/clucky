@@ -11,6 +11,7 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '500px',
+    marginBottom: '20px',
   },
   formRow: {
     display: 'flex',
@@ -32,5 +33,11 @@ export default StyleSheet.create({
     background: '#ffffff',
     border: '2px solid #000000',
     borderRadius: '5px',
+  },
+  statusMsg: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    color: '#6c6c6c',
   },
 });

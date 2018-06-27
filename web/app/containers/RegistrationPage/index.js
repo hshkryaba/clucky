@@ -27,11 +27,9 @@ class RegistrationPage extends React.PureComponent { // eslint-disable-line reac
     } else return;
     axios.post('http://localhost:80/api/auth/register', user)
     .then((response) => {
-      console.log(response.message);
       this.setState({
         responsiveMsg: 'User was created',
       });
-      console.log(response);
       setTimeout(() => {
         this.props.history.push('/login');
       }, 2000);
@@ -41,7 +39,6 @@ class RegistrationPage extends React.PureComponent { // eslint-disable-line reac
       this.setState({
         responsiveMsg: JSON.parse(err).error.message,
       });
-      console.log(JSON.parse(err).error.message);
     });
   }
   render() {

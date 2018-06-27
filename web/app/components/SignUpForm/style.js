@@ -9,6 +9,7 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '500px',
+    marginBottom: '20px',
   },
   formRow: {
     display: 'flex',

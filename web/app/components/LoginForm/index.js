@@ -21,6 +21,7 @@ class SignUpForm extends React.Component { // eslint-disable-line react/prefer-s
           <Field name="password" component={this.renderField} label="Password" type="password" />
           <button type="submit" disabled={pristine || submitting} className={css(styles.formButton)}>Submit</button>
         </form>
+      <div className={css(styles.statusMsg)}>{this.props.message}</div>
       </div>
     );
   }
