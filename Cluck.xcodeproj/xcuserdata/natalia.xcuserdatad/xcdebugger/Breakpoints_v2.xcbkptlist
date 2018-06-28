@@ -2,4 +2,150 @@
 <Bucket
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cluck/Api/Api.swift"
+            timestampString = "551695900.4108469"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "getToken(login:password:completion:fallback:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cluck/Api/Api.swift"
+            timestampString = "551695900.414786"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "login(login:password:completion:fallback:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cluck.API.login(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "Cluck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.1054389"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "242"
+                  endingLineNumber = "242"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in Cluck.API.login(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "Cluck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.111716"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "243"
+                  endingLineNumber = "243"
+                  offsetFromSymbolStart = "11">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cluck/Api/Api.swift"
+            timestampString = "551695900.415298"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
+            landmarkName = "getToken(login:password:completion:fallback:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cluck.API.getToken(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "Cluck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.1283489"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "232"
+                  endingLineNumber = "232"
+                  offsetFromSymbolStart = "782">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; () in Cluck.API.getToken(login: Swift.String, password: Swift.String, completion: () -&gt; (), fallback: Swift.Optional&lt;(Swift.Error) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "Cluck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/natalie/Desktop/Arr/Clucky/Cluck/Api/Api.swift"
+                  timestampString = "551695902.132447"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "233"
+                  endingLineNumber = "233"
+                  offsetFromSymbolStart = "37">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cluck/Api/Api.swift"
+            timestampString = "551695900.415862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "passRequest(request:completion:fallback:withoutProcessing:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cluck/LoginViewController.swift"
+            timestampString = "551695900.416152"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "tapEnterButton(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
