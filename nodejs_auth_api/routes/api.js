@@ -9,6 +9,12 @@ const categoriesRouter = require('./categories');
 const tagsRouter = require('./tags');
 const votesRouter = require('./votes');
 
+router.use('/api/*', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 router.use('/api', authRouter);
 router.use('/api', usersRouter);
 router.use('/api', questionsRouter);
