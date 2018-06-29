@@ -40,8 +40,10 @@ function routeReducer(state = routeInitialState, action) {
 function signUpReducer(state = { auth: false }, action) {
   switch (action.type) {
     case 'SUCCESS_AUTH':
-      return { auth: true, jwt: action.jwt };
+      localStorage.setItem('auth', action.jwt);
+      return { auth: true };
     case 'LOGOUT':
+      localStorage.removeItem('auth');
       return { auth: false };
     default:
       return state;

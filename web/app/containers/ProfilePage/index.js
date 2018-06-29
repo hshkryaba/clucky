@@ -7,7 +7,8 @@ import styles from './style';
 class ProfilePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <UserProfile />
+//      <UserProfile />
+      <div>ProfilePage</div>
     );
   }
 }

@@ -28,6 +28,7 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
         jwt: res.result[0].accessToken,
       });
       auth(this.state.jwt);
+      localStorage.setItem('auth', this.state.jwt);
       history.push('/');
     })
     .catch((error) => {

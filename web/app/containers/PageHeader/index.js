@@ -24,7 +24,8 @@ class PageHeader extends React.PureComponent { // eslint-disable-line react/pref
 }
 export default connect(
   (state) => ({
-    auth: state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].auth,
+    //auth: state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].auth,
+    auth: localStorage.getItem('auth') !== null,
   }),
   (dispatch) => ({})
 )(PageHeader);
