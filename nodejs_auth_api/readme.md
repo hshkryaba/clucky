@@ -1,3 +1,4 @@
+<pre>
 Используемые заголовки:
 
 -- заголовки в запросе
@@ -126,3 +127,4 @@ POST /api/users
 }
 PUT /api/users/:id
 DELETE /api/users/:id
+</pre>
