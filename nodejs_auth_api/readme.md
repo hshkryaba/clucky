@@ -79,6 +79,8 @@ GET /api/categories/:id/questions
 GET /api/categories/:id/answers
 POST /api/categories
 принимает {"name":"название категории"} (обязательный)
+POST /api/categories/:id/questions/:qid/set (нет параметров, назначает категорию для вопроса)
+POST /api/categories/:id/questions/:qid/del (нет параметров, удаляет назначенную категорию)
 PUT /api/categories/:id
 DELETE /api/categories/:id
 
@@ -111,6 +113,8 @@ GET /api/tags/:id
 GET /api/tags/:id/questions
 POST /api/tags
 принимает {"name":"название тэга"}
+POST /api/tags/:id/questions/:qid/set (нет параметров, назначает тэг для вопроса)
+POST /api/tags/:id/questions/:qid/del (нет параметров, удаляет назначенный тэг)
 PUT /api/tags/:id
 DELETE /api/tags/:id
 
