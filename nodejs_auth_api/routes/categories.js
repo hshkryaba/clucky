@@ -123,10 +123,86 @@ router.post('/categories', (req, res, next) => {
   Category.create(req.body).then(({ id, name }) => {
     res.status(201).json({
       status: 201,
-      message: 'New tag was successfully created',
+      message: 'New category was successfully created',
       result: [{ id, name }],
       error: null
     });
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.post('/categories/:id(\\d+)/questions/:qid(\\d+)/set', (req, res, next) => {
+  Category.findById(req.params.id).then((category) => {
+    if (category) {
+      return category.addQuestion(req.params.qid).then((assign) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Category was successfully assigned',
+          result: assign,
+          error: null
+        });
+      }).catch((err) => {
+        throw err;
+      });
+    } else {
+      let err = new Error('Category was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.post('/categories/:id(\\d+)/questions/:qid(\\d+)/del', (req, res, next) => {
+  Category.findById(req.params.id).then((category) => {
+    if (category) {
+      return category.removeQuestion(req.params.qid).then((assign) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Category was successfully deleted',
+          result: assign,
+          error: null
+        });
+      }).catch((err) => {
+        throw err;
+      });
+    } else {
+      let err = new Error('Category was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
   }).catch((err) => {
     res.status(500).json({
       status: 500,
@@ -146,7 +222,7 @@ router.put('/categories/:id(\\d+)', (req, res, next) => {
       return category.update(req.body).then(({ id, name }) => {
         res.status(200).json({
           status: 200,
-          message: 'Tag was successfully updated',
+          message: 'Category was successfully updated',
           result: [{ id, name }],
           error: null
         });
@@ -184,7 +260,7 @@ router.delete('/categories/:id(\\d+)', (req, res, next) => {
       return category.destroy().then(({ id, name }) => {
         res.status(200).json({
           status: 200,
-          message: 'Tag was successfully deleted',
+          message: 'Category was successfully deleted',
           result: [{ id, name }],
           error: null
         });
@@ -192,7 +268,7 @@ router.delete('/categories/:id(\\d+)', (req, res, next) => {
         throw err;
       });
     } else {
-      let err = new Error('Tag was not found');
+      let err = new Error('Category was not found');
       res.status(404).json({
         status: 404,
         message: null,

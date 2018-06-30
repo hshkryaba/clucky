@@ -140,6 +140,82 @@ router.post('/tags', (req, res, next) => {
   });
 });
 
+router.post('/tags/:id(\\d+)/questions/:qid(\\d+)/set', (req, res, next) => {
+  Tag.findById(req.params.id).then((tag) => {
+    if (tag) {
+      return tag.addQuestion(req.params.qid).then((assign) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Tag was successfully assigned',
+          result: assign,
+          error: null
+        });
+      }).catch((err) => {
+        throw err;
+      });
+    } else {
+      let err = new Error('Tag was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.post('/tags/:id(\\d+)/questions/:qid(\\d+)/del', (req, res, next) => {
+  Tag.findById(req.params.id).then((tag) => {
+    if (tag) {
+      return tag.removeQuestion(req.params.qid).then((assign) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Tag was successfully deleted',
+          result: assign,
+          error: null
+        });
+      }).catch((err) => {
+        throw err;
+      });
+    } else {
+      let err = new Error('Tag was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
 router.put('/tags/:id(\\d+)', (req, res, next) => {
   Tag.findById(req.params.id).then((tag) => {
     if (tag) {
