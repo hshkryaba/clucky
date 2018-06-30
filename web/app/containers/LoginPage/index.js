@@ -7,7 +7,6 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
   constructor(props) {
     super(props);
     this.state = {
-      jwt: '',
       responsiveMsg: '',
     };
   }
@@ -24,11 +23,8 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
     axios.post('http://localhost:80/api/auth/login', loginPass)
     .then((response) => {
       let res = JSON.parse(response.request.response.replace(/\\"/g, '"'));
-      this.setState({
-        jwt: res.result[0].accessToken,
-      });
-      auth(this.state.jwt);
-      localStorage.setItem('auth', this.state.jwt);
+      let userData = { user: loginPass.login, jwt: res.result[0].accessToken };
+      auth();
       history.push('/');
     })
     .catch((error) => {
@@ -46,6 +42,6 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
 export default connect(
   (state) => ({}),
   (dispatch) => ({
-    auth: (jwtoken) => { dispatch({ type: 'SUCCESS_AUTH', jwt: jwtoken }); },
+    auth: (userData) => { dispatch({ type: 'SUCCESS_AUTH', user: userData }); },
   })
 )(LoginPage);
