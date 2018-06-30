@@ -12,13 +12,17 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.user.name,
+      name: props.user.user,
+      jwt: props.user.jwt,
     };
-    this.getUserPoints(this.props.user.id).then((points) => { this.setState({ points: points }); });
-    this.getUserVotes(this.props.user.id).then((votes) => { this.setState({ votes: votes }); });
+    this.getUserAnswers(this.props.jwt.id).then((answers) => { this.setState({ answers: answers }); });
+    this.getUserQuestions(this.props.jwt.id).then((questions) => { this.setState({ questions: questions }); });
   }
-  getUserPoints = (userId) => new Promise((resolve, reject) => {
-    axios.get('http://localhost:4000/points')
+  getUserAnswers = (userId) => new Promise((resolve, reject) => {
+    axios.get(`http://localhost:80/api/users/${userId}/answers`, { headers: {
+      'Authorization': 'Bearer ' + this.state.jwt,
+      'content-type': 'application/json; charset=utf-8',
+    } })
     .then((response) => {
       const userPoints = response.data.find((p) => p.userId === userId);
       userPoints != null ? resolve(userPoints.score) : reject(0);
@@ -27,8 +31,11 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
       console.log(error);
     });
   });
-  getUserVotes = (userId) => new Promise((resolve, reject) => {
-    axios.get('http://localhost:4000/votes')
+  getUserQuestions = (userId) => new Promise((resolve, reject) => {
+    axios.get(`http://localhost:80/api/users/${userId}/questions`, { headers: {
+      'Authorization': 'Bearer ' + this.state.jwt,
+      'content-type': 'application/json; charset=utf-8',
+    } })
     .then((response) => {
       const userVotes = response.data.filter((v) => v.userId === userId).length;
       userVotes > 0 ? resolve(userVotes) : reject(0);
@@ -46,12 +53,12 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
         </div>
         <div className={css(styles.userName)}>{this.state.name}</div>
         <div className={css(styles.infoRow)}>
-          <div className={css(styles.infoRowTitle)}>Points:</div>
-          <div className={css(styles.infoRowValue)}>{this.state.points}</div>
+          <div className={css(styles.infoRowTitle)}>Answers:</div>
+          <div className={css(styles.infoRowValue)}>{this.state.answers}</div>
         </div>
         <div className={css(styles.infoRow)}>
-          <div className={css(styles.infoRowTitle)}>Votes:</div>
-          <div className={css(styles.infoRowValue)}>{this.state.votes}</div>
+          <div className={css(styles.infoRowTitle)}>Questions:</div>
+          <div className={css(styles.infoRowValue)}>{this.state.questions}</div>
         </div>
       </div>
     );
@@ -59,7 +66,8 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
 }
 export default connect(
   (state) => ({
-    user: state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].user,
+    user: JSON.parse(state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].user),
+    jwt: JSON.parse(state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].jwt),
   }),
   (dispatch) => ({
   })

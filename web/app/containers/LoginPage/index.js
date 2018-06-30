@@ -23,8 +23,8 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
     axios.post('http://localhost:80/api/auth/login', loginPass)
     .then((response) => {
       let res = JSON.parse(response.request.response.replace(/\\"/g, '"'));
-      let userData = { user: loginPass.login, jwt: res.result[0].accessToken };
-      auth();
+      let userData = JSON.stringify({ user: loginPass.login, jwt: res.result[0].accessToken });
+      auth(userData);
       history.push('/');
     })
     .catch((error) => {
