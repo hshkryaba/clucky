@@ -22,5 +22,5 @@
         <activity android:name=".ModeSelectActivity" />
         <activity android:name=".AboutPage"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

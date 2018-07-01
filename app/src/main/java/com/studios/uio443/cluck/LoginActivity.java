@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.studios.uio443.cluck.models.User;
+import com.studios.uio443.cluck.services.DataService;
+
 public class LoginActivity extends AppCompatActivity {
 
     TextInputLayout loginEmailLayout;
@@ -66,6 +69,21 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        String email = loginEmailInput.getText().toString();
+        String password = loginPasswordInput.getText().toString();
+
+        // TODO: Implement your own authentication logic here.
+
+        DataService dataService = DataService.getInstance();
+        User user = dataService.authentication(email, password);
+
+        dataService.testRest();
+
+        if(user == null) {
+            onLoginFailed();
+            return;
+        }
+
         btnLogin.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
@@ -73,11 +91,6 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
-
-        String email = loginEmailInput.getText().toString();
-        String password = loginPasswordInput.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

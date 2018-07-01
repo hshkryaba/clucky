@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.studios.uio443.cluck.models.User;
+import com.studios.uio443.cluck.services.DataService;
+
 public class SignupActivity extends AppCompatActivity {
 
     TextInputLayout signupUsernameLayout;
@@ -74,18 +77,26 @@ public class SignupActivity extends AppCompatActivity {
 
         btnSignup.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
-
         String username = signupUsernameInput.getText().toString();
         String email = signupEmailInput.getText().toString();
         String password = signupPasswordInput.getText().toString();
         String reEnterPassword = signupReEnterPasswordInput.getText().toString();
 
         // TODO: Implement your own signup logic here.
+
+        DataService dataService = DataService.getInstance();
+        User user = dataService.signup(email, password, username);
+
+        if(user == null) {
+            onSignupFailed();
+            return;
+        }
+
+        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
+                R.style.AppTheme);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Creating Account...");
+        progressDialog.show();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
