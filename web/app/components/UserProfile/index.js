@@ -12,17 +12,25 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
   constructor(props) {
     super(props);
     this.state = {
-      name: props.user.user,
-      jwt: props.user.jwt,
+      jwt: props.jwt,
     };
-    this.getUserAnswers(this.props.jwt.id).then((answers) => { this.setState({ answers: answers }); });
-    this.getUserQuestions(this.props.jwt.id).then((questions) => { this.setState({ questions: questions }); });
+    this.getUserName(this.props.parsedJwt.id).then((name) => { this.setState({ name: name }); });
+    this.getUserAnswers(this.props.parsedJwt.id).then((answers) => { this.setState({ answers: answers }); });
+    this.getUserQuestions(this.props.parsedJwt.id).then((questions) => { this.setState({ questions: questions }); });
   }
+  
+  getUserName = (userId) => new Promise((resolve, reject) => {
+    axios.get(`http://localhost:80/api/users/${userId}`, this.headers())
+    .then((response) => {
+      const user = response.data.result[0].login;
+      user != null || undefined ? resolve(user) : reject('');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  });
   getUserAnswers = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}/answers`, { headers: {
-      'Authorization': 'Bearer ' + this.state.jwt,
-      'content-type': 'application/json; charset=utf-8',
-    } })
+    axios.get(`http://localhost:80/api/users/${userId}/answers`, this.headers())
     .then((response) => {
       const userPoints = response.data.find((p) => p.userId === userId);
       userPoints != null ? resolve(userPoints.score) : reject(0);
@@ -32,10 +40,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     });
   });
   getUserQuestions = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}/questions`, { headers: {
-      'Authorization': 'Bearer ' + this.state.jwt,
-      'content-type': 'application/json; charset=utf-8',
-    } })
+    axios.get(`http://localhost:80/api/users/${userId}/questions`, this.headers())
     .then((response) => {
       const userVotes = response.data.filter((v) => v.userId === userId).length;
       userVotes > 0 ? resolve(userVotes) : reject(0);
@@ -44,6 +49,13 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
       console.log(error);
     });
   });
+  headers() {
+    return { headers: {
+      'Authorization': 'Bearer ' + this.state.jwt,
+      'content-type': 'application/json; charset=utf-8',
+    }
+    };
+  }
   render() {
     return (
       <div className={css(styles.userProfile)}>
@@ -66,8 +78,8 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
 }
 export default connect(
   (state) => ({
-    user: JSON.parse(state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].user),
-    jwt: JSON.parse(state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].jwt),
+    parsedJwt: JSON.parse(state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].parsedJwt),
+    jwt: state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].jwt,
   }),
   (dispatch) => ({
   })

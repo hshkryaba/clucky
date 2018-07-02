@@ -39,18 +39,17 @@ function routeReducer(state = routeInitialState, action) {
 
 function signUpReducer(state = { auth: false }, action) {
   function parseJwt(storageItem) {
-    const token = JSON.parse(storageItem).jwt;
-    const base64Url = token.split('.')[1];
+    const base64Url = storageItem.split('.')[1];
     const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return window.atob(base64);
+    return window.atob(base64).replace(/\\"/g, '"');
   }
   switch (action.type) {
     case 'INITIAL_AUTH':
       const item = localStorage.getItem('auth');
-      return { auth: true, user: item, jwt: parseJwt(item) };
+      return { auth: true, jwt: item, parsedJwt: parseJwt(item) };
     case 'SUCCESS_AUTH':
-      localStorage.setItem('auth', action.user);
-      return { auth: true, user: localStorage.getItem('auth') };
+      localStorage.setItem('auth', action.jwt);
+      return { auth: true, jwt: action.jwt, parsedJwt: parseJwt(action.jwt) };
     case 'LOGOUT':
       localStorage.removeItem('auth');
       return { auth: false };
