@@ -12,7 +12,7 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { css } from 'aphrodite/no-important';
 import styles from './style';
 
@@ -23,19 +23,10 @@ import ProfilePage from 'containers/ProfilePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import PageHeader from '../PageHeader';
 
-function loggedIn() {
-  return localStorage.getItem('auth') !== null;
-}
-
-function requireAuth(nextState, replace) {
-  if (!loggedIn()) {
-    replace({
-      pathname: '/login',
-    })
-  }
-}
-
 export default function App() {
+  const requireAuth = (component) => {
+    return localStorage.getItem('auth') === null ? <Redirect to="/" /> : component;
+  }
   return (
     <div className={css(styles.app)}>
       <PageHeader />
@@ -44,7 +35,7 @@ export default function App() {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/registration" component={RegistrationPage} />
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/profile" component={ProfilePage} onEnter={requireAuth} />
+          <Route exact path="/profile" render={() => requireAuth(<ProfilePage />)} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
