@@ -13,6 +13,9 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     super(props);
     this.state = {
       jwt: props.jwt,
+      name: '',
+      answers: 0,
+      questions: 0,
     };
     this.getUserName(this.props.parsedJwt.id).then((name) => { this.setState({ name: name }); });
     this.getUserAnswers(this.props.parsedJwt.id).then((answers) => { this.setState({ answers: answers }); });

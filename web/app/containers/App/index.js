@@ -25,14 +25,14 @@ import PageHeader from '../PageHeader';
 
 export default function App() {
   const requireAuth = (component) => {
-    return localStorage.getItem('auth') === null ? <Redirect to="/" /> : component;
+    return localStorage.getItem('auth') === null ? <Redirect to="/login" /> : component;
   }
   return (
     <div className={css(styles.app)}>
       <PageHeader />
       <div className={css(styles.pageContainer)}>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" render={() => requireAuth(<HomePage />)} />
           <Route exact path="/registration" component={RegistrationPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/profile" render={() => requireAuth(<ProfilePage />)} />
