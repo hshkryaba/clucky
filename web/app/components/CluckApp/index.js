@@ -2,6 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import ChooseAction from 'containers/ChooseAction';
+import AskQuestion from 'containers/AskQuestion';
+import PlayCluck from 'containers/PlayCluck';
 import { connect } from 'react-redux';
 import messages from './messages';
 import { css } from 'aphrodite/no-important';
@@ -20,9 +22,13 @@ class CluckApp extends React.Component { // eslint-disable-line react/prefer-sta
   renderComponent = () => {
     switch (this.state.screenState) {
       case 'start':
-        return <ChooseAction screenState={this.changeScreenState} />;
+        return <ChooseAction changeScreenState={this.changeScreenState} />;
+      case 'ask':
+        return <AskQuestion changeScreenState={this.changeScreenState} />;
+      case 'play':
+        return <PlayCluck changeScreenState={this.changeScreenState} />;
       default:
-        return <ChooseAction screenState={this.changeScreenState} />;
+        return <ChooseAction changeScreenState={this.changeScreenState} />;
     }
   };
   render() {

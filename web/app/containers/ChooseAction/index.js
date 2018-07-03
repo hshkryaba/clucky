@@ -12,8 +12,8 @@ class ChooseAction extends React.Component { // eslint-disable-line react/prefer
   render() {
     return (
       <div className={css(styles.actionContainer)}>
-        <ActionItem type="play" />
-        <ActionItem type="ask" />
+        <ActionItem type="play" changeScreenState={this.props.changeScreenState} />
+        <ActionItem type="ask" changeScreenState={this.props.changeScreenState} />
       </div>
     );
   }
