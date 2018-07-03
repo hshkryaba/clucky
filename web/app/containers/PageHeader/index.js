@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import axios from 'axios';
 import messages from './messages';
 import { css } from 'aphrodite/no-important';
 import styles from './style';
@@ -32,6 +33,7 @@ class PageHeader extends React.PureComponent { // eslint-disable-line react/pref
 export default connect(
   (state) => ({
     auth: state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].auth,
+    jwt: state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].jwt,
   }),
   (dispatch) => ({
     initialAuth: () => { dispatch({ type: 'INITIAL_AUTH' }); },

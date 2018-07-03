@@ -3,6 +3,7 @@
  */
 
 import { combineReducers } from 'redux-immutable';
+import axios from 'axios';
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form/immutable';
@@ -46,12 +47,15 @@ function signUpReducer(state = { auth: false }, action) {
   switch (action.type) {
     case 'INITIAL_AUTH':
       const item = localStorage.getItem('auth');
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + item;
       return { auth: true, jwt: item, parsedJwt: parseJwt(item) };
     case 'SUCCESS_AUTH':
       localStorage.setItem('auth', action.jwt);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + action.jwt;
       return { auth: true, jwt: action.jwt, parsedJwt: parseJwt(action.jwt) };
     case 'LOGOUT':
       localStorage.removeItem('auth');
+      axios.defaults.headers.common['Authorization'] = '';
       return { auth: false };
     default:
       return state;

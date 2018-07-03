@@ -23,7 +23,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
   }
   
   getUserName = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}`, this.headers())
+    axios.get(`http://localhost:80/api/users/${userId}`)
     .then((response) => {
       const user = response.data.result[0].login;
       user != null || undefined ? resolve(user) : reject('');
@@ -33,7 +33,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     });
   });
   getUserAnswers = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}/answers`, this.headers())
+    axios.get(`http://localhost:80/api/users/${userId}/answers`)
     .then((response) => {
       const userPoints = response.data.find((p) => p.userId === userId);
       userPoints != null ? resolve(userPoints.score) : reject(0);
@@ -43,7 +43,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     });
   });
   getUserQuestions = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}/questions`, this.headers())
+    axios.get(`http://localhost:80/api/users/${userId}/questions`)
     .then((response) => {
       const userVotes = response.data.filter((v) => v.userId === userId).length;
       userVotes > 0 ? resolve(userVotes) : reject(0);
@@ -52,13 +52,6 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
       console.log(error);
     });
   });
-  headers() {
-    return { headers: {
-      'Authorization': 'Bearer ' + this.state.jwt,
-      'content-type': 'application/json; charset=utf-8',
-    }
-    };
-  }
   render() {
     return (
       <div className={css(styles.userProfile)}>
