@@ -1,24 +1,16 @@
 import { StyleSheet } from 'aphrodite/no-important';
 
 export default StyleSheet.create({
-  authorizeBlock: {
+  actionItem: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-  },
-  signup: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    maxHeight: '35px',
+    justifyContent: 'center',
     padding: '5px 10px',
+    margin: '0 0 10px 0',
     border: '2px solid #000000',
-    textDecoration: 'none',
+    borderRadius: '4px',
     background: '#ffffff',
-    borderRadius: '5px',
     cursor: 'pointer',
+    userSelect: 'none',
   },
-  or: {
-    margin: '0 10px',
-  }
 });
