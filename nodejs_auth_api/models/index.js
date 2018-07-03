@@ -17,6 +17,7 @@ Answer.belongsTo(Question);
 
 Answer.hasMany(Vote);
 Vote.belongsTo(Answer);
+Vote.belongsTo(User);
 
 Question.belongsToMany(Category, {through: 'questions_categories'});
 Category.belongsToMany(Question, {through: 'questions_categories'});

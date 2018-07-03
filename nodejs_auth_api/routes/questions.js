@@ -234,6 +234,44 @@ router.get('/questions/:id(\\d+)/tags', (req, res, next) => {
   });
 });
 
+router.post('/questions/:id(\\d+)/views/inc', (req, res, next) => {
+  Question.findById(req.params.id).then((question) => {
+    if (question) {
+      return question.increment('views').then(({ id, subject, question, views, user_id }) => {
+        res.status(200).json({
+          status: 200,
+          message: 'Views was successfully updated',
+          result: [{ id, subject, question, views, user_id }],
+          error: null
+        });
+      }).catch((err) => {
+        throw err;
+      });
+    } else {
+      let err = new Error('Question was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
 router.post('/questions', (req, res, next) => {
   req.body.user_id = req.body.user_id || req.authPayload.id;
   Question.create(req.body).then(({ id, subject, question, views, user_id }) => {

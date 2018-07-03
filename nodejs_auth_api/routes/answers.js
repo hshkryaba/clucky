@@ -122,6 +122,46 @@ router.get('/answers/:id(\\d+)/votes', (req, res, next) => {
   });
 });
 
+router.get('/answers/:id(\\d+)/votes/counts', (req, res, next) => {
+  const Sequelize = Answer.sequelize;
+  const { QueryTypes } = Sequelize;
+  Sequelize.query(
+    `SELECT votes.vote , COUNT(*) AS count FROM votes JOIN answers ON votes.answer_id = answers.id JOIN questions 
+    ON answers.question_id = questions.id WHERE questions.id = ? GROUP BY votes.vote;`,
+    { replacements: [req.params.id], type: QueryTypes.SELECT }
+  ).then((counts) => {
+    if (counts.length) {
+      res.status(200).json({
+        status: 200,
+        message: 'Votes was found',
+        result: counts,
+        error: null
+      });
+    } else {
+      let err = new Error('Votes was not found');
+      res.status(404).json({
+        status: 404,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
 router.get('/answers/:id(\\d+)/user', (req, res, next) => {
   Answer.findById(req.params.id, {
     include: [{ model: User, attributes: ['id', 'login', 'email', 'status'] }],
@@ -184,6 +224,94 @@ router.get('/answers/:id(\\d+)/question', (req, res, next) => {
       });
     }
   }).catch((err) => {
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.post('/answers/:id(\\d+)/votes/users/:uid(\\d+)/like', (req, res, next) => {
+  Vote.findOrCreate({
+    where: { user_id: req.params.uid },
+    attributes: ['id', 'vote', 'answer_id', 'user_id'],
+    defaults: {
+      vote: 'like',
+      answer_id: req.params.id,
+      user_id: req.params.uid
+    }
+  }).then(([votes, created]) => {
+    let { id, vote, answer_id, user_id } = votes
+    if (created) {
+      res.status(201).json({
+        status: 201,
+        message: 'User was successfully voted',
+        result: [{ id, vote, answer_id, user_id }],
+        error: null
+      });
+    } else {
+      let err = new Error('User already voted');
+      res.status(400).json({
+        status: 400,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    console.log(err);
+    res.status(500).json({
+      status: 500,
+      message: null,
+      result: null,
+      error: {
+        code: err.code || -1,
+        message: err.message || 'UNKNOWN ERROR'
+      }
+    });
+  });
+});
+
+router.post('/answers/:id(\\d+)/votes/users/:uid(\\d+)/dislike', (req, res, next) => {
+  Vote.findOrCreate({
+    where: { user_id: req.params.uid },
+    attributes: ['id', 'vote', 'answer_id', 'user_id'],
+    defaults: {
+      vote: 'dislike',
+      answer_id: req.params.id,
+      user_id: req.params.uid
+    }
+  }).then(([votes, created]) => {
+    let { id, vote, answer_id, user_id } = votes
+    if (created) {
+      res.status(201).json({
+        status: 201,
+        message: 'User was successfully voted',
+        result: [{ id, vote, answer_id, user_id }],
+        error: null
+      });
+    } else {
+      let err = new Error('User already voted');
+      res.status(400).json({
+        status: 400,
+        message: null,
+        result: null,
+        error: {
+          code: err.code || -1,
+          message: err.message || 'UNKNOWN ERROR'
+        }
+      });
+    }
+  }).catch((err) => {
+    console.log(err);
     res.status(500).json({
       status: 500,
       message: null,

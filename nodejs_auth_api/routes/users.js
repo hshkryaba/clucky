@@ -86,7 +86,7 @@ router.get('/users/:id(\\d+)', (req, res, next) => {
 router.get('/users/:id(\\d+)/answers', (req, res, next) => {
   Answer.findAll({
     where: { user_id: req.params.id },
-    attributes: ['id', 'answer_body'],
+    attributes: ['id', 'answer'],
     offset: +(req.query.offset || 0),
     limit: +(req.query.limit || 100)
   }).then((answers) => {
@@ -125,7 +125,7 @@ router.get('/users/:id(\\d+)/answers', (req, res, next) => {
 router.get('/users/:id(\\d+)/questions', (req, res, next) => {
   Question.findAll({
     where: { user_id: req.params.id },
-    attributes: ['id', 'subject', 'question_body', 'views'],
+    attributes: ['id', 'subject', 'question', 'views'],
     offset: +(req.query.offset || 0),
     limit: +(req.query.limit || 100)
   }).then((questions) => {
