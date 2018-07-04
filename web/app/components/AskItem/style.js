@@ -10,4 +10,23 @@ export default StyleSheet.create({
     marginBottom: '20px',
     background: '#ffffff',
   },
+  formSelect: {
+    appearance: 'none',
+    cursor: 'pointer',
+  },
+  selectOption: {
+    ':disabled': {
+      color: '#cccccc',
+    },
+  },
+  textArea: {
+    minHeight: '100px',
+    maxHeight: '100px',
+  },
+  formSubmit: {
+    justifyContent: 'center',
+    backgroundColor: '#ffbe6f',
+    color: '#ffffff',
+    cursor: 'pointer',
+  },
 });
