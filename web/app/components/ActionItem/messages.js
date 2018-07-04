@@ -16,6 +16,6 @@ export default defineMessages({
   },
   ask: {
     id: 'app.components.ActionItem.ask',
-    defaultMessage: 'Ask question',
+    defaultMessage: 'Ask a question?',
   },
 });

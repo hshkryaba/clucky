@@ -28,7 +28,7 @@ class SignUpForm extends React.Component { // eslint-disable-line react/prefer-s
 }
 
 SignUpForm = reduxForm({
-  form: 'registration',
+  form: 'login',
 })(SignUpForm)
 
 export default SignUpForm;
