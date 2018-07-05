@@ -13,7 +13,7 @@ class SignUpForm extends React.Component { // eslint-disable-line react/prefer-s
     </div>
   );
   render() {
-    const { handleSubmit, reset, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting } = this.props;
     return (
       <div className={css(styles.formWrapper)}>
         <form onSubmit={handleSubmit} className={css(styles.form)}>

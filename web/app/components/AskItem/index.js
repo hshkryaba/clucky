@@ -35,11 +35,11 @@ class AskItem extends React.Component { // eslint-disable-line react/prefer-stat
       <option value={category.id} key={category.id}>{category.name}</option>
     );
   render() {
-    const { handleSubmit, reset, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting } = this.props;
     return (
       <div className={css(styles.formWrapper)}>
         <form onSubmit={handleSubmit} className={css(styles.form)}>
-          <Field name="category" component="select" className={css(styles.formItem, styles.formSelect)}>
+          <Field name="subject" component="select" className={css(styles.formItem, styles.formSelect)}>
             <option
               className={css(styles.selectOption)}
               value=""
