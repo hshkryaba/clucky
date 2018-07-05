@@ -23,13 +23,13 @@ import ProfilePage from 'containers/ProfilePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import PageHeader from '../PageHeader';
 
-export default function App() {
+export default function App(props) {
   const requireAuth = (component) => {
     return localStorage.getItem('auth') === null ? <Redirect to="/login" /> : component;
   }
   return (
     <div className={css(styles.app)}>
-      <PageHeader />
+      <PageHeader history={props.history} />
       <div className={css(styles.pageContainer)}>
         <Switch>
           <Route exact path="/" render={() => requireAuth(<HomePage />)} />

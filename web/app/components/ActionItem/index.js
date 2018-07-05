@@ -7,11 +7,6 @@ import { css } from 'aphrodite/no-important';
 import styles from './style';
 
 class ActionItem extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
   handleClick = () => {
     this.props.changeScreenState(this.props.type);
   };

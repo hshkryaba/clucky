@@ -26,8 +26,6 @@ class AskItem extends React.Component { // eslint-disable-line react/prefer-stat
       console.log(error);
     });
   });
-  handleClick = () => {
-  };
   handleTextarea() {
   }
   renderCategories = () => this.state.categories.map(

@@ -9,6 +9,12 @@ import { css } from 'aphrodite/no-important';
 import styles from './style';
 
 class AskQuestion extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.state = {
+      responsiveMsg: '', 
+    };
+  }
   pairsToObject = (pairs) => {
     const ret = {};
     pairs.forEach((p) => {
@@ -19,18 +25,19 @@ class AskQuestion extends React.Component { // eslint-disable-line react/prefer-
 
   handleSubmit = (values) => {
     const formData = this.pairsToObject(values._root.entries);
-    const { auth, history } = this.props;
+    const { changeScreenState } = this.props;
     axios.post('http://localhost:80/api/questions/', formData)
     .then((response) => {
-      console.log(response.data);
-      let res = JSON.parse(response.request.response.replace(/\\"/g, '"'));
-      let jwt = res.result[0].accessToken;
-      auth(jwt);
-      history.push('/');
+      this.setState({
+        responsiveMsg: messages.questionAdded.defaultMessage,
+      });
+      setTimeout(() => {
+        changeScreenState();
+      }, 2000);
     })
     .catch((error) => {
       this.setState({
-        responsiveMsg: 'Invalid login or password',
+        responsiveMsg: messages.questionWasNotAdded.defaultMessages,
       });
     });
   }
@@ -38,7 +45,7 @@ class AskQuestion extends React.Component { // eslint-disable-line react/prefer-
   render() {
     return (
       <div className={css(styles.askForm)}>
-        <AskItem onSubmit={this.handleSubmit} />
+        <AskItem onSubmit={this.handleSubmit} message={this.state.responsiveMsg} />
       </div>
     );
   }

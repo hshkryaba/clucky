@@ -29,4 +29,10 @@ export default StyleSheet.create({
     color: '#ffffff',
     cursor: 'pointer',
   },
+  statusMsg: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    color: '#6c6c6c',
+  },
 });

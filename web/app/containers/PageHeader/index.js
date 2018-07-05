@@ -12,10 +12,26 @@ class PageHeader extends React.PureComponent { // eslint-disable-line react/pref
   constructor(props) {
     super(props);
     this.state = {};
-    if (localStorage.getItem('auth') !== null) {
-      props.initialAuth();
+    const item = localStorage.getItem('refresh');
+    if (item !== null) {
+      this.refreshToken(item);
     }
   }
+  refreshToken = (token) => {
+    axios.post('http://localhost:80/api/auth/refresh', {}, { headers: {
+      'Authorization': 'Bearer ' + token,
+    } })
+    .then((response) => {
+      let res = JSON.parse(response.request.response.replace(/\\"/g, '"'));
+      let accessToken = res.result[0].accessToken;
+      let refreshToken = res.result[0].refreshToken;
+      this.props.auth(accessToken, refreshToken);
+    })
+    .catch((error) => {
+      console.log(error);
+      this.props.logout();
+    });
+  };
   render() {
     return (
       <div className={css(styles.header)}>
@@ -25,7 +41,7 @@ class PageHeader extends React.PureComponent { // eslint-disable-line react/pref
             <FormattedMessage {...messages.header} />
           </div>
         </div>
-        <SignUpButton auth={this.props.auth} />
+        <SignUpButton auth={this.props.auth} history={this.props.history} />
       </div>
     );
   }
@@ -36,6 +52,7 @@ export default connect(
     jwt: state._root.entries.filter((entry) => entry[0] === 'signUp')[0][1].jwt,
   }),
   (dispatch) => ({
-    initialAuth: () => { dispatch({ type: 'INITIAL_AUTH' }); },
+    logout: () => { dispatch({ type: 'LOGOUT' }); },
+    auth: (accessToken, refreshToken) => { dispatch({ type: 'SUCCESS_AUTH', jwt: accessToken, refresh: refreshToken }); },
   })
 )(PageHeader);

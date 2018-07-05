@@ -48,11 +48,12 @@ function signUpReducer(state = { auth: false }, action) {
     case 'INITIAL_AUTH':
       const item = localStorage.getItem('auth');
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + item;
-      return { auth: true, jwt: item, parsedJwt: parseJwt(item) };
+      return { auth: false, jwt: item, parsedJwt: parseJwt(item) };
     case 'SUCCESS_AUTH':
       localStorage.setItem('auth', action.jwt);
+      localStorage.setItem('refresh', action.refresh);
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + action.jwt;
-      return { auth: true, jwt: action.jwt, parsedJwt: parseJwt(action.jwt) };
+      return { auth: true, jwt: action.jwt, parsedJwt: parseJwt(action.jwt), refresh: action.refresh };
     case 'LOGOUT':
       localStorage.removeItem('auth');
       axios.defaults.headers.common['Authorization'] = '';

@@ -9,6 +9,14 @@ import styles from './style';
 
 class SignUpButton extends React.Component { // eslint-disable-line react/prefer-stateless-function
   logout = () => {
+    const { logout, history } = this.props;
+    axios.post('http://localhost:80/api/auth/logout')
+    .then((response) => {
+    })
+    .catch((error) => {
+    });
+    logout();
+    history.push('/login');
   };
   notAuthBlock = () => {
     return (
@@ -30,7 +38,7 @@ class SignUpButton extends React.Component { // eslint-disable-line react/prefer
           <FormattedMessage {...messages.profile} />
         </Link>
         <span className={css(styles.or)}>&nbsp;</span>
-        <button className={css(styles.signup)} to="/" onClick={() => { this.props.logout(); }}>
+        <button className={css(styles.signup)} to="/" onClick={this.logout}>
           <FormattedMessage {...messages.logout} />
         </button>
       </div>
