@@ -35,8 +35,8 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
   getUserAnswers = (userId) => new Promise((resolve, reject) => {
     axios.get(`http://localhost:80/api/users/${userId}/answers`)
     .then((response) => {
-      const userPoints = response.data.find((p) => p.userId === userId);
-      userPoints != null ? resolve(userPoints.score) : reject(0);
+      const answers = response.data.result.length;
+      answers != null ? resolve(answers) : reject(0);
     })
     .catch((error) => {
       console.log(error);
@@ -45,8 +45,8 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
   getUserQuestions = (userId) => new Promise((resolve, reject) => {
     axios.get(`http://localhost:80/api/users/${userId}/questions`)
     .then((response) => {
-      const userVotes = response.data.filter((v) => v.userId === userId).length;
-      userVotes > 0 ? resolve(userVotes) : reject(0);
+      const questions = response.data.result.length;
+      questions > 0 ? resolve(questions) : reject(0);
     })
     .catch((error) => {
       console.log(error);

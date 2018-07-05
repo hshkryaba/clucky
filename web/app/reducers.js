@@ -45,10 +45,6 @@ function signUpReducer(state = { auth: false }, action) {
     return window.atob(base64).replace(/\\"/g, '"');
   }
   switch (action.type) {
-    case 'INITIAL_AUTH':
-      const item = localStorage.getItem('auth');
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + item;
-      return { auth: false, jwt: item, parsedJwt: parseJwt(item) };
     case 'SUCCESS_AUTH':
       localStorage.setItem('auth', action.jwt);
       localStorage.setItem('refresh', action.refresh);
