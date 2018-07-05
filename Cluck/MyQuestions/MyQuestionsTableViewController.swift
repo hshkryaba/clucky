@@ -1,17 +1,19 @@
 //
-//  SideMenuTableViewController.swift
+//  TableViewController.swift
 //  Cluck
 //
-//  Created by Наталья Синицына on 01.06.2018.
+//  Created by Наталья Синицына on 28.06.2018.
 //  Copyright © 2018 Наталья Синицына. All rights reserved.
 //
 
 import UIKit
 
-class SideMenuTableViewController: UITableViewController {
+class MyQuestionsTableViewController: UITableViewController {
     
-    let menuArray = ["Лента вопросов", "Мои вопросы", "Мои ответы", "Таблица лидеров", "Настройки", "Выход"]
+    let questions = ["First question description", "Second question description", "Third question description"]
+    let imagesArray = [UIImage(named: "nature1.jpg")!, UIImage(named: "nature2.jpeg")!, UIImage(named: "nature3.jpeg")!, UIImage(named: "nature4.jpeg")!, UIImage(named: "nature5.jpeg")!, UIImage(named: "nature6.jpeg")!]
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,64 +32,24 @@ class SideMenuTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        // #warning Incomplete implementation, return the number of rows
+        return 3
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        /*let cell = tableView.dequeueReusableCell(withIdentifier: "sideMenuCell2", for: indexPath)
-        if indexPath.row > 0 {
-            cell.textLabel?.text = menuArray[indexPath.row-1]
-        }
-        
-        if indexPath.row%2 != 0 {
-            cell.backgroundColor = UIColor(red: 43, green: 99, blue: 114, alpha: 1)
-        }*/
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "sideMenuCell", for: indexPath) as! SideMenuTableViewCell
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "sideMenuCell2", for: indexPath)
-            cell.textLabel?.text = menuArray[indexPath.row-1]
-            cell.textLabel?.textColor = .white
-            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17.0)
-            if indexPath.row%2 != 0 {
-                cell.backgroundColor = UIColor(red: 43.0/255, green: 99.0/255, blue: 114.0/255, alpha: 1)
-            } 
-            return cell
-        }
-        
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myQuestionsCell", for: indexPath) as! MyQuestionsTableViewCell
 
-        //return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 185
-        } else {
-            return 60
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let numberOfRow = indexPath.row
-        switch numberOfRow {
-        case 1:
-            let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
-            self.present(controller, animated:true, completion:nil)
-            break
-        case 2:
-            let controller = self.storyboard?.instantiateViewController(withIdentifier: "MyQuestionsTableViewController") as! MyQuestionsTableViewController
-            self.present(controller, animated:true, completion:nil)
-            break
-        default:
-            break
-        }
+        cell.categoryImage.image = imagesArray[0]
+        cell.questionLabel.text = questions[indexPath.row]
+        cell.categoryLabel.text = "Medcine"
+
+        return cell
     }
     
 

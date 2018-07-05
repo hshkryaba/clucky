@@ -14,13 +14,13 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginRegistrationSegment: UISegmentedControl!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var repeatPassTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        repeatPassTextField.isHidden = true
+        nameTextField.isHidden = true
         loginButton.layer.cornerRadius = 5
         
         //Looks for single or multiple taps.
@@ -53,19 +53,31 @@ class LoginViewController: UIViewController {
     
     @IBAction func tapLoginSegment(_ sender: Any) {
         if loginRegistrationSegment.isEnabledForSegment(at: 1) {
-            repeatPassTextField.isHidden = false
+            nameTextField.isHidden = false
         }
         if loginRegistrationSegment.selectedSegmentIndex == 0 {
-            repeatPassTextField.isHidden = true
+            nameTextField.isHidden = true
         }
         
     }
     
     
     @IBAction func tapEnterButton(_ sender: Any) {
-        app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
-            print("Completion successful")
-        })
+        if nameTextField.isHidden {
+            app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
+                print("Completion successful")
+                let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
+                self.present(controller, animated:true, completion:nil)
+            })
+        } else {
+            app.api.signup(email: emailTextField.text!, login: nameTextField.text!, password: passwordTextField.text!, completion: {
+                print("Completion successful")
+                let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
+                self.present(controller, animated:true, completion:nil)
+            })
+        }
+        
+        
         
         // credentials encoded in base64
         /*let username = emailTextField.text!

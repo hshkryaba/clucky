@@ -25,6 +25,8 @@
 		E142C79A20C318FF008F39D8 /* Label+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142C79920C318FE008F39D8 /* Label+Extention.swift */; };
 		E142C79E20C32858008F39D8 /* AddQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142C79D20C32858008F39D8 /* AddQuestionViewController.swift */; };
 		E142C7A020C34013008F39D8 /* original.png in Resources */ = {isa = PBXBuildFile; fileRef = E142C79F20C34012008F39D8 /* original.png */; };
+		E1AAE60120E54DE6004A8452 /* MyQuestionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AAE60020E54DE6004A8452 /* MyQuestionsTableViewController.swift */; };
+		E1AAE60320E54E44004A8452 /* MyQuestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AAE60220E54E44004A8452 /* MyQuestionsTableViewCell.swift */; };
 		E1E0A9CB20D456DA003E421C /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0A9CA20D456DA003E421C /* Api.swift */; };
 		E1E0A9CD20D551A9003E421C /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0A9CC20D551A8003E421C /* App.swift */; };
 		E1E0A9D020D551D5003E421C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0A9CF20D551D5003E421C /* User.swift */; };
@@ -51,6 +53,8 @@
 		E142C79920C318FE008F39D8 /* Label+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label+Extention.swift"; sourceTree = "<group>"; };
 		E142C79D20C32858008F39D8 /* AddQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddQuestionViewController.swift; sourceTree = "<group>"; };
 		E142C79F20C34012008F39D8 /* original.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = original.png; sourceTree = "<group>"; };
+		E1AAE60020E54DE6004A8452 /* MyQuestionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQuestionsTableViewController.swift; sourceTree = "<group>"; };
+		E1AAE60220E54E44004A8452 /* MyQuestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQuestionsTableViewCell.swift; sourceTree = "<group>"; };
 		E1E0A9CA20D456DA003E421C /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		E1E0A9CC20D551A8003E421C /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E1E0A9CF20D551D5003E421C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 		E142C76320BFEB28008F39D8 /* Cluck */ = {
 			isa = PBXGroup;
 			children = (
+				E1AAE5FF20E54DBC004A8452 /* MyQuestions */,
 				E1E0A9CE20D551BD003E421C /* Model */,
 				E1E0A9C920D45688003E421C /* Api */,
 				E142C76820BFEB28008F39D8 /* Main.storyboard */,
@@ -125,6 +130,15 @@
 				E142C79920C318FE008F39D8 /* Label+Extention.swift */,
 			);
 			path = Extentions;
+			sourceTree = "<group>";
+		};
+		E1AAE5FF20E54DBC004A8452 /* MyQuestions */ = {
+			isa = PBXGroup;
+			children = (
+				E1AAE60020E54DE6004A8452 /* MyQuestionsTableViewController.swift */,
+				E1AAE60220E54E44004A8452 /* MyQuestionsTableViewCell.swift */,
+			);
+			path = MyQuestions;
 			sourceTree = "<group>";
 		};
 		E1E0A9C920D45688003E421C /* Api */ = {
@@ -230,6 +244,8 @@
 				E142C79E20C32858008F39D8 /* AddQuestionViewController.swift in Sources */,
 				E142C77B20C0294B008F39D8 /* QuestionListTableViewCell.swift in Sources */,
 				E142C76520BFEB28008F39D8 /* AppDelegate.swift in Sources */,
+				E1AAE60120E54DE6004A8452 /* MyQuestionsTableViewController.swift in Sources */,
+				E1AAE60320E54E44004A8452 /* MyQuestionsTableViewCell.swift in Sources */,
 				E142C79720C2F9E8008F39D8 /* SideMenuTableViewCell.swift in Sources */,
 				E142C77920C02847008F39D8 /* QuestionListTableViewController.swift in Sources */,
 				E142C79520C1D474008F39D8 /* SideMenuTableViewController.swift in Sources */,

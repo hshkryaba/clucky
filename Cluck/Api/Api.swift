@@ -124,9 +124,11 @@ class API: NSObject, URLSessionDataDelegate {
                 if (serialize) {
                     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                     request.httpBody = serializeParameters(parameters: bParameters).data(using: .utf8, allowLossyConversion: true)
+                    //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
                 } else {
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                     request.httpBody = collectJSONData(parameters: bParameters)
+                    //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
                 }
             }
             if let length = request.httpBody?.count {
@@ -135,7 +137,7 @@ class API: NSObject, URLSessionDataDelegate {
         }
         
         if (tokenRequired) {
-            request.setValue(token, forHTTPHeaderField: "x-access-token")
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         
         /*if let authData = "\(authLogin):\(authPassword)".data(using: .utf8) {
@@ -162,8 +164,8 @@ class API: NSObject, URLSessionDataDelegate {
         let task = session.dataTask(with: request) { (data, response, error) in
             app.mainQueue.addOperation({
                 
-                //NSLog("\(response)")
-                print("\(data)")
+                NSLog("RESPONSE \(response)")
+                //print("\(data)")
                 
                 self.decreaseNetworkActivityCounter()
                 
@@ -228,7 +230,7 @@ class API: NSObject, URLSessionDataDelegate {
     //MARK: Authorization
     
     func getToken(login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
-        let request = self.makeRequest(method: "GET", path: "api/auth/login", parameters: ["login": login, "password": password])//, serialize: true)
+        let request = self.makeRequest(method: "POST", path: "api/auth/login", parameters: ["login": login, "password": password], serialize: true)
         self.passRequest(request: request, completion: { (json) in
             print("GET TOKEN METHOD \(json)")
             if let token = json["accessToken"] as? String {
@@ -311,11 +313,12 @@ class API: NSObject, URLSessionDataDelegate {
         //app.stack.save()
     }
     
-    func signup(queue: OperationQueue = app.queue, account: String, email: String, phone: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
+    func signup(queue: OperationQueue = app.queue, email: String, login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
         queue.addOperation {
-            let params = ["email": email, "phone": phone, "password": password]
-            let request = self.makeRequest(method: "POST", path: "auth/register", parameters: params, serialize: true)
+            let params = ["login": login, "password": password, "email": email]
+            let request = self.makeRequest(method: "POST", path: "auth/register", parameters: params, serialize: false)
             self.passRequest(request: request, completion: { (json) in
+                print("REGISTRATION JSON \(json)")
                 if let userID = json["id"] as? Int {
                     app.ud.set(userID, forKey: "userID")
                 }
