@@ -16,8 +16,8 @@ router.get('/users', (req, res, next) => {
   const formattedSend = getFormattedSender(res);
   User.findAll({
     attributes,
-    offset: +(req.query.offset || 0),
-    limit: +(req.query.limit || 100)
+    offset: +req.query.offset || 0,
+    limit: +req.query.limit || 100
   }).then((users) => {
     if (users.length) {
       formattedSend(
@@ -60,8 +60,8 @@ router.get('/users/:id(\\d+)/answers', (req, res, next) => {
   Answer.findAll({
     where: { user_id: req.params.id },
     attributes: ['id', 'answer'],
-    offset: +(req.query.offset || 0),
-    limit: +(req.query.limit || 100)
+    offset: +req.query.offset || 0,
+    limit: +req.query.limit || 100
   }).then((answers) => {
     if (answers.length) {
       formattedSend(
@@ -84,8 +84,8 @@ router.get('/users/:id(\\d+)/questions', (req, res, next) => {
   Question.findAll({
     where: { user_id: req.params.id },
     attributes: ['id', 'subject', 'question', 'views'],
-    offset: +(req.query.offset || 0),
-    limit: +(req.query.limit || 100)
+    offset: +req.query.offset || 0,
+    limit: +req.query.limit || 100
   }).then((questions) => {
     if (questions.length) {
       formattedSend(
