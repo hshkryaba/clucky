@@ -85,6 +85,11 @@ class SideMenuTableViewController: UITableViewController {
             let controller = self.storyboard?.instantiateViewController(withIdentifier: "MyQuestionsTableViewController") as! MyQuestionsTableViewController
             self.present(controller, animated:true, completion:nil)
             break
+        case 6:
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+            //self.navigationController?.pushViewController(controller, animated: true)
+            self.present(controller, animated:true, completion:nil)
+            break
         default:
             break
         }

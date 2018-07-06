@@ -90,7 +90,11 @@ class User: NSObject {
                 mName = newValue
             }
         }
-        
+    
+    var stars: Int = 0
+    var id: Int?
+    var login = ""
+    //var avatar = #imageLiteral(resourceName: "user")
     
     
 }

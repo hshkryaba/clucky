@@ -19,6 +19,14 @@ class QuestionListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        app.api.loadQuestionList(completion: {
+            print("QL loaded")
+        })
+        app.api.loadUserInfo(id: 6, completion: {
+            print("User info loaded")
+        })
+        
 
         filterButton.layer.cornerRadius = 5
         

@@ -19,6 +19,7 @@ typealias APIJsonCompletion = ((_ data: JsonDictionary) -> Void)
 public typealias JsonDictionary = [String: Any]
 public typealias JsonArray = [Any]
 
+var user = User()
 
 class API: NSObject, URLSessionDataDelegate {
     
@@ -233,17 +234,22 @@ class API: NSObject, URLSessionDataDelegate {
         let request = self.makeRequest(method: "POST", path: "api/auth/login", parameters: ["login": login, "password": password], serialize: true)
         self.passRequest(request: request, completion: { (json) in
             print("GET TOKEN METHOD \(json)")
-            if let token = json["accessToken"] as? String {
-                self.token = token
-                completion()
+            if let result = json["result"] as? NSArray {
+                if let tokenDict = result[0] as? NSDictionary {
+                    if let token = tokenDict["accessToken"] as? String {
+                        self.token = token
+                        completion()
+                    }
+                }
             }
         }, fallback: fallback)
     }
     
     func login(login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
         getToken(login: login, password: password, completion: {
-            self.createInitUser()
+            //self.createInitUser()
             //self.loginPushRegistration(completion: completion)
+            completion()
         }, fallback: fallback)
     }
     
@@ -316,16 +322,43 @@ class API: NSObject, URLSessionDataDelegate {
     func signup(queue: OperationQueue = app.queue, email: String, login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
         queue.addOperation {
             let params = ["login": login, "password": password, "email": email]
-            let request = self.makeRequest(method: "POST", path: "auth/register", parameters: params, serialize: false)
+            let request = self.makeRequest(method: "POST", path: "auth/register", parameters: params, serialize: true)
             self.passRequest(request: request, completion: { (json) in
                 print("REGISTRATION JSON \(json)")
-                if let userID = json["id"] as? Int {
-                    app.ud.set(userID, forKey: "userID")
+                if let result = json["result"] as? NSArray {
+                    if let resultDict = result[0] as? NSDictionary {
+                        if let id = resultDict["id"] as? String {
+                            app.ud.set(id, forKey: "userID")
+                        }
+                    }
                 }
                 app.ud.set(password, forKey: "userPassword")
                 completion()
             }, fallback: fallback)
         }
+    }
+    
+    
+    
+    //MARK: - Question List
+    
+    func loadQuestionList(completion: @escaping APICompletion, fallback: APIFallback? = nil) {
+        let request = self.makeRequest(method: "GET", path: "api/questions", tokenRequired: true)
+        self.passRequest(request: request, completion: { (json) in
+            print("QUESTION LIST JSON \(json)")
+            completion()
+        }, fallback: fallback)
+    }
+    
+    
+    //MARK: - USERS
+    
+    func loadUserInfo(id: Int, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
+        let request = self.makeRequest(method: "GET", path: "api/users/\(id)", tokenRequired: true)
+        self.passRequest(request: request, completion: { (json) in
+            print("USER JSON \(json)")
+            completion()
+        }, fallback: fallback)
     }
     
     
