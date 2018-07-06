@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import AskItem from 'components/AskItem';
+import AskForm from 'components/AskForm';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import messages from './messages';
@@ -45,7 +45,7 @@ class AskQuestion extends React.Component { // eslint-disable-line react/prefer-
   render() {
     return (
       <div className={css(styles.askForm)}>
-        <AskItem onSubmit={this.handleSubmit} message={this.state.responsiveMsg} />
+        <AskForm onSubmit={this.handleSubmit} message={this.state.responsiveMsg} />
       </div>
     );
   }

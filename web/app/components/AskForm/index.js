@@ -8,7 +8,7 @@ import messages from './messages';
 import { css } from 'aphrodite/no-important';
 import styles from './style';
 
-class AskItem extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class AskForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.state = {
@@ -60,8 +60,8 @@ class AskItem extends React.Component { // eslint-disable-line react/prefer-stat
     );
   }
 }
-AskItem = reduxForm({
+AskForm = reduxForm({
   form: 'askQuestion',
-})(AskItem)
+})(AskForm)
 
-export default AskItem;
+export default AskForm;

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'aphrodite/no-important';
+import arrow from 'images/arrow.png';
 
 export default StyleSheet.create({
   formItem: {
@@ -11,13 +12,23 @@ export default StyleSheet.create({
     background: '#ffffff',
   },
   formSelect: {
+    paddingRight: '37px',
     appearance: 'none',
     cursor: 'pointer',
-  },
-  selectOption: {
-    ':disabled': {
+    backgroundImage: `url(${arrow})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'top 50% right 10px',
+    outline: 'none',
+    ':invalid': {
       color: '#cccccc',
     },
+    ':-moz-focusring': {
+      color: 'transparent',
+      textShadow: '0 0 0 #000000',
+    },
+  },
+  selectOption: {
+    color: '#000000',
   },
   textArea: {
     minHeight: '100px',

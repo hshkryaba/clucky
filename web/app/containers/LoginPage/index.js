@@ -35,6 +35,7 @@ class LoginPage extends React.PureComponent { // eslint-disable-line react/prefe
     });
   }
   render() {
+    console.log(config);
     return (
       <LoginForm onSubmit={this.handleSubmit} message={this.state.responsiveMsg} />
     );
