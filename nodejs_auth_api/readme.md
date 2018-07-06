@@ -104,8 +104,6 @@ DELETE /api/questions/:id
 
 -- API.question_votes -- ??? в разработке
 POST /api/question_votes
-PUT /api/question_votes/:question_id/:user_id
-DELETE /api/question_votes/:question_id/:user_id
 
 -- API.tags, ожидает access_token
 GET /api/tags

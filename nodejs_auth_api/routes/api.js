@@ -24,11 +24,11 @@ router.use('/api', tagsRouter);
 router.use('/api', votesRouter);
 
 router.all('/api/*', (req, res, next) => {
-  res.status(406).json({ message: 'Cluck API' });
+  res.status(406).json({ message: 'Cluck API, undefined route' });
 });
 
 router.all('/*', (req, res, next) => {
-  res.status(404).json({ message: 'Not Found' });
+  res.sendStatus(404);
 });
 
 module.exports = router;
