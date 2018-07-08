@@ -7,6 +7,7 @@ import axios from 'axios';
 import messages from './messages';
 import { css } from 'aphrodite/no-important';
 import styles from './style';
+const config = require('config');
 
 class AskQuestion extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -26,7 +27,7 @@ class AskQuestion extends React.Component { // eslint-disable-line react/prefer-
   handleSubmit = (values) => {
     const formData = this.pairsToObject(values._root.entries);
     const { changeScreenState } = this.props;
-    axios.post('http://localhost:80/api/questions/', formData)
+    axios.post(config.host + '/api/questions/', formData)
     .then((response) => {
       this.setState({
         responsiveMsg: messages.questionAdded.defaultMessage,

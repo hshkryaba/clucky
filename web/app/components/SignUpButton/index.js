@@ -6,11 +6,12 @@ import axios from 'axios';
 import messages from './messages';
 import { css } from 'aphrodite/no-important';
 import styles from './style';
+const config = require('config');
 
 class SignUpButton extends React.Component { // eslint-disable-line react/prefer-stateless-function
   logout = () => {
     const { logout, history } = this.props;
-    axios.post('http://localhost:80/api/auth/logout')
+    axios.post(config.host + '/api/auth/logout')
     .then((response) => {
     })
     .catch((error) => {

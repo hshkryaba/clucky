@@ -49,9 +49,11 @@ function signUpReducer(state = { auth: false }, action) {
       localStorage.setItem('auth', action.jwt);
       localStorage.setItem('refresh', action.refresh);
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + action.jwt;
+      axios.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
       return { auth: true, jwt: action.jwt, parsedJwt: parseJwt(action.jwt), refresh: action.refresh };
     case 'LOGOUT':
       localStorage.removeItem('auth');
+      localStorage.removeItem('refresh');
       axios.defaults.headers.common['Authorization'] = '';
       return { auth: false };
     default:

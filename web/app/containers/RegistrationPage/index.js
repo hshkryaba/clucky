@@ -5,6 +5,7 @@ import messages from './messages';
 import SignUpForm from 'components/SignUpForm';
 import axios from 'axios';
 import { connect } from 'react-redux';
+const config = require('config');
 
 class RegistrationPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -25,7 +26,7 @@ class RegistrationPage extends React.PureComponent { // eslint-disable-line reac
     if (typeof values._root.entries !== 'undefined') {
       user = this.pairsToObject(values._root.entries);
     } else return;
-    axios.post('http://localhost:80/api/auth/register', user)
+    axios.post(config.host + '/api/auth/register', user)
     .then((response) => {
       this.setState({
         responsiveMsg: 'User was created',

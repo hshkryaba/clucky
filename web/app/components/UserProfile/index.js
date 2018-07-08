@@ -7,6 +7,7 @@ import messages from './messages';
 import { css } from 'aphrodite/no-important';
 import styles from './style';
 import logo from 'images/logo.png';
+const config = require('config');
 
 class UserProfile extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -23,7 +24,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
   }
   
   getUserName = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}`)
+    axios.get(`${config.host}/api/users/${userId}`)
     .then((response) => {
       const user = response.data.result[0].login;
       user != null || undefined ? resolve(user) : reject('');
@@ -33,7 +34,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     });
   });
   getUserAnswers = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}/answers`)
+    axios.get(`${config.host}/api/users/${userId}/answers`)
     .then((response) => {
       const answers = response.data.result.length;
       answers != null ? resolve(answers) : reject(0);
@@ -43,7 +44,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     });
   });
   getUserQuestions = (userId) => new Promise((resolve, reject) => {
-    axios.get(`http://localhost:80/api/users/${userId}/questions`)
+    axios.get(`${config.host}/api/users/${userId}/questions`)
     .then((response) => {
       const questions = response.data.result.length;
       questions > 0 ? resolve(questions) : reject(0);

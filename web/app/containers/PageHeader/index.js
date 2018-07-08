@@ -7,6 +7,7 @@ import { css } from 'aphrodite/no-important';
 import styles from './style';
 import SignUpButton from 'components/SignUpButton';
 import { connect } from 'react-redux';
+const config = require('config');
 
 class PageHeader extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -18,14 +19,15 @@ class PageHeader extends React.PureComponent { // eslint-disable-line react/pref
     }
   }
   refreshToken = (token) => {
-    axios.post('http://localhost:80/api/auth/refresh', {}, { headers: {
+    axios.post(config.host + '/api/auth/refresh', {}, { headers: {
       'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json; charset=utf-8',
     } })
     .then((response) => {
       let res = JSON.parse(response.request.response.replace(/\\"/g, '"'));
       let accessToken = res.result[0].accessToken;
       let refreshToken = res.result[0].refreshToken;
-      this.props.auth(accessToken, refreshToken);
+      this.props.dispatchAuth(accessToken, refreshToken);
     })
     .catch((error) => {
       console.log(error);
@@ -53,6 +55,6 @@ export default connect(
   }),
   (dispatch) => ({
     logout: () => { dispatch({ type: 'LOGOUT' }); },
-    auth: (accessToken, refreshToken) => { dispatch({ type: 'SUCCESS_AUTH', jwt: accessToken, refresh: refreshToken }); },
+    dispatchAuth: (accessToken, refreshToken) => { dispatch({ type: 'SUCCESS_AUTH', jwt: accessToken, refresh: refreshToken }); },
   })
 )(PageHeader);
