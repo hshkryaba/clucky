@@ -11,7 +11,8 @@ const votesRouter = require('./votes');
 
 router.use('/api/*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'DELETE, PUT, HEAD, OPTIONS, GET, POST');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-access-token, User-Agent');
   next();
 });
 
