@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'app.components.PlayForm.answer',
     defaultMessage: 'Answer',
   },
+  next: {
+    id: 'app.components.PlayForm.next',
+    defaultMessage: 'Next question',
+  },
 });

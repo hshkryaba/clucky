@@ -33,10 +33,11 @@ class PlayForm extends React.Component { // eslint-disable-line react/prefer-sta
     });
   });
   getQuestionText = (categoryId) => new Promise((resolve, reject) => {
-    //axios.get(config.host + '/api/categories/' + categoryId + '/questions')
-    axios.get(config.host + '/api/questions/2')
+    axios.get(config.host + '/api/categories/' + categoryId + '/questions')
+    //axios.get(config.host + '/api/questions/2')
     .then((response) => {
-      const question = response.data.result[0];
+      const randIndex = Math.floor(Math.random() * response.data.result.length);
+      const question = response.data.result[randIndex];
       question != null || undefined ? resolve(question) : reject([]);
     })
     .catch((error) => {
@@ -55,12 +56,27 @@ class PlayForm extends React.Component { // eslint-disable-line react/prefer-sta
      this.props.change('question_id', data.id);
    });
   };
+  handleNextQuestionClick = () => {
+    this.props.answerNextQuestion();
+    this.props.reset();
+  };
   renderCategories = () => this.state.categories.map(
     (category) =>
       <option value={category.id} key={category.id}>{category.name}</option>
     );
+  renderSubmitButton = () => (
+    <button
+      type="submit"
+      disabled={this.props.pristine || this.propssubmitting}
+      className={css(styles.formItem, styles.formSubmit)}>{messages.answer.defaultMessage}</button>
+  );
+  renderNextQuestion = () => (
+    <div
+      className={css(styles.formItem, styles.formSubmit)}
+      onClick={this.handleNextQuestionClick}>{messages.next.defaultMessage}</div>
+  );
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, reset } = this.props;
     return (
       <div className={css(styles.formWrapper)}>
         <form onSubmit={handleSubmit} className={css(styles.form)}>
@@ -86,10 +102,7 @@ class PlayForm extends React.Component { // eslint-disable-line react/prefer-sta
             placeholder={messages.answer.defaultMessage}
             className={css(styles.formItem, styles.textArea)}
             onChange={this.handleTextarea} />
-          <button
-            type="submit"
-            disabled={pristine || submitting}
-            className={css(styles.formItem, styles.formSubmit)}>{messages.answer.defaultMessage}</button>
+          {this.props.nextQuestion ? this.renderNextQuestion() : this.renderSubmitButton()}
         </form>
       <div className={css(styles.statusMsg)}>{this.props.message}</div>
       </div>

@@ -13,7 +13,7 @@ class AskQuestion extends React.Component { // eslint-disable-line react/prefer-
   constructor(props) {
     super(props);
     this.state = {
-      responsiveMsg: '', 
+      responsiveMsg: '',
     };
   }
   pairsToObject = (pairs) => {
@@ -29,9 +29,13 @@ class AskQuestion extends React.Component { // eslint-disable-line react/prefer-
     const { changeScreenState } = this.props;
     axios.post(config.host + '/api/questions/', formData)
     .then((response) => {
+      const questionId = response.data.result[0].id;
       this.setState({
         responsiveMsg: messages.questionAdded.defaultMessage,
       });
+      axios.post(config.host + `/api/categories/${formData.subject}/questions/${questionId}/set`)
+      .then((response) => {console.log(response.data)})
+      .catch((error) => {console.log(error)});
       setTimeout(() => {
         changeScreenState();
       }, 2000);

@@ -14,6 +14,7 @@ class PlayCluck extends React.Component { // eslint-disable-line react/prefer-st
     super(props);
     this.state = {
       responsiveMsg: '',
+      buttonNextQuestion: false,
     };
   }
   pairsToObject = (pairs) => {
@@ -25,16 +26,20 @@ class PlayCluck extends React.Component { // eslint-disable-line react/prefer-st
     });
     return ret;
   };
-
+  answerNextQuestion = () => {
+    this.setState({
+      buttonNextQuestion: false,
+      responsiveMsg: '',
+    });
+  };
   handleSubmit = (values) => {
     const formData = this.pairsToObject(values._root.entries);
-    console.log(formData);
     axios.post(config.host + '/api/answers/', formData)
     .then((response) => {
-      console.log(response.data);
       this.setState({
         responsiveMsg: messages.answerAdded.defaultMessage,
-      });``
+        buttonNextQuestion: true,
+      });
     })
     .catch((error) => {
       this.setState({
@@ -45,7 +50,11 @@ class PlayCluck extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     return (
       <div className={css(styles.playForm)}>
-        <PlayForm onSubmit={this.handleSubmit} message={this.state.responsiveMsg} />
+        <PlayForm
+          onSubmit={this.handleSubmit}
+          message={this.state.responsiveMsg}
+          nextQuestion={this.state.buttonNextQuestion}
+          answerNextQuestion={this.answerNextQuestion} />
       </div>
     );
   }
