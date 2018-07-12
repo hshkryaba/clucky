@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import AskForm from 'components/AskForm';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -34,8 +33,8 @@ class AskQuestion extends React.Component { // eslint-disable-line react/prefer-
         responsiveMsg: messages.questionAdded.defaultMessage,
       });
       axios.post(config.host + `/api/categories/${formData.subject}/questions/${questionId}/set`)
-      .then((response) => {console.log(response.data)})
-      .catch((error) => {console.log(error)});
+      .then((response) => {})
+      .catch((error) => {});
       setTimeout(() => {
         changeScreenState();
       }, 2000);

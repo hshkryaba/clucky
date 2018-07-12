@@ -34,7 +34,6 @@ class PlayForm extends React.Component { // eslint-disable-line react/prefer-sta
   });
   getQuestionText = (categoryId) => new Promise((resolve, reject) => {
     axios.get(config.host + '/api/categories/' + categoryId + '/questions')
-    //axios.get(config.host + '/api/questions/2')
     .then((response) => {
       const randIndex = Math.floor(Math.random() * response.data.result.length);
       const question = response.data.result[randIndex];
@@ -48,13 +47,14 @@ class PlayForm extends React.Component { // eslint-disable-line react/prefer-sta
     this.setState({ selectedCategories: [event.target.value] });
     this.getQuestionText(
       event.target.value,
-    ).then((data) => { this.setState({ question: {
+    ).then((data) => {
+      this.setState({ question: {
         id: data.id,
         text: data.question,
       }
-     });
-     this.props.change('question_id', data.id);
-   });
+      });
+      this.props.change('question_id', data.id);
+    });
   };
   handleNextQuestionClick = () => {
     this.props.answerNextQuestion();

@@ -12,6 +12,6 @@ export default defineMessages({
   },
   answerWasNotAdded: {
     id: 'app.components.PlayCluck.answerWasNotAdded',
-    defaultMessage: 'Answer wa not added',
+    defaultMessage: 'Answer was not added',
   },
 });

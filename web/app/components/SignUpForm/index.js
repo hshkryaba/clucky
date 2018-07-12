@@ -17,11 +17,18 @@ class SignUpForm extends React.Component { // eslint-disable-line react/prefer-s
     return (
       <div className={css(styles.formWrapper)}>
         <form onSubmit={handleSubmit} className={css(styles.form)}>
-          <Field name="login" component={this.renderField} label="Login" type="text" />
-          <Field name="password" component={this.renderField} label="Password" type="password" />
-          <Field name="email" component={this.renderField} label="Email" type="email" />
-          <button type="button" disabled={pristine || submitting} onClick={reset} className={css(styles.formButton)}>Reset</button>
-          <button type="submit" disabled={pristine || submitting} className={css(styles.formButton)}>Submit</button>
+          <Field name="login" component={this.renderField} label={messages.login.defaultMessage} type="text" />
+          <Field name="password" component={this.renderField} label={messages.password.defaultMessage} type="password" />
+          <Field name="email" component={this.renderField} label={messages.email.defaultMessage} type="email" />
+          <button
+            type="button"
+            disabled={pristine || submitting}
+            onClick={reset}
+            className={css(styles.formButton)}>{messages.reset.defaultMessage}</button>
+          <button
+            type="submit"
+            disabled={pristine || submitting}
+            className={css(styles.formButton)}>{messages.submit.defaultMessage}</button>
         </form>
       <div className={css(styles.statusMsg)}>{this.props.message}</div>
       </div>

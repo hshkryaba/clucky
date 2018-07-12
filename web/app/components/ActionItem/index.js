@@ -11,7 +11,7 @@ class ActionItem extends React.Component { // eslint-disable-line react/prefer-s
     this.props.changeScreenState(this.props.type);
   };
   render() {
-    return(
+    return (
       <div className={css(styles.actionItem)} onClick={this.handleClick}>
         <FormattedMessage {...messages[this.props.type]} />
       </div>

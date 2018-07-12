@@ -36,7 +36,7 @@ class RegistrationPage extends React.PureComponent { // eslint-disable-line reac
       }, 2000);
     })
     .catch((error) => {
-      let err = error.response.request.response.replace(/\\"/g, '"');
+      const err = error.response.request.response.replace(/\\"/g, '"');
       this.setState({
         responsiveMsg: JSON.parse(err).error.message,
       });

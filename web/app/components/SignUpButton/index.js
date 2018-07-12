@@ -12,10 +12,8 @@ class SignUpButton extends React.Component { // eslint-disable-line react/prefer
   logout = () => {
     const { logout, history } = this.props;
     axios.post(config.host + '/api/auth/logout')
-    .then((response) => {
-    })
-    .catch((error) => {
-    });
+    .then((response) => {})
+    .catch((error) => {});
     logout();
     history.push('/login');
   };

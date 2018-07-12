@@ -22,7 +22,7 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     this.getUserAnswers(this.props.parsedJwt.id).then((answers) => { this.setState({ answers: answers }); });
     this.getUserQuestions(this.props.parsedJwt.id).then((questions) => { this.setState({ questions: questions }); });
   }
-  
+
   getUserName = (userId) => new Promise((resolve, reject) => {
     axios.get(`${config.host}/api/users/${userId}`)
     .then((response) => {
@@ -57,16 +57,16 @@ class UserProfile extends React.Component { // eslint-disable-line react/prefer-
     return (
       <div className={css(styles.userProfile)}>
         <div className={css(styles.userAvatar)}>
-          <img src={logo} alt="" className={css(styles.userAvatarImg)} />
+          <img src={logo} alt={this.state.name} className={css(styles.userAvatarImg)} />
           <div className={css(styles.userAvatarShadow)} />
         </div>
         <div className={css(styles.userName)}>{this.state.name}</div>
         <div className={css(styles.infoRow)}>
-          <div className={css(styles.infoRowTitle)}>Answers:</div>
+          <div className={css(styles.infoRowTitle)}>{messages.answers.defaultMessage}</div>
           <div className={css(styles.infoRowValue)}>{this.state.answers}</div>
         </div>
         <div className={css(styles.infoRow)}>
-          <div className={css(styles.infoRowTitle)}>Questions:</div>
+          <div className={css(styles.infoRowTitle)}>{messages.questions.defaultMessage}</div>
           <div className={css(styles.infoRowValue)}>{this.state.questions}</div>
         </div>
       </div>

@@ -6,16 +6,16 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  signup: {
-    id: 'app.components.SignUpButton.signup',
-    defaultMessage: 'Sign up',
-  },
   login: {
-    id: 'app.components.SignUpButton.login',
-    defaultMessage: 'Log in',
+    id: 'app.components.LoginForm.login',
+    defaultMessage: 'Login',
   },
-  logout: {
-    id: 'app.components.SignUpButton.logout',
-    defaultMessage: 'Log out',
+  password: {
+    id: 'app.components.LoginForm.password',
+    defaultMessage: 'Password',
+  },
+  submit: {
+    id: 'app.components.LoginForm.submit',
+    defaultMessage: 'Submit',
   },
 });
