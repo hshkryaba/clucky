@@ -1,4 +1,10 @@
-module.exports = {
-  host: 'http://185.244.173.142',
-  host1: 'http://localhost',
+let localConfig = {};
+try {
+  localConfig = require('localConfig');
+} catch(e) {}
+const config = {
+  host: '/'
 };
+Object.assign(config, localConfig);
+console.log(config);
+module.exports = config;
