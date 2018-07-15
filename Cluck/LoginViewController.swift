@@ -22,6 +22,7 @@ class LoginViewController: UIViewController {
 
         nameTextField.isHidden = true
         loginButton.layer.cornerRadius = 5
+        //passwordTextField.isSecureTextEntry = true - done through main storyboard
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
