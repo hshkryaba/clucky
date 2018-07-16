@@ -31,8 +31,7 @@ class LoginViewController: UIViewController {
     
   }
   
-  
-  //Funcs
+  // MARK: Functions
   
   //Calls this function when the tap is recognized.
   @objc func dismissKeyboard() {
@@ -40,9 +39,7 @@ class LoginViewController: UIViewController {
     view.endEditing(true)
   }
   
-  
-  
-  //IBAction funcs
+  // MARK: IBAction functions
   
   @IBAction func tapLoginSegment(_ sender: Any) {
     if loginRegistrationSegment.isEnabledForSegment(at: 1) {
@@ -64,8 +61,6 @@ class LoginViewController: UIViewController {
         self.present(controller, animated:true, completion:nil)
       })
     }
-    
-    
     
     // credentials encoded in base64
     /*let username = emailTextField.text!
@@ -100,8 +95,7 @@ class LoginViewController: UIViewController {
     
   }
   
-  @IBAction func tapForgetPassButton(_ sender: Any) {
-  }
+  @IBAction func tapForgetPassButton(_ sender: Any) {}
   
   /*
    // MARK: - Navigation
