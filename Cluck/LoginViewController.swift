@@ -46,14 +46,9 @@ class LoginViewController: UIViewController {
   
   @IBAction func tapLoginSegment(_ sender: Any) {
     if loginRegistrationSegment.isEnabledForSegment(at: 1) {
-      nameTextField.isHidden = false
+      nameTextField.isHidden.toggle()
     }
-    if loginRegistrationSegment.selectedSegmentIndex == 0 {
-      nameTextField.isHidden = true
-    }
-    
   }
-  
   
   @IBAction func tapEnterButton(_ sender: Any) {
     if nameTextField.isHidden {
