@@ -59,6 +59,39 @@ class App: NSObject {
   func compareDateNumbers(date: Date, otherDate: Date) -> ComparisonResult {
     let compsA = app.calendar.dateComponents([.year, .month, .day], from: date)
     let compsB = app.calendar.dateComponents([.year, .month, .day], from: otherDate)
+
+    
+    let api = API()
+    let window = UIApplication.shared.delegate?.window
+    let shared = UIApplication.shared
+    var screen = UIScreen.main
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+    let calendar = Calendar.current
+    let mainBundle = Bundle.main
+    //let stack = MOGCoreDataStack.stack
+    let ud = UserDefaults.standard
+    let nc = NotificationCenter.default
+    let nf = NumberFormatter()
+    let df = DateFormatter()
+    let sumFormatter = NumberFormatter()
+    //let cache = Cache()
+    var totalRequests = Int.max
+    let dadataKey = "1d1d9ececd087b20744c457bbbdcf9a03629221a"
+    let confirmNewRequestAgreementKey = "confirmNewRequestAgreementKey"
+    
+    /*lazy var user: User = {
+        return User.current
+    }()*/
+    //let user = User.current
+    
+    var mainQueue: OperationQueue {
+        return OperationQueue.main
+    }
+    
+    var queue: OperationQueue {
+        return OperationQueue()
+    }
     
     let dateA = app.calendar.date(from: compsA)!
     let dateB = app.calendar.date(from: compsB)!

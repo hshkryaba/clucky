@@ -17,12 +17,12 @@ class QuestionListTableViewController: UITableViewController {
     let questionTitles = ["Медицина", "Продукты", "Отношения", "Право", "Образование", "Спорт"]
     let imagesArray = [UIImage(named: "nature1.jpg")!, UIImage(named: "nature2.jpeg")!, UIImage(named: "nature3.jpeg")!, UIImage(named: "nature4.jpeg")!, UIImage(named: "nature5.jpeg")!, UIImage(named: "nature6.jpeg")!]
     
+    var questions = [Question]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        app.api.loadQuestionList(completion: {
-            print("QL loaded")
-        })
+        
         app.api.loadUserInfo(id: 6, completion: {
             print("User info loaded")
         })
@@ -41,6 +41,13 @@ class QuestionListTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        app.api.loadQuestionList(completion: { (questions) in
+            //print("QL loaded")
+            self.questions = questions
+        })
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -56,15 +63,18 @@ class QuestionListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return questionTitles.count
+        return questions.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "questionListCell", for: indexPath) as! QuestionListTableViewCell
+        
+        let question = questions[indexPath.row]
 
-        cell.questionTitleLabel.text = questionTitles[indexPath.row]
-        cell.questionImage.image = imagesArray[indexPath.row]
+        cell.questionTitleLabel.text = question.subject
+        cell.questionPreviewLabel.text = question.question
+        cell.questionImage.image = imagesArray[0]
 
         return cell
     }

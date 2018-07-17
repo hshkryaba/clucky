@@ -32,6 +32,7 @@
 		E1E0A9CD20D551A9003E421C /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0A9CC20D551A8003E421C /* App.swift */; };
 		E1E0A9D020D551D5003E421C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0A9CF20D551D5003E421C /* User.swift */; };
 		E1E6A26320FBBDC700D9AFAF /* Cluck.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1E6A26120FBBDC700D9AFAF /* Cluck.xcdatamodeld */; };
+		E1E6A26D20FD0A4000D9AFAF /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E6A26C20FD0A4000D9AFAF /* Question.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		E1E0A9CC20D551A8003E421C /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E1E0A9CF20D551D5003E421C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E1E6A26220FBBDC700D9AFAF /* Cluck.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cluck.xcdatamodel; sourceTree = "<group>"; };
+		E1E6A26C20FD0A4000D9AFAF /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				E1E0A9CF20D551D5003E421C /* User.swift */,
+				E1E6A26C20FD0A4000D9AFAF /* Question.swift */,
 			);
 			name = Model;
 			path = "New Group";
@@ -243,6 +246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1E6A26D20FD0A4000D9AFAF /* Question.swift in Sources */,
 				E1E0A9CB20D456DA003E421C /* Api.swift in Sources */,
 				E142C77720BFF32D008F39D8 /* LoginViewController.swift in Sources */,
 				E142C79A20C318FF008F39D8 /* Label+Extention.swift in Sources */,
