@@ -154,7 +154,7 @@ class API: NSObject, URLSessionDataDelegate {
     let task = session.dataTask(with: request) { (data, response, error) in
       app.mainQueue.addOperation({
         
-        NSLog("RESPONSE \(response)")
+        //NSLog("RESPONSE \(response)")
         //print("\(data)")
         
         self.decreaseNetworkActivityCounter()
@@ -331,11 +331,20 @@ class API: NSObject, URLSessionDataDelegate {
   
   //MARK: - Question List
   
-  func loadQuestionList(completion: @escaping APICompletion, fallback: APIFallback? = nil) {
+  func loadQuestionList(completion: @escaping (([Question]) -> Void), fallback: APIFallback? = nil) {
     let request = self.makeRequest(method: "GET", path: "api/questions", tokenRequired: true)
     self.passRequest(request: request, completion: { (json) in
       print("QUESTION LIST JSON \(json)")
-      completion()
+        /*if let result = json["result"] as? NSArray {
+            for dict in result {
+                if let question = dict as? NSDictionary {
+                    let question = ["question"] as? String
+                    let subject = ["subject"] as? String
+                }
+            }
+        }*/
+        let questionList = Question.insertQuestionList(json: json)
+        completion(questionList)
     }, fallback: fallback)
   }
   
