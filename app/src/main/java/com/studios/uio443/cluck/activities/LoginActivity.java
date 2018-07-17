@@ -1,4 +1,4 @@
-package com.studios.uio443.cluck;
+package com.studios.uio443.cluck.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,24 +12,36 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.studios.uio443.cluck.R;
 import com.studios.uio443.cluck.models.User;
 import com.studios.uio443.cluck.services.DataService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LoginActivity extends AppCompatActivity {
 
+    //используем butterknife
+    //https://jakewharton.github.io/butterknife/
+    //Обзор Butter Knife - https://startandroid.ru/ru/blog/470-butter-knife.html
+    @BindView(R.id.login_email_layout)
     TextInputLayout loginEmailLayout;
+    @BindView(R.id.login_password_layout)
     TextInputLayout loginPasswordLayout;
+    @BindView(R.id.login_email_input)
     EditText loginEmailInput;
+    @BindView(R.id.login_password_input)
     EditText loginPasswordInput;
+    @BindView(R.id.btn_login)
     Button btnLogin;
+    @BindView(R.id.link_signup)
     TextView linkSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        initViews();
+        ButterKnife.bind(this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,18 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-
-    void initViews(){
-        loginEmailLayout = findViewById(R.id.login_email_layout);
-        loginPasswordLayout = findViewById(R.id.login_password_layout);
-        loginEmailInput = findViewById(R.id.login_email_input);
-        loginPasswordInput = findViewById(R.id.login_password_input);
-        btnLogin = findViewById(R.id.btn_login);
-        linkSignUp = findViewById(R.id.link_signup);
-    }
-
-    public void login(){
+    public void login() {
 
         Log.d("LoginActivity", "Loging in");
 
@@ -79,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 
         dataService.testRest();
 
-        if(user == null) {
+        if (user == null) {
             onLoginFailed();
             return;
         }
