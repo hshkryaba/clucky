@@ -47,7 +47,8 @@ class LoginViewController: UIViewController {
       nameTextField.isHidden.toggle()
       loginButton.setTitle("Войти", for: .normal)
     }
-    if loginRegistrationSegment.selectedSegmentIndex == 1 { 
+    if loginRegistrationSegment.selectedSegmentIndex == 1 {
+      nameTextField.isHidden.toggle()
       loginButton.setTitle("Зарегистрироваться", for: .normal)
     }
   }
