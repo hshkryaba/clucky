@@ -1,9 +1,11 @@
-package com.studios.uio443.cluck;
+package com.studios.uio443.cluck.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-public class AboutPage extends AppCompatActivity {
+import com.studios.uio443.cluck.R;
+
+public class AboutPageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

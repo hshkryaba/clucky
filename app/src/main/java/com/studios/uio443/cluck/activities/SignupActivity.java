@@ -1,4 +1,4 @@
-package com.studios.uio443.cluck;
+package com.studios.uio443.cluck.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,20 +12,37 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.studios.uio443.cluck.R;
 import com.studios.uio443.cluck.models.User;
 import com.studios.uio443.cluck.services.DataService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SignupActivity extends AppCompatActivity {
 
+    //используем butterknife
+    //https://jakewharton.github.io/butterknife/
+    //Обзор Butter Knife - https://startandroid.ru/ru/blog/470-butter-knife.html
+    @BindView(R.id.signup_username_layout)
     TextInputLayout signupUsernameLayout;
+    @BindView(R.id.login_email_layout)
     TextInputLayout signupEmailLayout;
+    @BindView(R.id.signup_password_layout)
     TextInputLayout signupPasswordLayout;
+    @BindView(R.id.signup_reEnterPassword_layout)
     TextInputLayout signupReEnterPasswordLayout;
+    @BindView(R.id.signup_username_input)
     EditText signupUsernameInput;
+    @BindView(R.id.signup_email_input)
     EditText signupEmailInput;
+    @BindView(R.id.signup_password_input)
     EditText signupPasswordInput;
+    @BindView(R.id.signup_reEnterPassword_input)
     EditText signupReEnterPasswordInput;
+    @BindView(R.id.btn_signup)
     Button btnSignup;
+    @BindView(R.id.link_login)
     TextView linkLogin;
 
 
@@ -33,8 +50,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
-        initViews();
+        ButterKnife.bind(this);
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,25 +62,12 @@ public class SignupActivity extends AppCompatActivity {
         linkLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
 
-    }
-
-    void initViews(){
-        signupUsernameLayout = findViewById(R.id.signup_username_layout);
-        signupEmailLayout = findViewById(R.id.signup_email_layout);
-        signupPasswordLayout = findViewById(R.id.signup_password_layout);
-        signupReEnterPasswordLayout = findViewById(R.id.signup_reEnterPassword_layout);
-        signupUsernameInput = findViewById(R.id.signup_username_input);
-        signupEmailInput = findViewById(R.id.signup_email_input);
-        signupPasswordInput = findViewById(R.id.signup_password_input);
-        signupReEnterPasswordInput = findViewById(R.id.signup_reEnterPassword_input);
-        btnSignup = findViewById(R.id.btn_signup);
-        linkLogin = findViewById(R.id.link_login);
     }
 
     public void signup() {
@@ -87,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
         DataService dataService = DataService.getInstance();
         User user = dataService.signup(email, password, username);
 
-        if(user == null) {
+        if (user == null) {
             onSignupFailed();
             return;
         }

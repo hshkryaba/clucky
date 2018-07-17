@@ -1,7 +1,6 @@
 package com.studios.uio443.cluck.services;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.studios.uio443.cluck.models.User;
 
@@ -60,6 +59,7 @@ public class DataService {
      * Геттер сущности пользователя
      * @return User
      */
+    @Nullable
     public User getUser() {
         return user;
     }
@@ -108,7 +108,8 @@ public class DataService {
             o = rs.request(r);
             return o.toString();
         } catch (Exception e) {
-            Log.e("Some errors: ", e.getMessage());
+            e.getMessage();
+            //Log.e("Some errors: ", e.getMessage());
         }
 
         return null;
