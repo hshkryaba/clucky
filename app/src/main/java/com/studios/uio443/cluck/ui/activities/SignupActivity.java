@@ -1,4 +1,4 @@
-package com.studios.uio443.cluck.activities;
+package com.studios.uio443.cluck.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ModeSelectActivity">
+    tools:context=".ui.activities.ModeSelectActivity">
 
     <Button
         android:id="@+id/btnAnswer"
