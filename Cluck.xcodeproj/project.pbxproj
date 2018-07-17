@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14DDF5AA20FCD79400C75D59 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DDF5A920FCD79400C75D59 /* Bool.swift */; };
 		E142C76520BFEB28008F39D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142C76420BFEB28008F39D8 /* AppDelegate.swift */; };
 		E142C76A20BFEB28008F39D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E142C76820BFEB28008F39D8 /* Main.storyboard */; };
 		E142C76C20BFEB2C008F39D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E142C76B20BFEB2C008F39D8 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14DDF5A920FCD79400C75D59 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		E142C76120BFEB28008F39D8 /* Cluck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cluck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E142C76420BFEB28008F39D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E142C76920BFEB28008F39D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				E142C79920C318FE008F39D8 /* Label+Extention.swift */,
+				14DDF5A920FCD79400C75D59 /* Bool.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				E142C77B20C0294B008F39D8 /* QuestionListTableViewCell.swift in Sources */,
 				E1E6A26320FBBDC700D9AFAF /* Cluck.xcdatamodeld in Sources */,
 				E142C76520BFEB28008F39D8 /* AppDelegate.swift in Sources */,
+				14DDF5AA20FCD79400C75D59 /* Bool.swift in Sources */,
 				E1AAE60120E54DE6004A8452 /* MyQuestionsTableViewController.swift in Sources */,
 				E1AAE60320E54E44004A8452 /* MyQuestionsTableViewCell.swift in Sources */,
 				E142C79720C2F9E8008F39D8 /* SideMenuTableViewCell.swift in Sources */,
