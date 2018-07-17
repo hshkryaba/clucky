@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,20 +51,12 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signup();
-            }
-        });
+        btnSignup.setOnClickListener(v -> signup());
 
-        linkLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
+        linkLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         });
 
     }
@@ -98,18 +89,16 @@ public class SignupActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getString(R.string.creating_acctount));
         progressDialog.show();
 
         new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
+                () -> {
+                    // On complete call either onSignupSuccess or onSignupFailed
+                    // depending on success
+                    onSignupSuccess();
+                    // onSignupFailed();
+                    progressDialog.dismiss();
                 }, 3000);
     }
 
@@ -120,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
 
         btnSignup.setEnabled(true);
     }
@@ -134,7 +123,7 @@ public class SignupActivity extends AppCompatActivity {
         String reEnterPassword = signupReEnterPasswordInput.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            signupUsernameInput.setError("at least 3 characters");
+            signupUsernameInput.setError(getString(R.string.name_length_error));
             valid = false;
         } else {
             signupUsernameInput.setError(null);
@@ -142,7 +131,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            signupEmailInput.setError("enter a valid email address");
+            signupEmailInput.setError(getString(R.string.enter_valid_email));
             valid = false;
         } else {
             signupEmailInput.setError(null);
@@ -150,14 +139,14 @@ public class SignupActivity extends AppCompatActivity {
 
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            signupPasswordInput.setError("between 4 and 10 alphanumeric characters");
+            signupPasswordInput.setError(getString(R.string.password_length_error));
             valid = false;
         } else {
             signupPasswordInput.setError(null);
         }
 
         if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            signupReEnterPasswordInput.setError("Password Do not match");
+            signupReEnterPasswordInput.setError(getString(R.string.password_do_not_match));
             valid = false;
         } else {
             signupReEnterPasswordInput.setError(null);
