@@ -303,7 +303,6 @@ class API: NSObject, URLSessionDataDelegate {
     let user = User()
     UserDefaults.standard.set(user, forKey: "user")
     user.name = ""
-    user.lastName = ""
     user.emailAddress = ""
     //app.stack.save()
   }

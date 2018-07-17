@@ -34,9 +34,9 @@ class App: NSObject {
     let dadataKey = "1d1d9ececd087b20744c457bbbdcf9a03629221a"
     let confirmNewRequestAgreementKey = "confirmNewRequestAgreementKey"
     
-    lazy var user: User = {
+    /*lazy var user: User = {
         return User.current
-    }()
+    }()*/
     //let user = User.current
     
     var mainQueue: OperationQueue {

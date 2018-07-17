@@ -10,6 +10,8 @@ import Foundation
 
 class User: NSObject {
     
+    var name: String?
+    var emailAddress: String?
     var stars: Int = 0
     var id: Int?
     var login = ""
