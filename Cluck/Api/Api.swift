@@ -11,13 +11,15 @@ public typealias JsonArray = [Any]
 
 var user = User()
 
+
+
 class API: NSObject, URLSessionDataDelegate {
   
-  let baseURL = URL(string: "http://185.244.173.142/")! //cluck-app.org/")!
+  let baseURL = URL(string: "http://185.244.173.142/")!
   
   var token: String {
     get {
-      if let t = app.ud.object(forKey: "token") as? String {
+      if let t = app.userDefaults.object(forKey: "token") as? String {
         return t
       } else {
         return ""
@@ -25,7 +27,7 @@ class API: NSObject, URLSessionDataDelegate {
     }
     
     set {
-      app.ud.set(newValue, forKey: "token")
+      app.userDefaults.set(newValue, forKey: "token")
     }
   }
   
@@ -298,7 +300,7 @@ class API: NSObject, URLSessionDataDelegate {
      app.delegate.performTransitionAfterLogout()*/
   }
   
-  
+  /// Создане пользователя
   func createInitUser() {
     let user = User()
     UserDefaults.standard.set(user, forKey: "user")
@@ -307,6 +309,7 @@ class API: NSObject, URLSessionDataDelegate {
     //app.stack.save()
   }
   
+  /// Регистрация на сервере через API
   func signup(queue: OperationQueue = app.queue, email: String, login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
     queue.addOperation {
       let params = ["login": login, "password": password, "email": email]
@@ -316,11 +319,11 @@ class API: NSObject, URLSessionDataDelegate {
         if let result = json["result"] as? NSArray {
           if let resultDict = result[0] as? NSDictionary {
             if let id = resultDict["id"] as? String {
-              app.ud.set(id, forKey: "userID")
+              app.userDefaults.set(id, forKey: "userID")
             }
           }
         }
-        app.ud.set(password, forKey: "userPassword")
+        app.userDefaults.set(password, forKey: "userPassword")
         completion()
       }, fallback: fallback)
     }

@@ -41,9 +41,15 @@ class LoginViewController: UIViewController {
   
   // MARK: IBAction functions
   
+  /// Нажатие на сегмент выбора "Вход/Регистрация"
   @IBAction func tapLoginSegment(_ sender: Any) {
-    if loginRegistrationSegment.isEnabledForSegment(at: 1) {
+    if loginRegistrationSegment.selectedSegmentIndex == 0 {
       nameTextField.isHidden.toggle()
+      loginButton.setTitle("Войти", for: .normal)
+    }
+    if loginRegistrationSegment.selectedSegmentIndex == 1 {
+      nameTextField.isHidden.toggle()
+      loginButton.setTitle("Зарегистрироваться", for: .normal)
     }
   }
   
