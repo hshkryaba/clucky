@@ -25,7 +25,7 @@ public class SignupActivity extends AppCompatActivity {
     //Обзор Butter Knife - https://startandroid.ru/ru/blog/470-butter-knife.html
     @BindView(R.id.signup_username_layout)
     TextInputLayout signupUsernameLayout;
-    @BindView(R.id.login_email_layout)
+    @BindView(R.id.signup_email_layout)
     TextInputLayout signupEmailLayout;
     @BindView(R.id.signup_password_layout)
     TextInputLayout signupPasswordLayout;
