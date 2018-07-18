@@ -1,132 +1,111 @@
 package com.studios.uio443.cluck.ui.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.studios.uio443.cluck.R;
-import com.studios.uio443.cluck.models.User;
-import com.studios.uio443.cluck.services.DataService;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.studios.uio443.cluck.ui.fragments.LoginFragment;
+import com.studios.uio443.cluck.ui.fragments.LogoutFragment;
+import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKCallback;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKError;
 
 public class LoginActivity extends AppCompatActivity {
 
-    //используем butterknife
-    //https://jakewharton.github.io/butterknife/
-    //Обзор Butter Knife - https://startandroid.ru/ru/blog/470-butter-knife.html
-    @BindView(R.id.login_email_layout)
-    TextInputLayout loginEmailLayout;
-    @BindView(R.id.login_password_layout)
-    TextInputLayout loginPasswordLayout;
-    @BindView(R.id.login_email_input)
-    EditText loginEmailInput;
-    @BindView(R.id.login_password_input)
-    EditText loginPasswordInput;
-    @BindView(R.id.btn_login)
-    Button btnLogin;
-    @BindView(R.id.link_signup)
-    TextView linkSignUp;
+    private boolean isResumed = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        setContentView(R.layout.activity_start);
 
-        btnLogin.setOnClickListener(v -> login());
+        VKSdk.wakeUpSession(this, new VKCallback<VKSdk.LoginState>() {
+            @Override
+            public void onResult(VKSdk.LoginState res) {
+                if (isResumed) {
+                    switch (res) {
+                        case LoggedOut:
+                            showLogin();
+                            break;
+                        case LoggedIn:
+                            showLogout();
+                            break;
+                        case Pending:
+                            break;
+                        case Unknown:
+                            break;
+                    }
+                }
+            }
 
-        linkSignUp.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            @Override
+            public void onError(VKError error) {
+
+            }
         });
 
     }
 
-    public void login() {
-
-        Log.d("LoginActivity", "Loging in");
-
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
-
-        String email = loginEmailInput.getText().toString();
-        String password = loginPasswordInput.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-
-        DataService dataService = DataService.getInstance();
-        User user = dataService.authentication(email, password);
-
-        dataService.testRest();
-
-        if (user == null) {
-            onLoginFailed();
-            return;
-        }
-
-        btnLogin.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.authenticating));
-        progressDialog.show();
-
-        new android.os.Handler().postDelayed(
-                () -> {
-                    // On complete call either onLoginSuccess or onLoginFailed
-                    onLoginSuccess();
-                    // onLoginFailed();
-                    progressDialog.dismiss();
-                }, 3000);
-
-    }
-
-    public void onLoginSuccess() {
-        btnLogin.setEnabled(true);
-        Intent intent = new Intent(LoginActivity.this, ModeSelectActivity.class);
-        startActivity(intent);
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
-
-        btnLogin.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String email = loginEmailInput.getText().toString();
-        String password = loginPasswordInput.getText().toString();
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            loginEmailInput.setError(getString(R.string.enter_valid_email));
-            valid = false;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isResumed = true;
+        if (VKSdk.isLoggedIn()) {
+            showLogout();
         } else {
-            loginEmailInput.setError(null);
+            showLogin();
         }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            loginPasswordInput.setError(getString(R.string.password_length_error));
-            valid = false;
-        } else {
-            loginPasswordInput.setError(null);
-        }
-
-        return valid;
     }
 
+    @Override
+    protected void onPause() {
+        isResumed = false;
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        VKCallback<VKAccessToken> callback = new VKCallback<VKAccessToken>() {
+            @Override
+            public void onResult(VKAccessToken res) {
+                // User passed Authorization
+                startModeSelectActivity();
+            }
+
+            @Override
+            public void onError(VKError error) {
+                // User didn't pass Authorization
+            }
+        };
+
+        if (!VKSdk.onActivityResult(requestCode, resultCode, data, callback)) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void showLogout() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, new LogoutFragment())
+                .commitAllowingStateLoss();
+    }
+
+    private void showLogin() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, new LoginFragment())
+                .commitAllowingStateLoss();
+    }
+
+    private void startModeSelectActivity() {
+        startActivity(new Intent(this, ModeSelectActivity.class));
+    }
 }
