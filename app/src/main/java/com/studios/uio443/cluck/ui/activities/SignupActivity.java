@@ -1,4 +1,4 @@
-package com.studios.uio443.cluck;
+package com.studios.uio443.cluck.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,26 +6,42 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.studios.uio443.cluck.R;
 import com.studios.uio443.cluck.models.User;
 import com.studios.uio443.cluck.services.DataService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SignupActivity extends AppCompatActivity {
 
+    //используем butterknife
+    //https://jakewharton.github.io/butterknife/
+    //Обзор Butter Knife - https://startandroid.ru/ru/blog/470-butter-knife.html
+    @BindView(R.id.signup_username_layout)
     TextInputLayout signupUsernameLayout;
+    @BindView(R.id.signup_email_layout)
     TextInputLayout signupEmailLayout;
+    @BindView(R.id.signup_password_layout)
     TextInputLayout signupPasswordLayout;
+    @BindView(R.id.signup_reEnterPassword_layout)
     TextInputLayout signupReEnterPasswordLayout;
+    @BindView(R.id.signup_username_input)
     EditText signupUsernameInput;
+    @BindView(R.id.signup_email_input)
     EditText signupEmailInput;
+    @BindView(R.id.signup_password_input)
     EditText signupPasswordInput;
+    @BindView(R.id.signup_reEnterPassword_input)
     EditText signupReEnterPasswordInput;
+    @BindView(R.id.btn_signup)
     Button btnSignup;
+    @BindView(R.id.link_login)
     TextView linkLogin;
 
 
@@ -33,38 +49,16 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        ButterKnife.bind(this);
 
-        initViews();
+        btnSignup.setOnClickListener(v -> signup());
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signup();
-            }
+        linkLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         });
 
-        linkLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
-
-    }
-
-    void initViews(){
-        signupUsernameLayout = findViewById(R.id.signup_username_layout);
-        signupEmailLayout = findViewById(R.id.signup_email_layout);
-        signupPasswordLayout = findViewById(R.id.signup_password_layout);
-        signupReEnterPasswordLayout = findViewById(R.id.signup_reEnterPassword_layout);
-        signupUsernameInput = findViewById(R.id.signup_username_input);
-        signupEmailInput = findViewById(R.id.signup_email_input);
-        signupPasswordInput = findViewById(R.id.signup_password_input);
-        signupReEnterPasswordInput = findViewById(R.id.signup_reEnterPassword_input);
-        btnSignup = findViewById(R.id.btn_signup);
-        linkLogin = findViewById(R.id.link_login);
     }
 
     public void signup() {
@@ -87,7 +81,7 @@ public class SignupActivity extends AppCompatActivity {
         DataService dataService = DataService.getInstance();
         User user = dataService.signup(email, password, username);
 
-        if(user == null) {
+        if (user == null) {
             onSignupFailed();
             return;
         }
@@ -95,18 +89,16 @@ public class SignupActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getString(R.string.creating_acctount));
         progressDialog.show();
 
         new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
+                () -> {
+                    // On complete call either onSignupSuccess or onSignupFailed
+                    // depending on success
+                    onSignupSuccess();
+                    // onSignupFailed();
+                    progressDialog.dismiss();
                 }, 3000);
     }
 
@@ -117,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
 
         btnSignup.setEnabled(true);
     }
@@ -131,7 +123,7 @@ public class SignupActivity extends AppCompatActivity {
         String reEnterPassword = signupReEnterPasswordInput.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            signupUsernameInput.setError("at least 3 characters");
+            signupUsernameInput.setError(getString(R.string.name_length_error));
             valid = false;
         } else {
             signupUsernameInput.setError(null);
@@ -139,7 +131,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            signupEmailInput.setError("enter a valid email address");
+            signupEmailInput.setError(getString(R.string.enter_valid_email));
             valid = false;
         } else {
             signupEmailInput.setError(null);
@@ -147,14 +139,14 @@ public class SignupActivity extends AppCompatActivity {
 
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            signupPasswordInput.setError("between 4 and 10 alphanumeric characters");
+            signupPasswordInput.setError(getString(R.string.password_length_error));
             valid = false;
         } else {
             signupPasswordInput.setError(null);
         }
 
         if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            signupReEnterPasswordInput.setError("Password Do not match");
+            signupReEnterPasswordInput.setError(getString(R.string.password_do_not_match));
             valid = false;
         } else {
             signupReEnterPasswordInput.setError(null);
