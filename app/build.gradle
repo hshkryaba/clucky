@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "com.studios.uio443.cluck"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file("${rootProject.projectDir}/cluck.jks")
+            storePassword "cluck*18"
+            keyAlias "Cluck"
+            keyPassword "cluck*"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
+    }
+    dexOptions {
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$android_support_ver"
+    implementation "com.android.support.constraint:constraint-layout:1.1.2"
+    implementation "com.android.support:recyclerview-v7:$android_support_ver"
+    implementation "com.android.support:design:$android_support_ver"
+
+    //  butterknife
+    implementation "com.jakewharton:butterknife:$butterknife_ver"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_ver"
+    implementation "com.android.support:multidex:1.0.3"
+
+    //Android SDK - https://github.com/VKCOM/vk-android-sdk
+    //SDK упрощает использование API ВКонтакте в Android-приложениях
+    implementation project(':vksdk_library')
+
+    testImplementation "junit:junit:$junit_ver"
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+}
