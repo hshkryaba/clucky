@@ -15,8 +15,9 @@ var user = User()
 
 
 class API: NSObject, URLSessionDataDelegate {
-  
+
   let baseURL = URL(string: "http://185.244.173.142/api/")!
+  // let baseURL = URL(string: "http://185.244.173.142/")!
   
   var token: String {
     get {
