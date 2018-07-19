@@ -13,7 +13,7 @@ class App: NSObject {
   let calendar            = Calendar.current
   let mainBundle          = Bundle.main
   
-  //let stack = MOGCoreDataStack.stack
+  // let stack = MOGCoreDataStack.stack
   
   let userDefaults        = UserDefaults.standard
   let notificationCenter  = NotificationCenter.default
@@ -28,9 +28,9 @@ class App: NSObject {
   let confirmNewRequestAgreementKey = "confirmNewRequestAgreementKey"
   
   /// Текущий пользователь
-  lazy var user: User = {
-    return User.current
-  }()
+  // lazy var user: User = {
+  //   return User.current
+  // }()
   
   /// Основная очередь
   var mainQueue: OperationQueue {

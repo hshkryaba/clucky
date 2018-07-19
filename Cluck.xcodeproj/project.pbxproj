@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		14DDF5AA20FCD79400C75D59 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DDF5A920FCD79400C75D59 /* Bool.swift */; };
+		6C9C2E1260A8190374365E80 /* Pods_Cluck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B922777417271D0804958E32 /* Pods_Cluck.framework */; };
 		E142C76520BFEB28008F39D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142C76420BFEB28008F39D8 /* AppDelegate.swift */; };
 		E142C76A20BFEB28008F39D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E142C76820BFEB28008F39D8 /* Main.storyboard */; };
 		E142C76C20BFEB2C008F39D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E142C76B20BFEB2C008F39D8 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		14DDF5A920FCD79400C75D59 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
+		B922777417271D0804958E32 /* Pods_Cluck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cluck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E142C76120BFEB28008F39D8 /* Cluck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cluck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E142C76420BFEB28008F39D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E142C76920BFEB28008F39D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -64,6 +66,8 @@
 		E1E0A9CF20D551D5003E421C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E1E6A26220FBBDC700D9AFAF /* Cluck.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cluck.xcdatamodel; sourceTree = "<group>"; };
 		E1E6A26C20FD0A4000D9AFAF /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		E3412D02767C1ECEA093F95C /* Pods-Cluck.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cluck.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cluck/Pods-Cluck.release.xcconfig"; sourceTree = "<group>"; };
+		F8A8960BC2359253C9384552 /* Pods-Cluck.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cluck.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cluck/Pods-Cluck.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,17 +75,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C9C2E1260A8190374365E80 /* Pods_Cluck.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34B507C00186165B3A5F8627 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F8A8960BC2359253C9384552 /* Pods-Cluck.debug.xcconfig */,
+				E3412D02767C1ECEA093F95C /* Pods-Cluck.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		8332E108F632627D380EDD17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B922777417271D0804958E32 /* Pods_Cluck.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E142C75820BFEB27008F39D8 = {
 			isa = PBXGroup;
 			children = (
 				E142C76320BFEB28008F39D8 /* Cluck */,
 				E142C76220BFEB28008F39D8 /* Products */,
+				34B507C00186165B3A5F8627 /* Pods */,
+				8332E108F632627D380EDD17 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -175,9 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E142C77320BFEB2C008F39D8 /* Build configuration list for PBXNativeTarget "Cluck" */;
 			buildPhases = (
+				CA5B6780934FD894A2DF0571 /* [CP] Check Pods Manifest.lock */,
 				E142C75D20BFEB28008F39D8 /* Sources */,
 				E142C75E20BFEB28008F39D8 /* Frameworks */,
 				E142C75F20BFEB28008F39D8 /* Resources */,
+				FE81718E68564A6257AD5C5B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -240,6 +266,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CA5B6780934FD894A2DF0571 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Cluck-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE81718E68564A6257AD5C5B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Cluck/Pods-Cluck-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Magic/Magic.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Magic.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cluck/Pods-Cluck-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E142C75D20BFEB28008F39D8 /* Sources */ = {
@@ -403,6 +468,7 @@
 		};
 		E142C77420BFEB2C008F39D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8A8960BC2359253C9384552 /* Pods-Cluck.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -422,6 +488,7 @@
 		};
 		E142C77520BFEB2C008F39D8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3412D02767C1ECEA093F95C /* Pods-Cluck.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

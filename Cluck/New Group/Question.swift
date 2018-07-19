@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import Magic
 
 class Question: NSObject {
     
@@ -38,7 +39,7 @@ class Question: NSObject {
                 result.append(question)
             }
         }
-        print(result)
+        magic(result)
         return result
     }
     

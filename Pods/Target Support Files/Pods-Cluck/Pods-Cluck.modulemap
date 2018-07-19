@@ -1,0 +1,6 @@
+framework module Pods_Cluck {
+  umbrella header "Pods-Cluck-umbrella.h"
+
+  export *
+  module * { export * }
+}
