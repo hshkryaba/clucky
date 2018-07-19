@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Magic
 
 class QuestionListTableViewController: UITableViewController {
     
@@ -24,7 +25,7 @@ class QuestionListTableViewController: UITableViewController {
         
         
         app.api.loadUserInfo(id: 6, completion: {
-            print("User info loaded")
+            magic("User info loaded")
         })
         
 
@@ -44,7 +45,7 @@ class QuestionListTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         app.api.loadQuestionList(completion: { (questions) in
-            //print("QL loaded")
+            //magic("QL loaded")
             self.questions = questions
         })
     }
