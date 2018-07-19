@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import SystemConfiguration
+import Magic
 
 typealias APICompletion = (() -> Void)
 typealias APIFallback = ((Error) -> Void)
@@ -14,8 +15,9 @@ var user = User()
 
 
 class API: NSObject, URLSessionDataDelegate {
-  
-  let baseURL = URL(string: "http://185.244.173.142/")!
+
+  let baseURL = URL(string: "http://185.244.173.142/api/")!
+  // let baseURL = URL(string: "http://185.244.173.142/")!
   
   var token: String {
     get {
@@ -31,8 +33,12 @@ class API: NSObject, URLSessionDataDelegate {
     }
   }
   
+  /// Особая сессия, в которой отправляются запросы к API
   var session: URLSession!
+  
+  /// Настройки сессии для отправки запросов к API
   var sessionConfiguration: URLSessionConfiguration
+  
   var networkActivityCounter = 0
   
   let responseErrors = [NSURLErrorUnknown,
@@ -55,8 +61,6 @@ class API: NSObject, URLSessionDataDelegate {
                         NSURLErrorCannotDecodeRawData,
                         NSURLErrorCannotDecodeContentData,
                         NSURLErrorCannotParseResponse]
-  
-  
   
   
   override init() {
@@ -93,7 +97,7 @@ class API: NSObject, URLSessionDataDelegate {
    return "Connection failed"
    }()*/
   
-  
+  /// Создание самого запроса к API. Отправка же запроса происходит в методе SendRequest
   func makeRequest(method: String, path: String, parameters: [String: Any]? = nil, tokenRequired: Bool = false, serialize: Bool = false) -> URLRequest {
     var comps = URLComponents()
     comps.path = path
@@ -140,53 +144,50 @@ class API: NSObject, URLSessionDataDelegate {
     return request
   }
   
-  
-  func passRequest(request: URLRequest, completion: @escaping ((JsonDictionary) -> Void), fallback: APIFallback? = nil, withoutProcessing: Bool = false) {
-    /*if isReachable {
-     app.mainQueue.addOperation({
-     app.delegate.hideConnectionError()
-     })
-     } else {
-     app.mainQueue.addOperation({
-     app.delegate.showConnectionError()
-     })
-     return
-     }*/
+  ///: Отправка запроса к API
+  /// - Parameters:
+  ///   - request: объект запроса к API
+  ///   - completion: убегающее замыкание, что исполняется после завершения функции. Возвращает ответ в формате JsonDictionary
+  ///   - fallback: обработка возможной ошибки
+  ///   - withoutProcessing: todo
+  func sendRequest(request: URLRequest, completion: @escaping ((JsonDictionary) -> Void), fallback: APIFallback? = nil, withoutProcessing: Bool = false) {
     
+    /// Объект задачи для отправки на сервер. Выполняется в формате замыкания.
     let task = session.dataTask(with: request) { (data, response, error) in
+      
+      // Запуск в основной очереди
       app.mainQueue.addOperation({
         
-        //NSLog("RESPONSE \(response)")
-        //print("\(data)")
-        
+        // Todo: расписать - что здесь, собственно, происходит
         self.decreaseNetworkActivityCounter()
         
+        // Если мы получили какие-либо данные после запроса к серверу, оборачиваем их в константу
         if let responseData = data {
-          //app.delegate.hideConnectionError()
           
+          // Todo: без некой проверки
           if withoutProcessing {
+            
+            // TODO: comment
             if let json = self.parseJSON(data: responseData) as? JsonDictionary {
               completion(json)
             }
+            
+            // Todo: с некой таинственной проверкой 
           } else {
+            
             let processed = self.processJsonDictionary(data: responseData)
+            
+            // Если имеем ошибку, вместо готовго JSON
             if let processedError = processed.0 {
-              /*if processedError.code == APIError.ExpiredToken.code {
-               self.logout()
-               } else {
-               fallback?(processedError)
-               }*/
+              magic(processedError)
+              
+              // В противном случае...  
             } else if let json = processed.1 {
+              
+              // ... отдаём наш итоговый json в убегающее замыкание
               completion(json)
             }
           }
-        } else if let responseError = error as NSError? {
-          /*if responseError.code == NSURLErrorNotConnectedToInternet {
-           app.delegate.showConnectionError()
-           } else {
-           app.delegate.hideConnectionError()
-           fallback?(responseError)
-           }*/
         }
       })
     }
@@ -195,6 +196,7 @@ class API: NSObject, URLSessionDataDelegate {
       self.increaseNetworkActivityCounter()
     })
     
+    // Запуск задачи на выполнение
     task.resume()
   }
   
@@ -206,7 +208,6 @@ class API: NSObject, URLSessionDataDelegate {
     }
   }
   
-  
   func decreaseNetworkActivityCounter() {
     if (networkActivityCounter == 0) { return }
     networkActivityCounter -= 1
@@ -215,16 +216,14 @@ class API: NSObject, URLSessionDataDelegate {
     }
   }
   
-  
-  
   //MARK: - API requests
   
   //MARK: Authorization
   
   func getToken(login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
     let request = self.makeRequest(method: "POST", path: "api/auth/login", parameters: ["login": login, "password": password], serialize: true)
-    self.passRequest(request: request, completion: { (json) in
-      print("GET TOKEN METHOD \(json)")
+    self.sendRequest(request: request, completion: { (json) in
+      magic("GET TOKEN METHOD \(json)")
       if let result = json["result"] as? NSArray {
         if let tokenDict = result[0] as? NSDictionary {
           if let token = tokenDict["accessToken"] as? String {
@@ -310,60 +309,71 @@ class API: NSObject, URLSessionDataDelegate {
   }
   
   /// Регистрация на сервере через API
+  /// - Parameters:
+  ///   - queue: Поток
+  ///   - email: Email пользователя
+  ///   - login: Login пользователя (он же - юзернейм)
+  ///   - password: Пароль
+  ///   - completion: Сбегающее замыкание. Выполняется уже после окончания работы самой функции
+  ///   - fallback: Обработка ошибки внутри функции
   func signup(queue: OperationQueue = app.queue, email: String, login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
     queue.addOperation {
+      
       let params = ["login": login, "password": password, "email": email]
+      
+      //
       let request = self.makeRequest(method: "POST", path: "auth/register", parameters: params, serialize: true)
-      self.passRequest(request: request, completion: { (json) in
-        print("REGISTRATION JSON \(json)")
+      
+      // Отправка запроса к API
+      self.sendRequest(request: request, completion: { (json) in
+        
         if let result = json["result"] as? NSArray {
-          if let resultDict = result[0] as? NSDictionary {
-            if let id = resultDict["id"] as? String {
+          if let resultDictionary = result[0] as? NSDictionary {
+            
+            // В случае если мы получили нормальный ответ от сервера...
+            if let id = resultDictionary["id"] as? String {
+              
+              // ... сохраняем id пользователя в локальное хранилище
               app.userDefaults.set(id, forKey: "userID")
             }
           }
         }
+        //  Устанавливает пароль в локальное хранилище
         app.userDefaults.set(password, forKey: "userPassword")
+        
+        // Завершаем выполнение функции отсутствием какого-либо ответа
         completion()
-      }, fallback: fallback)
+      }, fallback: fallback
+      )
     }
   }
   
-  
-  
-  //MARK: - Question List
-  
   func loadQuestionList(completion: @escaping (([Question]) -> Void), fallback: APIFallback? = nil) {
     let request = self.makeRequest(method: "GET", path: "api/questions", tokenRequired: true)
-    self.passRequest(request: request, completion: { (json) in
-      print("QUESTION LIST JSON \(json)")
-        /*if let result = json["result"] as? NSArray {
-            for dict in result {
-                if let question = dict as? NSDictionary {
-                    let question = ["question"] as? String
-                    let subject = ["subject"] as? String
-                }
-            }
-        }*/
-        let questionList = Question.insertQuestionList(json: json)
-        completion(questionList)
+    self.sendRequest(request: request, completion: { (json) in
+      magic("QUESTION LIST JSON \(json)")
+      /*if let result = json["result"] as? NSArray {
+       for dict in result {
+       if let question = dict as? NSDictionary {
+       let question = ["question"] as? String
+       let subject = ["subject"] as? String
+       }
+       }
+       }*/
+      let questionList = Question.insertQuestionList(json: json)
+      completion(questionList)
     }, fallback: fallback)
   }
   
-  
-  //MARK: - USERS
-  
   func loadUserInfo(id: Int, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
     let request = self.makeRequest(method: "GET", path: "api/users/\(id)", tokenRequired: true)
-    self.passRequest(request: request, completion: { (json) in
-      print("USER JSON \(json)")
+    self.sendRequest(request: request, completion: { (json) in
+      magic("USER JSON \(json)")
       completion()
     }, fallback: fallback)
   }
   
-  
-  //MARK: - JSON
-  
+  // TODO: Не совсем понимаю - зачем вообще это необходимо.
   func processJsonDictionary(data: Data) -> (NSError?, JsonDictionary?) {
     if let jsonData = parseJSON(data: data) as? JsonDictionary {
       let processed = processJsonResponse(response: jsonData)
@@ -373,12 +383,15 @@ class API: NSObject, URLSessionDataDelegate {
     }
   }
   
+  /// Парсинг полученного ответа в формате JSON в наш родной и любимый JsonDictionary (или же в ошибку)
   func processJsonResponse(response: JsonDictionary) -> (NSError?, JsonDictionary) {
-    if let success = response["success"] as? Bool {
-      if success {
+    
+    // TODO: Переписать это дело
+    // Если пришёл статус 201, значит пользователь создан
+    if let statusCode = response["status"] as? Int {
+      if statusCode == 201 {
         return (nil, response)
       } else {
-        print(response)
         return (nil, response)
       }
     } else {
@@ -386,11 +399,13 @@ class API: NSObject, URLSessionDataDelegate {
     }
   }
   
+  /// Превращаем ответ от сервера из Data в Json. В идеале возвращает JsonDictionary.
   func parseJSON(data: Data) -> AnyObject? {
     do {
+      // .mutableContainers: Указывает на то, что массивы и словари создаются как изменяемые объекты.
       return try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as AnyObject?
     } catch let error {
-      //app.log(error: error)
+      magic(error)
       return nil
     }
   }
@@ -400,12 +415,10 @@ class API: NSObject, URLSessionDataDelegate {
       let data = try JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions(rawValue: 0))
       return data
     } catch let error as NSError {
-      //app.log(error: error)
+      magic(error)
       return nil
     }
   }
-  
-  
   
   //MARK: - Helping funcs
   
@@ -416,10 +429,6 @@ class API: NSObject, URLSessionDataDelegate {
     }
     return components.joined(separator: "&")
   }
-  
-  
-  
-  
   
   //MARK: - Session delegate
   
@@ -434,12 +443,5 @@ class API: NSObject, URLSessionDataDelegate {
    }
    }
    }*/
-  
-  
-  
-  
-  
-  
-  
-  
 }
+

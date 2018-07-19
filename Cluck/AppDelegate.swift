@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Magic
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let container = NSPersistentContainer(name: "PetPal")
         container.loadPersistentStores(completionHandler: {
             storeDescription, error in
-            print(storeDescription)
+            magic(storeDescription)
             if let error = error {
                 fatalError("Could load data store: \(error)")
             }

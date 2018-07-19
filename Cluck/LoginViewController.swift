@@ -1,4 +1,5 @@
 import UIKit
+import Magic
 
 class LoginViewController: UIViewController {
   
@@ -24,6 +25,10 @@ class LoginViewController: UIViewController {
     
     view.addGestureRecognizer(tap)
     
+    // Temp
+    passwordTextField.text = "123456"
+    nameTextField.text = "riley_" + String(Int(arc4random_uniform(7177)))
+    emailTextField.text = String("info@info\(Int(arc4random_uniform(7177))).com")
   }
   
   override func didReceiveMemoryWarning() {
@@ -53,18 +58,29 @@ class LoginViewController: UIViewController {
     }
   }
   
+  // Процесс Авторизации/Регистрации при нажатии на кнопку Войти/Зарегистрироваться
   @IBAction func tapEnterButton(_ sender: Any) {
     if nameTextField.isHidden {
+      
+      // Авторизация
       app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
-        print("Completion successful")
+        magic("Completion successful")
+        
+        // Обозначение контролёра, к которому будет совершён переход по окончании автоизационного замыкания
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
+        // Процесс перехода на указанный выше контролёр
         self.present(controller, animated:true, completion:nil)
       })
     } else {
+      
+      // Регистрация
       app.api.signup(email: emailTextField.text!, login: nameTextField.text!, password: passwordTextField.text!, completion: {
-        print("Completion successful")
+        magic("Registration successful")
+        
+        // Обозначение контролёра, к которому будет совершён переход по окончании регистрационного замыкания
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
-        self.present(controller, animated:true, completion:nil)
+        // Процесс перехода на указанный выше контролёр
+        self.present(controller, animated: true, completion: nil)
       })
     }
     
@@ -87,14 +103,14 @@ class LoginViewController: UIViewController {
      let session = URLSession.shared
      session.dataTask(with: request) { (data, response, error) in
      if let response = response {
-     print(response)
+     magic(response)
      }
      if let data = data {
      do {
      let json = try JSONSerialization.jsonObject(with: data, options: [])
-     print(json)
+     magic(json)
      }catch {
-     print(error)
+     magic(error)
      }
      }
      }.resume()*/
