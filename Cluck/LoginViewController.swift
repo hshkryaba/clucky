@@ -24,11 +24,6 @@ class LoginViewController: UIViewController {
     //tap.cancelsTouchesInView = false
     
     view.addGestureRecognizer(tap)
-    
-    // Temp
-    passwordTextField.text = "123456"
-    nameTextField.text = "riley_" + String(Int(arc4random_uniform(7177)))
-    emailTextField.text = String("info@info\(Int(arc4random_uniform(7177))).com")
   }
   
   override func didReceiveMemoryWarning() {
