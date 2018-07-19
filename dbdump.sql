@@ -153,7 +153,6 @@ CREATE TABLE `users` (
   `status` enum('New','Active','Disabled','Reseting') NOT NULL DEFAULT 'New',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `is_superuser` boolean DEFAULT FALSE,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`),
   UNIQUE KEY `email` (`email`)
