@@ -18,6 +18,7 @@ import com.studios.uio443.cluck.services.DataService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+//TODO переделать во фрагмент и засунуть в LoginActivity layout activity_start
 public class SignupActivity extends AppCompatActivity {
 
     //используем butterknife

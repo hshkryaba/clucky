@@ -5,23 +5,37 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--android:label="@string/app_name"-->
         <activity
             android:name=".ui.activities.LoginActivity"
-            android:label="@string/app_name">
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <data android:scheme="vk6635663" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.SignupActivity" />
         <activity android:name=".ui.activities.ModeSelectActivity" />
         <activity android:name=".ui.activities.AboutPageActivity" />
+
+        <activity
+            android:name="com.vk.sdk.VKServiceActivity"
+            android:label="ServiceActivity"
+            android:theme="@style/VK.Transparent" />
+
     </application>
 </manifest>
