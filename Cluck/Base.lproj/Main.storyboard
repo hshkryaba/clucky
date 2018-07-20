@@ -150,7 +150,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="372" y="51"/>
+            <point key="canvasLocation" x="418" y="437"/>
         </scene>
         <!--Question List Table View Controller-->
         <scene sceneID="5tQ-eK-TLT">
@@ -272,7 +272,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qqh-Vf-Kt3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1473" y="51"/>
+            <point key="canvasLocation" x="1473" y="16"/>
         </scene>
         <!--Add Question View Controller-->
         <scene sceneID="CqF-s9-WbB">
@@ -424,7 +424,7 @@
                     <viewLayoutGuide key="safeArea" id="hc0-bH-knb"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="2362" y="51"/>
+            <point key="canvasLocation" x="2599" y="842"/>
         </scene>
         <!--Side Menu Table View Controller-->
         <scene sceneID="B58-T3-e3Z">
@@ -611,7 +611,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </button>
             </objects>
-            <point key="canvasLocation" x="2422" y="842"/>
+            <point key="canvasLocation" x="2598" y="16"/>
         </scene>
     </scenes>
     <resources>
@@ -622,6 +622,6 @@
         <image name="vk" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0bP-HW-WDZ"/>
+        <segue reference="rua-eb-MAL"/>
     </inferredMetricsTieBreakers>
 </document>

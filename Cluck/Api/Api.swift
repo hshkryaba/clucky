@@ -242,47 +242,6 @@ class API: NSObject, URLSessionDataDelegate {
     }, fallback: fallback)
   }
   
-  /*func loginPushRegistration(completion: @escaping APICompletion) {
-   if #available(iOS 8.0, *) {
-   if app.shared.isRegisteredForRemoteNotifications {
-   if let deviceToken = app.ud.object(forKey: kPushToken) as? String {
-   app.api.profile.registerDevice(token: deviceToken, completion: {
-   completion()
-   }, fallback: { (error) in
-   app.log(error: error)
-   completion()
-   })
-   } else {
-   app.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
-   app.shared.registerForRemoteNotifications()
-   completion()
-   }
-   } else {
-   app.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
-   app.shared.registerForRemoteNotifications()
-   completion()
-   }
-   } else {
-   let types = app.shared.enabledRemoteNotificationTypes()
-   if types == .none {
-   app.shared.registerForRemoteNotifications(matching: [.sound, .alert, .badge])
-   completion()
-   } else {
-   if let deviceToken = app.ud.object(forKey: "refreshToken") as? String {
-   app.api.profile.registerDevice(token: deviceToken, completion: {
-   completion()
-   }, fallback: { (error) in
-   app.log(error: error)
-   completion()
-   })
-   } else {
-   app.shared.registerForRemoteNotifications(matching: [.sound, .alert, .badge])
-   completion()
-   }
-   }
-   }
-   }*/
-  
   func logout(queue: OperationQueue? = app.queue) {
     token = ""
     
