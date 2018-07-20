@@ -13,9 +13,10 @@ class LoginViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Temp
-    emailTextField.text     = "info@info.com"
-    passwordTextField.text  = "123456"
+    // Temporary for testing registeration page
+    // emailTextField.text     = "info@info.com"
+    // passwordTextField.text  = "123456"
+    // nameTextField.text      = "someExample"  
     
     nameTextField.isHidden = true
     loginButton.layer.cornerRadius = 5
@@ -59,7 +60,7 @@ class LoginViewController: UIViewController {
   
   // Процесс Авторизации/Регистрации при нажатии на кнопку Войти/Зарегистрироваться
   @IBAction func tapEnterButton(_ sender: Any) {
-
+    
     // Обозначение контролёра, к которому будет совершён переход по окончании автоизационного замыкания
     let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
 
@@ -71,7 +72,7 @@ class LoginViewController: UIViewController {
         // Процесс перехода на указанный выше контролёр
         self.present(controller, animated:true, completion:nil)
       })
-
+      
     } else {
       // Регистрация
       app.api.signup(email: emailTextField.text!, login: nameTextField.text!, password: passwordTextField.text!, completion: {

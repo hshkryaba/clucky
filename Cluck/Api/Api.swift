@@ -13,8 +13,7 @@ public typealias JsonArray = [Any]
 var user = User()
 
 class API: NSObject, URLSessionDataDelegate {
-  let baseURL = URL(string: "http://185.244.173.142/api/")!
-  // let baseURL = URL(string: "http://185.244.173.142/")!
+  let baseURL = URL(string: "http://185.244.173.142/")!
   
   /// Авторизационный токен. Хранится в локальном хранилище (userDefaults)
   var token: String {
@@ -103,8 +102,8 @@ class API: NSObject, URLSessionDataDelegate {
     
     // Если запрос на получение данных
     if (method == "GET" ) {
-      if let bParameters = parameters {
-        urlComponents.query = serializeParameters(parameters: bParameters)
+      if let tempParametersConstant = parameters {
+        urlComponents.query = serializeParameters(parameters: tempParametersConstant)
       }
     }
     
@@ -122,14 +121,14 @@ class API: NSObject, URLSessionDataDelegate {
     // Если запрос на отправку данных
     if (method == "POST" || method == "PUT") {
       
-      if let bParameters = parameters {
+      if let tempParametersConstant = parameters {
         if (serialize) {
           
           // Задаём особенности отправки данных. Обычный формат.
           request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
           
           // Само тело запроса. 
-          request.httpBody = serializeParameters(parameters: bParameters).data(using: .utf8, allowLossyConversion: true)
+          request.httpBody = serializeParameters(parameters: tempParametersConstant).data(using: .utf8, allowLossyConversion: true)
           
           //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
         
@@ -137,7 +136,7 @@ class API: NSObject, URLSessionDataDelegate {
           
           // Задаём особенности отправки данных. Отправка данных в формате JSON.
           request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-          request.httpBody = collectJSONData(parameters: bParameters)
+          request.httpBody = collectJSONData(parameters: tempParametersConstant)
           //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
         }
       }
@@ -172,13 +171,13 @@ class API: NSObject, URLSessionDataDelegate {
       // Запуск в основной очереди
       app.mainQueue.addOperation({
         
-        // Todo: расписать - что здесь, собственно, происходит
+        // TODO: расписать - что здесь, собственно, происходит
         self.decreaseNetworkActivityCounter()
         
         // Если мы получили какие-либо данные после запроса к серверу, оборачиваем их в константу
         if let responseData = data {
           
-          // Todo: без некой проверки
+          // TODO: без некой проверки
           if withoutProcessing {
             
             // TODO: comment
@@ -186,7 +185,7 @@ class API: NSObject, URLSessionDataDelegate {
               completion(json)
             }
             
-            // Todo: с некой таинственной проверкой 
+            // TODO: с некой таинственной проверкой 
           } else {
             
             let processed = self.processJsonDictionary(data: responseData)
@@ -197,7 +196,7 @@ class API: NSObject, URLSessionDataDelegate {
               
               // В противном случае...  
             } else if let json = processed.1 {
-              
+              magic(json)
               // ... отдаём наш итоговый json в убегающее замыкание
               completion(json)
             }
@@ -312,7 +311,7 @@ class API: NSObject, URLSessionDataDelegate {
       let params = ["login": login, "password": password, "email": email]
       
       //
-      let request = self.makeRequest(method: "POST", path: "auth/register", parameters: params, serialize: true)
+      let request = self.makeRequest(method: "POST", path: "api/auth/register", parameters: params, serialize: true)
       
       // Отправка запроса к API
       self.sendRequest(request: request, completion: { (json) in
@@ -384,6 +383,9 @@ class API: NSObject, URLSessionDataDelegate {
   
   /// Превращаем ответ от сервера из Data в Json. В идеале возвращает JsonDictionary.
   func parseJSON(data: Data) -> AnyObject? {
+    
+    magic(data)
+    
     do {
       // .mutableContainers: Указывает на то, что массивы и словари создаются как изменяемые объекты.
       return try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as AnyObject?
