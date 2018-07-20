@@ -55,25 +55,24 @@ class LoginViewController: UIViewController {
   
   // Процесс Авторизации/Регистрации при нажатии на кнопку Войти/Зарегистрироваться
   @IBAction func tapEnterButton(_ sender: Any) {
+
+    // Обозначение контролёра, к которому будет совершён переход по окончании автоизационного замыкания
+    let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
+
     if nameTextField.isHidden {
-      
       // Авторизация
       app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
         magic("Completion successful")
         
-        // Обозначение контролёра, к которому будет совершён переход по окончании автоизационного замыкания
-        let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
         // Процесс перехода на указанный выше контролёр
         self.present(controller, animated:true, completion:nil)
       })
+
     } else {
-      
       // Регистрация
       app.api.signup(email: emailTextField.text!, login: nameTextField.text!, password: passwordTextField.text!, completion: {
         magic("Registration successful")
         
-        // Обозначение контролёра, к которому будет совершён переход по окончании регистрационного замыкания
-        let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
         // Процесс перехода на указанный выше контролёр
         self.present(controller, animated: true, completion: nil)
       })
