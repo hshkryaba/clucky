@@ -13,6 +13,10 @@ class LoginViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // Temp
+    emailTextField.text     = "info@info.com"
+    passwordTextField.text  = "123456"
+    
     nameTextField.isHidden = true
     loginButton.layer.cornerRadius = 5
     //passwordTextField.isSecureTextEntry = true - done through main storyboard
@@ -61,7 +65,7 @@ class LoginViewController: UIViewController {
 
     if nameTextField.isHidden {
       // Авторизация
-      app.api.login(login: emailTextField.text!, password: passwordTextField.text!, completion: {
+      app.api.login(username: emailTextField.text!, password: passwordTextField.text!, completion: {
         magic("Completion successful")
         
         // Процесс перехода на указанный выше контролёр

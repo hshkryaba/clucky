@@ -3,8 +3,8 @@ import UIKit
 import SystemConfiguration
 import Magic
 
-typealias APICompletion = (() -> Void)
-typealias APIFallback = ((Error) -> Void)
+typealias APICompletion     = (() -> Void)
+typealias APIFallback       = ((Error) -> Void)
 typealias APIJsonCompletion = ((_ data: JsonDictionary) -> Void)
 
 public typealias JsonDictionary = [String: Any]
@@ -12,12 +12,11 @@ public typealias JsonArray = [Any]
 
 var user = User()
 
-
-
 class API: NSObject, URLSessionDataDelegate {
   let baseURL = URL(string: "http://185.244.173.142/api/")!
   // let baseURL = URL(string: "http://185.244.173.142/")!
   
+  /// Авторизационный токен. Хранится в локальном хранилище (userDefaults)
   var token: String {
     get {
       if let t = app.userDefaults.object(forKey: "token") as? String {
@@ -69,9 +68,7 @@ class API: NSObject, URLSessionDataDelegate {
     super.init()
     session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: .main)
   }
-  
-  //MARK: - HTTP Client
-  
+
   var isReachable: Bool {
     var zeroAddress = sockaddr_in()
     zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
@@ -92,63 +89,81 @@ class API: NSObject, URLSessionDataDelegate {
     return (isReachable && !needsConnection)
   }
   
-  /*lazy var unreachableError: NSError = {
-   return "Connection failed"
-   }()*/
-  
+  // TODO: Вынести в сервис
   /// Создание самого запроса к API. Отправка же запроса происходит в методе SendRequest
+  /// - Parameters:
+  ///   - method: Тип запроса: GET, POST, PUT, DELETE и так далее
+  ///   - path: Адрес куда в дальнейшем будет отправлен запрос
+  ///   - tokenRequired: Для некоторых запросов не требуется авторизационный токен
+  ///   - serialize: TODO: дописать
   func makeRequest(method: String, path: String, parameters: [String: Any]? = nil, tokenRequired: Bool = false, serialize: Bool = false) -> URLRequest {
-    var comps = URLComponents()
-    comps.path = path
     
+    var urlComponents   = URLComponents()
+    urlComponents.path  = path
+    
+    // Если запрос на получение данных
     if (method == "GET" ) {
       if let bParameters = parameters {
-        comps.query = serializeParameters(parameters: bParameters)
+        urlComponents.query = serializeParameters(parameters: bParameters)
       }
     }
     
-    let requestURL = comps.url(relativeTo: baseURL)!
-    var request = URLRequest(url: requestURL)
-    request.httpMethod = method
+    /// Наш базоый адрес API
+    let requestURL      = urlComponents.url(relativeTo: baseURL)!
     
-    //Natali added
-    //request.setValue("ios-2.8.5", forHTTPHeaderField: "X-APP")
+    /// Объект запроса...
+    var request         = URLRequest(url: requestURL)
+    // ... с установленным методом отправки данных
+    request.httpMethod  = method
     
+    // Natali added
+    // request.setValue("ios-2.8.5", forHTTPHeaderField: "X-APP")
+    
+    // Если запрос на отправку данных
     if (method == "POST" || method == "PUT") {
+      
       if let bParameters = parameters {
         if (serialize) {
+          
+          // Задаём особенности отправки данных. Обычный формат.
           request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+          
+          // Само тело запроса. 
           request.httpBody = serializeParameters(parameters: bParameters).data(using: .utf8, allowLossyConversion: true)
+          
           //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
+        
         } else {
+          
+          // Задаём особенности отправки данных. Отправка данных в формате JSON.
           request.setValue("application/json", forHTTPHeaderField: "Content-Type")
           request.httpBody = collectJSONData(parameters: bParameters)
           //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
         }
       }
+      
+      // Указание длины запроса
       if let length = request.httpBody?.count {
         request.setValue("\(length)", forHTTPHeaderField: "Content-Length")
       }
     }
     
+    // Если API требует наличие токена для совершения запроса - передаём его
     if (tokenRequired) {
       request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
     
-    /*if let authData = "\(authLogin):\(authPassword)".data(using: .utf8) {
-     let authString = authData.base64EncodedString()
-     request.setValue("Basic \(authString)", forHTTPHeaderField: "Authorization")
-     }*/
-    
     return request
   }
   
-  ///: Отправка запроса к API
+  
+  // TODO: Вынести в сервис
+  /// Отправка запроса к API
   /// - Parameters:
   ///   - request: объект запроса к API
   ///   - completion: убегающее замыкание, что исполняется после завершения функции. Возвращает ответ в формате JsonDictionary
   ///   - fallback: обработка возможной ошибки
-  ///   - withoutProcessing: todo
+  ///   - withoutProcessing: TODO
   func sendRequest(request: URLRequest, completion: @escaping ((JsonDictionary) -> Void), fallback: APIFallback? = nil, withoutProcessing: Bool = false) {
     
     /// Объект задачи для отправки на сервер. Выполняется в формате замыкания.
@@ -217,10 +232,19 @@ class API: NSObject, URLSessionDataDelegate {
   
   //MARK: - API requests
   
-  //MARK: Authorization
-  
-  func getToken(login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
-    let request = self.makeRequest(method: "POST", path: "api/auth/login", parameters: ["login": login, "password": password], serialize: true)
+  /// Получение авторизационного токена, для использования в последующих запросах
+  /// - Parameters:
+  ///   - username: Имя пользователя (юзернейм/логин)
+  ///   - password: Пароль пользователя
+  ///   - completion: Сбегающее замыкание, что исполняется после завершения функции. Возвращает ответ в формате JsonDictionary
+  ///   - fallback: Обработка возможной ошибки
+  func getToken(username: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
+    
+    
+    let request = self.makeRequest(method: "POST", path: "api/auth/login", parameters: ["login": username, "password": password], serialize: true)
+    
+    
+    
     self.sendRequest(request: request, completion: { (json) in
       magic("GET TOKEN METHOD \(json)")
       if let result = json["result"] as? NSArray {
@@ -234,8 +258,16 @@ class API: NSObject, URLSessionDataDelegate {
     }, fallback: fallback)
   }
   
-  func login(login: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
-    getToken(login: login, password: password, completion: {
+  /// Авторизация
+  /// - Parameters:
+  ///   - username: Логин пользователя
+  ///   - password: Пароль пользователя
+  ///   - completion: Сбегающее замыкание, что исполняется после завершения функции. Возвращает ответ в формате JsonDictionary
+  ///   - fallback: Обработка возможной ошибки
+  func login(username: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
+    
+    
+    getToken(username: username, password: password, completion: {
       //self.createInitUser()
       //self.loginPushRegistration(completion: completion)
       completion()
@@ -310,14 +342,7 @@ class API: NSObject, URLSessionDataDelegate {
     let request = self.makeRequest(method: "GET", path: "api/questions", tokenRequired: true)
     self.sendRequest(request: request, completion: { (json) in
       magic("QUESTION LIST JSON \(json)")
-      /*if let result = json["result"] as? NSArray {
-       for dict in result {
-       if let question = dict as? NSDictionary {
-       let question = ["question"] as? String
-       let subject = ["subject"] as? String
-       }
-       }
-       }*/
+
       let questionList = Question.insertQuestionList(json: json)
       completion(questionList)
     }, fallback: fallback)
@@ -377,29 +402,17 @@ class API: NSObject, URLSessionDataDelegate {
       return nil
     }
   }
-  
-  //MARK: - Helping funcs
-  
+
+  /// Вспомогательный метод для обработки первоначальных данных перед отправкой запроса на сервер
   func serializeParameters(parameters: [String: Any]) -> String {
     var components = [String]()
+    
+    // Приводим входящие данные в формат: ключ-значение
     for (key, value) in parameters {
       components.append("\(key)=\(value)")
     }
+    
     return components.joined(separator: "&")
   }
-  
-  //MARK: - Session delegate
-  
-  /*func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-   if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic) {
-   let credential = URLCredential(user: authLogin, password: authPassword, persistence: URLCredential.Persistence.permanent)
-   completionHandler(URLSession.AuthChallengeDisposition.useCredential, credential)
-   } else if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust) {
-   if let serverTrust = challenge.protectionSpace.serverTrust {
-   let credential = URLCredential(trust: serverTrust)
-   completionHandler(URLSession.AuthChallengeDisposition.useCredential, credential)
-   }
-   }
-   }*/
 }
 
