@@ -416,9 +416,5 @@ class API: NSObject, URLSessionDataDelegate {
     
     return components.joined(separator: "&")
   }
-  
-
-  
-
 }
 

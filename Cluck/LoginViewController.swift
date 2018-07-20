@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
     
     // Обозначение контролёра, к которому будет совершён переход по окончании автоизационного замыкания
     let controller = self.storyboard?.instantiateViewController(withIdentifier: "QuestionListTableViewController") as! QuestionListTableViewController
-    
+
     if nameTextField.isHidden {
       // Авторизация
       app.api.login(username: emailTextField.text!, password: passwordTextField.text!, completion: {
@@ -84,37 +84,37 @@ class LoginViewController: UIViewController {
     }
     
     // TODO: credentials encoded in base64
-    //    let username = emailTextField.text!
-    //    let password = passwordTextField.text!
-    //    
-    //    let Url = String(format: "http://cluck-app.org/api/auth/login")
-    //    guard let serviceUrl = URL(string: Url) else { return }
-    //    
-    //    // let loginParams = String(format: LOGIN_PARAMETERS1, "test", "Hi World")
-    //    
-    //    let parameterDictionary = ["login" : username, "password" : password]
-    //    var request = URLRequest(url: serviceUrl)
-    //    request.httpMethod = "POST"
-    //    request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-    //    guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
-    //      return
-    //    }
-    //    request.httpBody = httpBody
-    //    
-    //    let session = URLSession.shared
-    //    session.dataTask(with: request) { (data, response, error) in
-    //      if let response = response {
-    //        magic(response)
-    //      }
-    //      if let data = data {
-    //        do {
-    //          let json = try JSONSerialization.jsonObject(with: data, options: [])
-    //          magic(json)
-    //        }catch {
-    //          magic(error)
-    //        }
-    //      }
-    //      }.resume()
+//    let username = emailTextField.text!
+//    let password = passwordTextField.text!
+//    
+//    let Url = String(format: "http://cluck-app.org/api/auth/login")
+//    guard let serviceUrl = URL(string: Url) else { return }
+//    
+//    // let loginParams = String(format: LOGIN_PARAMETERS1, "test", "Hi World")
+//    
+//    let parameterDictionary = ["login" : username, "password" : password]
+//    var request = URLRequest(url: serviceUrl)
+//    request.httpMethod = "POST"
+//    request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+//    guard let httpBody = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
+//      return
+//    }
+//    request.httpBody = httpBody
+//    
+//    let session = URLSession.shared
+//    session.dataTask(with: request) { (data, response, error) in
+//      if let response = response {
+//        magic(response)
+//      }
+//      if let data = data {
+//        do {
+//          let json = try JSONSerialization.jsonObject(with: data, options: [])
+//          magic(json)
+//        }catch {
+//          magic(error)
+//        }
+//      }
+//      }.resume()
   }
   
   /// Забыл пароль, друг?
