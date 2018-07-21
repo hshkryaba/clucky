@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.studios.uio443.cluck.presentation">
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+  <application
+      android:allowBackup="true"
+      android:name=".Application"
+      android:label="@string/app_name"
+      android:theme="@style/AppTheme"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:supportsRtl="true" >
+
+    <activity
+        android:name=".view.activity.LoginActivity"
+        android:windowSoftInputMode="adjustResize">
+      <intent-filter>
+        <data android:scheme="vk6635663" />
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.BROWSABLE" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:name=".view.activity.SignupActivity" />
+    <activity android:name=".view.activity.ModeSelectActivity" />
+    <activity android:name=".view.activity.AboutPageActivity" />
+
+    <activity
+        android:name="com.vk.sdk.VKServiceActivity"
+        android:label="ServiceActivity"
+        android:theme="@style/VK.Transparent" />
+
+    <activity
+        android:name=".view.activity.MainActivity"
+        android:label="@string/app_name">
+    </activity>
+
+    <activity
+        android:name=".view.activity.UserListActivity"
+        android:label="@string/activity_title_user_list">
+    </activity>
+
+    <activity
+        android:name=".view.activity.UserDetailsActivity"
+        android:label="@string/activity_title_user_details">
+    </activity>
+  </application>
+
+</manifest>

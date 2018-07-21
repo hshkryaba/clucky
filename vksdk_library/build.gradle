@@ -1,0 +1,23 @@
+apply plugin: 'com.android.library'
+
+android {
+    def config = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion config["androidCompileSdkVersion"]
+    buildToolsVersion config["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion config["androidMinSdkVersion"]
+        targetSdkVersion config["androidTargetSdkVersion"]
+    }
+}
+
+configurations {
+    // Used for correct javadoc generation
+    javadocDeps
+}
+
+dependencies {
+    javadocDeps "com.android.support:support-annotations:$androidSupportVersion"
+    implementation "com.android.support:support-v4:$androidSupportVersion"
+}

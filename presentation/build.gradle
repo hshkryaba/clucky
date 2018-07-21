@@ -1,0 +1,105 @@
+apply plugin: 'com.android.application'
+
+android {
+  def config = rootProject.extensions.getByName("ext")
+
+  compileSdkVersion config["androidCompileSdkVersion"]
+  buildToolsVersion config["androidBuildToolsVersion"]
+
+  defaultConfig {
+    minSdkVersion config["androidMinSdkVersion"]
+    targetSdkVersion config["androidTargetSdkVersion"]
+
+    applicationId config["androidApplicationId"]
+    versionCode config["androidVersionCode"]
+    versionName config["androidVersionName"]
+    testInstrumentationRunner config["testInstrumentationRunner"]
+    testApplicationId config["testApplicationId"]
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  packagingOptions {
+    exclude 'LICENSE.txt'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/ASL2.0'
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENSE'
+  }
+
+  lintOptions {
+    quiet true
+    abortOnError false
+    ignoreWarnings true
+    disable 'InvalidPackage'            //Some libraries have issues with this.
+    disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+    disable 'IconDensities'             //For testing purpose. This is safe to remove.
+    disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file('../buildsystem/debug.keystore')
+      storePassword 'android'
+      keyAlias 'androiddebugkey'
+      keyPassword 'android'
+    }
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.debug
+    }
+
+    debug {
+      signingConfig signingConfigs.debug
+      debuggable true
+      jniDebuggable true
+    }
+  }
+}
+
+dependencies {
+  def presentationDependencies = rootProject.ext.presentationDependencies
+  def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+  def developmentDependencies = rootProject.ext.developmentDependencies
+
+  implementation project(':domain')
+  implementation project(':data')
+
+  //Android SDK - https://github.com/VKCOM/vk-android-sdk
+  //SDK упрощает использование API ВКонтакте в Android-приложениях
+  implementation project(':vksdk_library')
+
+  implementation presentationDependencies.androidSupport
+  implementation presentationDependencies.constraintLayout
+  implementation presentationDependencies.recyclerView
+  implementation presentationDependencies.design
+
+  annotationProcessor presentationDependencies.daggerCompiler
+  annotationProcessor presentationDependencies.daggerAndroidProcessor
+  implementation presentationDependencies.dagger
+  implementation presentationDependencies.daggerAndroid
+  implementation presentationDependencies.butterKnife
+  annotationProcessor presentationDependencies.butterKnifeCompiler
+  implementation presentationDependencies.rxJava
+  implementation presentationDependencies.rxAndroid
+  compileOnly presentationDependencies.javaxAnnotation
+  implementation presentationDependencies.arrow
+
+  testImplementation presentationTestDependencies.junit
+  androidTestImplementation presentationTestDependencies.runner
+  androidTestImplementation presentationTestDependencies.mockito
+  androidTestImplementation presentationTestDependencies.dexmaker
+  androidTestImplementation presentationTestDependencies.dexmakerMockito
+  androidTestImplementation presentationTestDependencies.espresso
+  androidTestImplementation presentationTestDependencies.testingSupportLib
+
+  //Development
+  implementation developmentDependencies.leakCanary
+}
