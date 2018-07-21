@@ -30,21 +30,12 @@ class LoginViewController: UIViewController {
     
     view.addGestureRecognizer(tap)
   }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    
-  }
-  
-  // MARK: Functions
-  
+
   //Calls this function when the tap is recognized.
   @objc func dismissKeyboard() {
     //Causes the view (or one of its embedded text fields) to resign the first responder status.
     view.endEditing(true)
   }
-  
-  // MARK: IBAction functions
   
   /// Нажатие на сегмент выбора "Вход/Регистрация"
   @IBAction func tapLoginSegment(_ sender: Any) {
