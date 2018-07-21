@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Android Clean Architecture</string>
-  <string name="url">http://www.android10.org/</string>
+  <string name="app_name">Clucky</string>
+  <string name="url">http://185.244.173.142/</string>
 
   <string name="activity_title_user_list">Users List</string>
   <string name="activity_title_user_details">User Details</string>
@@ -19,4 +19,39 @@
   <string name="exception_message_generic">There was an application error</string>
   <string name="exception_message_no_connection">There is no internet connection</string>
   <string name="exception_message_user_not_found">Cannot retrieve user data. Check your internet connection</string>
+
+  <!--Clucky-->
+  <string name="action_settings">Settings</string>
+  <string name="our_team">Our Team</string>
+  <string name="about_company">About Company</string>
+  <string name="text_about_company">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam auctor dui eros, ut sollicitudin neque accumsan non. Nullam dictum purus ut nisi blandit congue. Duis ultricies lobortis sapien, sed mollis dui congue id. Phasellus varius quam orci, id viverra nisl vestibulum eu. Sed viverra dapibus magna, a dignissim est rhoncus non.</string>
+  <string name="text_our_team">У нас есть специалисты для решения любой задачи, от веб-сайтов до сложных бизнес-систем. Мы осуществляем проекты любого масштаба и сложности. У нас есть специалисты для решения любой задачи, от веб-сайтов до сложных бизнес-систем. Мы осуществляем проекты любого масштаба и сложности.</string>
+  <string name="answer_a_question">Answer A Question</string>
+  <string name="ask_a_question">Ask A Question</string>
+  <string name="login">Login</string>
+  <string name="no_account_yet_create_one">No account yet? Create one</string>
+  <string name="password">Password</string>
+  <string name="email">Email</string>
+  <string name="username">Username</string>
+  <string name="re_enter_password">Re-enter Password</string>
+  <string name="create_account">Create Account</string>
+  <string name="already_a_member_login">Already a member? Login</string>
+  <string name="authenticating">Authenticating…</string>
+  <string name="login_failed">LoginActivity failed</string>
+  <string name="enter_valid_email">enter a valid email address</string>
+  <string name="password_length_error">between 4 and 10 alphanumeric characters</string>
+  <string name="creating_acctount">Creating Account…</string>
+  <string name="name_length_error">at least 3 characters</string>
+  <string name="password_do_not_match">Password Do not match</string>
+
+  //ID приложения
+  <integer name="com_vk_sdk_AppId">6635663</integer>
+  <!-- Strings related to login -->
+  <string name="action_sign_in_short">Sign in with VK</string>
+  <string name="action_sign_in_force">Force OAuth</string>
+  <string name="continue_using_app">Continue using test application</string>
+  <string name="logout">Logout</string>
+  <string name="vk">vk</string>
+
+
 </resources>

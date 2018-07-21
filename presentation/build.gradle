@@ -50,8 +50,16 @@ android {
   }
 
   buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.debug
+    }
+
     debug {
       signingConfig signingConfigs.debug
+      debuggable true
+      jniDebuggable true
     }
   }
 }
@@ -64,17 +72,28 @@ dependencies {
   implementation project(':domain')
   implementation project(':data')
 
+  //Android SDK - https://github.com/VKCOM/vk-android-sdk
+  //SDK упрощает использование API ВКонтакте в Android-приложениях
+  implementation project(':vksdk_library')
+
+  implementation presentationDependencies.androidSupport
+  implementation presentationDependencies.constraintLayout
+  implementation presentationDependencies.recyclerView
+  implementation presentationDependencies.design
+
   annotationProcessor presentationDependencies.daggerCompiler
   annotationProcessor presentationDependencies.daggerAndroidProcessor
   implementation presentationDependencies.dagger
   implementation presentationDependencies.daggerAndroid
   implementation presentationDependencies.butterKnife
-  implementation presentationDependencies.recyclerView
+  annotationProcessor presentationDependencies.butterKnifeCompiler
   implementation presentationDependencies.rxJava
   implementation presentationDependencies.rxAndroid
   compileOnly presentationDependencies.javaxAnnotation
-  implementation domainDependencies.arrow
+  implementation presentationDependencies.arrow
 
+  testImplementation presentationTestDependencies.junit
+  androidTestImplementation presentationTestDependencies.runner
   androidTestImplementation presentationTestDependencies.mockito
   androidTestImplementation presentationTestDependencies.dexmaker
   androidTestImplementation presentationTestDependencies.dexmakerMockito

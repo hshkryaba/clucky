@@ -23,9 +23,9 @@ import com.studios.uio443.cluck.data.repository.UserDataRepository;
 import com.studios.uio443.cluck.domain.executor.PostExecutionThread;
 import com.studios.uio443.cluck.domain.executor.ThreadExecutor;
 import com.studios.uio443.cluck.domain.repository.UserRepository;
-import com.studios.uio443.cluck.presentation.AndroidApplication;
+import com.studios.uio443.cluck.presentation.Application;
 import com.studios.uio443.cluck.presentation.UIThread;
-import com.studios.uio443.cluck.presentation.navigation.Navigator;
+
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -35,9 +35,9 @@ import javax.inject.Singleton;
  */
 @Module
 public class ApplicationModule {
-  private final AndroidApplication application;
+  private final Application application;
 
-  public ApplicationModule(AndroidApplication application) {
+  public ApplicationModule(Application application) {
     this.application = application;
   }
 

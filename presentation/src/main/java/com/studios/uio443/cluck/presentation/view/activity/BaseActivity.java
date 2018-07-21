@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import com.studios.uio443.cluck.presentation.AndroidApplication;
+import com.studios.uio443.cluck.presentation.Application;
 import com.studios.uio443.cluck.presentation.internal.di.components.ApplicationComponent;
 import com.studios.uio443.cluck.presentation.internal.di.modules.ActivityModule;
 import com.studios.uio443.cluck.presentation.navigation.Navigator;
@@ -41,7 +41,7 @@ public abstract class BaseActivity extends Activity {
    * @return {@link com.studios.uio443.cluck.presentation.internal.di.components.ApplicationComponent}
    */
   protected ApplicationComponent getApplicationComponent() {
-    return ((AndroidApplication) getApplication()).getApplicationComponent();
+    return ((Application) getApplication()).getApplicationComponent();
   }
 
   /**
