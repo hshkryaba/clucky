@@ -1,33 +1,29 @@
 package com.studios.uio443.cluck.presentation.view.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.studios.uio443.cluck.presentation.R;
-import com.studios.uio443.cluck.presentation.model.User;
-import com.studios.uio443.cluck.presentation.services.DataService;
-import com.studios.uio443.cluck.presentation.view.activity.LoginActivity;
-import com.studios.uio443.cluck.presentation.view.activity.ModeSelectActivity;
+import com.studios.uio443.cluck.presentation.mvp.SignupFragmentVP;
+import com.studios.uio443.cluck.presentation.presenter.PresenterManager;
+import com.studios.uio443.cluck.presentation.presenter.SignupFragmentPresenter;
+import com.studios.uio443.cluck.presentation.util.Consts;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SignupFragment extends Fragment {
+public class SignupFragment extends BaseFragment implements SignupFragmentVP.View {
+    SignupFragmentPresenter presenter;
 
-    //используем butterknife
-    //https://jakewharton.github.io/butterknife/
-    //Обзор Butter Knife - https://startandroid.ru/ru/blog/470-butter-knife.html
     @BindView(R.id.signup_username_layout)
     TextInputLayout signupUsernameLayout;
     @BindView(R.id.signup_email_layout)
@@ -54,73 +50,89 @@ public class SignupFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_signup, container, false);
-        ButterKnife.bind(this, view);
-
-        btnSignup.setOnClickListener(v -> signup());
-
-        linkLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-        });
-
-        return view;
+    protected int getLayout() {
+        return R.layout.fragment_signup;
     }
 
-    public void signup() {
-        Log.d("signup", "Signing Up");
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(Consts.TAG, "LoginFragment.onCreateView");
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
 
-        if (!validate()) {
-            onSignupFailed();
-            return;
+        if (savedInstanceState == null) {
+            presenter = new SignupFragmentPresenter();
+        } else {
+            presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
+        presenter.bindView(this);
 
-        btnSignup.setEnabled(false);
+        btnSignup.setOnClickListener(v -> {
+            String username = signupUsernameInput.getText().toString();
+            String email = signupEmailInput.getText().toString();
+            String password = signupPasswordInput.getText().toString();
+            //String reEnterPassword = signupReEnterPasswordInput.getText().toString();
 
-        String username = signupUsernameInput.getText().toString();
-        String email = signupEmailInput.getText().toString();
-        String password = signupPasswordInput.getText().toString();
-        String reEnterPassword = signupReEnterPasswordInput.getText().toString();
+            presenter.onSignup(username, email, password);
+        });
 
-        // TODO: Implement your own signup logic here.
+        linkLogin.setOnClickListener(v -> {
+            presenter.linkLogin();
+            getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        });
+    }
 
-        DataService dataService = DataService.getInstance();
-        User user = dataService.signup(email, password, username);
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        if (user == null) {
-            onSignupFailed();
-            return;
-        }
+        presenter.bindView(this);
+    }
 
-        final ProgressDialog progressDialog = new ProgressDialog(getContext(), R.style.AppTheme);
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(Consts.TAG, "NoteFragment.onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(presenter, outState);
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(Consts.TAG, "NoteFragment.onPause");
+        super.onPause();
+
+        presenter.unbindView();
+    }
+
+    @Override
+    public void progressDialog() {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.creating_acctount));
+        progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
 
         new android.os.Handler().postDelayed(
                 () -> {
-                    // On complete call either onSignupSuccess or onSignupFailed
-                    // depending on success
-                    onSignupSuccess();
-                    // onSignupFailed();
+                    // On complete call either onLoginSuccess or onLoginFailed
+                    presenter.onSignupSuccess();
+                    // onLoginFailed();
                     progressDialog.dismiss();
                 }, 3000);
     }
 
-    public void onSignupSuccess() {
-        btnSignup.setEnabled(true);
-        Intent intent = new Intent(getContext(), ModeSelectActivity.class);
-        startActivity(intent);
-    }
-
-    public void onSignupFailed() {
-        Toast.makeText(getContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
-
+    @Override
+    public void showSignupSuccess() {
         btnSignup.setEnabled(true);
     }
 
+    @Override
+    public void showSignupFailed() {
+        Toast.makeText(getActivity(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+
+        btnSignup.setEnabled(true);
+    }
+
+    @Override
     public boolean validate() {
         boolean valid = true;
 
@@ -162,4 +174,16 @@ public class SignupFragment extends Fragment {
         return valid;
     }
 
+    @Override
+    public void setFragment(BaseFragment fragment) {
+        try {
+            //ataching to fragment the navigation presenter
+            fragment.atachPresenter(presenter);
+            //showing the presenter on screen
+            replaceFragment(R.id.container, fragment);
+        } catch (NullPointerException e) {
+            Log.e(Consts.TAG, "LoginFragment.setFragment\n" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

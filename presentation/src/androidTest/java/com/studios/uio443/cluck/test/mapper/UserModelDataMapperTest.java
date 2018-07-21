@@ -18,10 +18,12 @@ package com.studios.uio443.cluck.test.mapper;
 import com.studios.uio443.cluck.domain.User;
 import com.studios.uio443.cluck.presentation.mapper.UserModelDataMapper;
 import com.studios.uio443.cluck.presentation.model.UserModel;
+
+import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import junit.framework.TestCase;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;

@@ -98,9 +98,9 @@ public class DataService {
 
         RestService.Request r = new RestService.Request();
         r.method = RestService.METHOD_POST;
-        r.url = "http://185.244.173.142/api/auth/login";
+        r.url = "http://185.244.173.142/api/auth/onLogin";
         r.headers.put("Content-Type", "application/json");
-        r.body = "{\"login\":\"qwerty\", \"password\":\"qwerty\"}";
+        r.body = "{\"onLogin\":\"qwerty\", \"password\":\"qwerty\"}";
 
         JSONObject o;
 

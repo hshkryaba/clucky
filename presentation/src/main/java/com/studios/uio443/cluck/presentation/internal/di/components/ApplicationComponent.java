@@ -16,13 +16,16 @@
 package com.studios.uio443.cluck.presentation.internal.di.components;
 
 import android.content.Context;
+
 import com.studios.uio443.cluck.domain.executor.PostExecutionThread;
 import com.studios.uio443.cluck.domain.executor.ThreadExecutor;
 import com.studios.uio443.cluck.domain.repository.UserRepository;
 import com.studios.uio443.cluck.presentation.internal.di.modules.ApplicationModule;
 import com.studios.uio443.cluck.presentation.view.activity.BaseActivity;
-import dagger.Component;
+
 import javax.inject.Singleton;
+
+import dagger.Component;
 
 /**
  * A component whose lifetime is the life of the application.

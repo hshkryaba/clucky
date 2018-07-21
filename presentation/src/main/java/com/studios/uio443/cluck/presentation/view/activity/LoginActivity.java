@@ -2,25 +2,38 @@ package com.studios.uio443.cluck.presentation.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.studios.uio443.cluck.presentation.R;
-import com.studios.uio443.cluck.presentation.view.fragment.LoginFragment;
-import com.studios.uio443.cluck.presentation.view.fragment.LogoutFragment;
+import com.studios.uio443.cluck.presentation.mvp.LoginActivityVP;
+import com.studios.uio443.cluck.presentation.presenter.LoginActivityPresenter;
+import com.studios.uio443.cluck.presentation.presenter.PresenterManager;
+import com.studios.uio443.cluck.presentation.util.Consts;
+import com.studios.uio443.cluck.presentation.view.fragment.BaseFragment;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity implements
+        LoginActivityVP.View {
 
+    LoginActivityPresenter presenter;
     private boolean isResumed = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(Consts.TAG, "LoginActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        if (savedInstanceState == null) {
+            presenter = new LoginActivityPresenter();
+        } else {
+            presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+        }
+        presenter.bindView(this);
 
         VKSdk.wakeUpSession(this, new VKCallback<VKSdk.LoginState>() {
             @Override
@@ -28,10 +41,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (isResumed) {
                     switch (res) {
                         case LoggedOut:
-                            showLogin();
+                            presenter.showLogin();
                             break;
                         case LoggedIn:
-                            showLogout();
+                            presenter.showLogout();
                             break;
                         case Pending:
                             break;
@@ -43,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(VKError error) {
-
             }
         });
 
@@ -52,18 +64,29 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        presenter.bindView(this);
         isResumed = true;
         if (VKSdk.isLoggedIn()) {
-            showLogout();
+            presenter.showLogout();
         } else {
-            showLogin();
+            presenter.showLogin();
         }
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(Consts.TAG, "LoginActivity.onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+
+        PresenterManager.getInstance().savePresenter(presenter, outState);
+    }
+
+    @Override
     protected void onPause() {
+        Log.d(Consts.TAG, "LoginActivity.onPause");
         isResumed = false;
         super.onPause();
+        presenter.unbindView();
     }
 
     @Override
@@ -77,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResult(VKAccessToken res) {
                 // User passed Authorization
-                startModeSelectActivity();
+                presenter.startModeSelectActivity();
             }
 
             @Override
@@ -91,21 +114,16 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void showLogout() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, new LogoutFragment())
-                .commitAllowingStateLoss();
-    }
-
-    private void showLogin() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, new LoginFragment())
-                .commitAllowingStateLoss();
-    }
-
-    private void startModeSelectActivity() {
-        startActivity(new Intent(this, ModeSelectActivity.class));
+    @Override
+    public void setFragment(BaseFragment fragment) {
+        try {
+            //ataching to fragment the navigation presenter
+            fragment.atachPresenter(presenter);
+            //showing the presenter on screen
+            replaceFragment(R.id.container, fragment);
+        } catch (NullPointerException e) {
+            Log.e(Consts.TAG, "LoginActivity.setFragment\n" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

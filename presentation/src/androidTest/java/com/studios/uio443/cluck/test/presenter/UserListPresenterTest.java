@@ -16,16 +16,19 @@
 package com.studios.uio443.cluck.test.presenter;
 
 import android.content.Context;
+
 import com.studios.uio443.cluck.domain.interactor.GetUserList;
 import com.studios.uio443.cluck.presentation.mapper.UserModelDataMapper;
 import com.studios.uio443.cluck.presentation.presenter.UserListPresenter;
 import com.studios.uio443.cluck.presentation.view.UserListView;
-import io.reactivex.observers.DisposableObserver;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import io.reactivex.observers.DisposableObserver;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;

@@ -16,7 +16,9 @@
 package com.studios.uio443.cluck.presentation.internal.di.modules;
 
 import android.app.Activity;
+
 import com.studios.uio443.cluck.presentation.internal.di.PerActivity;
+
 import dagger.Module;
 import dagger.Provides;
 

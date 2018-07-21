@@ -9,15 +9,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import com.studios.uio443.cluck.presentation.R;
 import com.studios.uio443.cluck.presentation.internal.di.components.UserComponent;
@@ -26,8 +20,15 @@ import com.studios.uio443.cluck.presentation.presenter.UserListPresenter;
 import com.studios.uio443.cluck.presentation.view.UserListView;
 import com.studios.uio443.cluck.presentation.view.adapter.UsersAdapter;
 import com.studios.uio443.cluck.presentation.view.adapter.UsersLayoutManager;
+
 import java.util.Collection;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Fragment that shows a list of Users.
@@ -68,16 +69,15 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.getComponent(UserComponent.class).inject(this);
   }
 
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    final View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, false);
-    unbinder = ButterKnife.bind(this, fragmentView);
-    setupRecyclerView();
-    return fragmentView;
+  @Override
+  protected int getLayout() {
+    return R.layout.fragment_user_list;
   }
 
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    unbinder = ButterKnife.bind(this, view);
+    setupRecyclerView();
     this.userListPresenter.setView(this);
     if (savedInstanceState == null) {
       this.loadUserList();

@@ -18,9 +18,11 @@ package com.studios.uio443.cluck.presentation.mapper;
 import com.studios.uio443.cluck.domain.User;
 import com.studios.uio443.cluck.presentation.internal.di.PerActivity;
 import com.studios.uio443.cluck.presentation.model.UserModel;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
 import javax.inject.Inject;
 
 /**

@@ -20,6 +20,7 @@ import com.studios.uio443.cluck.presentation.internal.di.modules.ActivityModule;
 import com.studios.uio443.cluck.presentation.internal.di.modules.UserModule;
 import com.studios.uio443.cluck.presentation.view.fragment.UserDetailsFragment;
 import com.studios.uio443.cluck.presentation.view.fragment.UserListFragment;
+
 import dagger.Component;
 
 /**

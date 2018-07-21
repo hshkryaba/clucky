@@ -16,6 +16,7 @@
 package com.studios.uio443.cluck.test.exception;
 
 import android.test.AndroidTestCase;
+
 import com.studios.uio443.cluck.data.exception.NetworkConnectionException;
 import com.studios.uio443.cluck.data.exception.UserNotFoundException;
 import com.studios.uio443.cluck.presentation.R;

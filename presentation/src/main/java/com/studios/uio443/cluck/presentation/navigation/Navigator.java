@@ -17,8 +17,10 @@ package com.studios.uio443.cluck.presentation.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+
 import com.studios.uio443.cluck.presentation.view.activity.UserDetailsActivity;
 import com.studios.uio443.cluck.presentation.view.activity.UserListActivity;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 

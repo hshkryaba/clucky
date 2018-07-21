@@ -13,9 +13,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.ImageView;
+
+import com.studios.uio443.cluck.presentation.util.Consts;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,7 +29,7 @@ import java.net.URLConnection;
  * Simple implementation of {@link android.widget.ImageView} with extended features like setting an
  * image from an url and an internal file cache using the application cache directory.
  */
-public class AutoLoadImageView extends ImageView {
+public class AutoLoadImageView extends AppCompatImageView {
 
   private static final String BASE_IMAGE_NAME_CACHED = "image_";
 
@@ -283,7 +286,7 @@ public class AutoLoadImageView extends ImageView {
           fileOutputStream.flush();
           fileOutputStream.close();
         } catch (IOException e) {
-          Log.e(TAG, e.getMessage());
+            Log.e(Consts.TAG, e.getMessage());
         }
       }
     }

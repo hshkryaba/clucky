@@ -16,6 +16,7 @@
 package com.studios.uio443.cluck.presentation.exception;
 
 import android.content.Context;
+
 import com.studios.uio443.cluck.data.exception.NetworkConnectionException;
 import com.studios.uio443.cluck.data.exception.UserNotFoundException;
 import com.studios.uio443.cluck.presentation.R;
