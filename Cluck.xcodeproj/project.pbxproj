@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14C496C4210330B5000C0E6C /* CluckyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C496C3210330B5000C0E6C /* CluckyService.swift */; };
+		14C496C621033358000C0E6C /* UserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C496C521033358000C0E6C /* UserToken.swift */; };
 		14DDF5AA20FCD79400C75D59 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DDF5A920FCD79400C75D59 /* Bool.swift */; };
 		6C9C2E1260A8190374365E80 /* Pods_Cluck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B922777417271D0804958E32 /* Pods_Cluck.framework */; };
 		E142C76520BFEB28008F39D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142C76420BFEB28008F39D8 /* AppDelegate.swift */; };
@@ -37,6 +39,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14C496C3210330B5000C0E6C /* CluckyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CluckyService.swift; sourceTree = "<group>"; };
+		14C496C521033358000C0E6C /* UserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserToken.swift; sourceTree = "<group>"; };
 		14DDF5A920FCD79400C75D59 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		B922777417271D0804958E32 /* Pods_Cluck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cluck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E142C76120BFEB28008F39D8 /* Cluck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cluck.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14C496C22103309A000C0E6C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				14C496C3210330B5000C0E6C /* CluckyService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		34B507C00186165B3A5F8627 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +132,7 @@
 		E142C76320BFEB28008F39D8 /* Cluck */ = {
 			isa = PBXGroup;
 			children = (
+				14C496C22103309A000C0E6C /* Services */,
 				E1AAE5FF20E54DBC004A8452 /* MyQuestions */,
 				E1E0A9CE20D551BD003E421C /* Model */,
 				E1E0A9C920D45688003E421C /* Api */,
@@ -136,6 +149,7 @@
 				E142C78820C031CF008F39D8 /* Resources */,
 				E142C76D20BFEB2C008F39D8 /* LaunchScreen.storyboard */,
 				E142C77020BFEB2C008F39D8 /* Info.plist */,
+				14C496C521033358000C0E6C /* UserToken.swift */,
 			);
 			path = Cluck;
 			sourceTree = "<group>";
@@ -320,11 +334,13 @@
 				E142C77B20C0294B008F39D8 /* QuestionListTableViewCell.swift in Sources */,
 				E1E6A26320FBBDC700D9AFAF /* Cluck.xcdatamodeld in Sources */,
 				E142C76520BFEB28008F39D8 /* AppDelegate.swift in Sources */,
+				14C496C621033358000C0E6C /* UserToken.swift in Sources */,
 				14DDF5AA20FCD79400C75D59 /* Bool.swift in Sources */,
 				E1AAE60120E54DE6004A8452 /* MyQuestionsTableViewController.swift in Sources */,
 				E1AAE60320E54E44004A8452 /* MyQuestionsTableViewCell.swift in Sources */,
 				E142C79720C2F9E8008F39D8 /* SideMenuTableViewCell.swift in Sources */,
 				E142C77920C02847008F39D8 /* QuestionListTableViewController.swift in Sources */,
+				14C496C4210330B5000C0E6C /* CluckyService.swift in Sources */,
 				E142C79520C1D474008F39D8 /* SideMenuTableViewController.swift in Sources */,
 				E1E0A9D020D551D5003E421C /* User.swift in Sources */,
 			);
@@ -472,7 +488,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FDAF4AFFQX;
+				DEVELOPMENT_TEAM = 683CXDNH79;
 				INFOPLIST_FILE = Cluck/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -492,7 +508,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FDAF4AFFQX;
+				DEVELOPMENT_TEAM = 683CXDNH79;
 				INFOPLIST_FILE = Cluck/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (

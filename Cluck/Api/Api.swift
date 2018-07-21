@@ -10,26 +10,12 @@ typealias APIJsonCompletion = ((_ data: JsonDictionary) -> Void)
 public typealias JsonDictionary = [String: Any]
 public typealias JsonArray = [Any]
 
+/// Методы отправки и получения данных от API
+var cluckyService = CluckyService()
+
 var user = User()
 
 class API: NSObject, URLSessionDataDelegate {
-  let baseURL = URL(string: "http://185.244.173.142/")!
-  
-  /// Авторизационный токен. Хранится в локальном хранилище (userDefaults)
-  var token: String {
-    get {
-      if let t = app.userDefaults.object(forKey: "token") as? String {
-        return t
-      } else {
-        return ""
-      }
-    }
-    
-    set {
-      app.userDefaults.set(newValue, forKey: "token")
-    }
-  }
-  
   /// Особая сессия, в которой отправляются запросы к API
   var session: URLSession!
   
@@ -67,7 +53,7 @@ class API: NSObject, URLSessionDataDelegate {
     super.init()
     session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: .main)
   }
-
+  
   var isReachable: Bool {
     var zeroAddress = sockaddr_in()
     zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
@@ -88,132 +74,6 @@ class API: NSObject, URLSessionDataDelegate {
     return (isReachable && !needsConnection)
   }
   
-  // TODO: Вынести в сервис
-  /// Создание самого запроса к API. Отправка же запроса происходит в методе SendRequest
-  /// - Parameters:
-  ///   - method: Тип запроса: GET, POST, PUT, DELETE и так далее
-  ///   - path: Адрес куда в дальнейшем будет отправлен запрос
-  ///   - tokenRequired: Для некоторых запросов не требуется авторизационный токен
-  ///   - serialize: TODO: дописать
-  func makeRequest(method: String, path: String, parameters: [String: Any]? = nil, tokenRequired: Bool = false, serialize: Bool = false) -> URLRequest {
-    
-    var urlComponents   = URLComponents()
-    urlComponents.path  = path
-    
-    // Если запрос на получение данных
-    if (method == "GET" ) {
-      if let tempParametersConstant = parameters {
-        urlComponents.query = serializeParameters(parameters: tempParametersConstant)
-      }
-    }
-    
-    /// Наш базоый адрес API
-    let requestURL      = urlComponents.url(relativeTo: baseURL)!
-    
-    /// Объект запроса...
-    var request         = URLRequest(url: requestURL)
-    // ... с установленным методом отправки данных
-    request.httpMethod  = method
-    
-    // Natali added
-    // request.setValue("ios-2.8.5", forHTTPHeaderField: "X-APP")
-    
-    // Если запрос на отправку данных
-    if (method == "POST" || method == "PUT") {
-      
-      if let tempParametersConstant = parameters {
-        if (serialize) {
-          
-          // Задаём особенности отправки данных. Обычный формат.
-          request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-          
-          // Само тело запроса. 
-          request.httpBody = serializeParameters(parameters: tempParametersConstant).data(using: .utf8, allowLossyConversion: true)
-          
-          //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
-        
-        } else {
-          
-          // Задаём особенности отправки данных. Отправка данных в формате JSON.
-          request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-          request.httpBody = collectJSONData(parameters: tempParametersConstant)
-          //request.httpBody = try! JSONSerialization.data(withJSONObject: bParameters, options: [])
-        }
-      }
-      
-      // Указание длины запроса
-      if let length = request.httpBody?.count {
-        request.setValue("\(length)", forHTTPHeaderField: "Content-Length")
-      }
-    }
-    
-    // Если API требует наличие токена для совершения запроса - передаём его
-    if (tokenRequired) {
-      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-    }
-    
-    return request
-  }
-  
-  
-  // TODO: Вынести в сервис
-  /// Отправка запроса к API
-  /// - Parameters:
-  ///   - request: объект запроса к API
-  ///   - completion: убегающее замыкание, что исполняется после завершения функции. Возвращает ответ в формате JsonDictionary
-  ///   - fallback: обработка возможной ошибки
-  ///   - withoutProcessing: TODO
-  func sendRequest(request: URLRequest, completion: @escaping ((JsonDictionary) -> Void), fallback: APIFallback? = nil, withoutProcessing: Bool = false) {
-    
-    /// Объект задачи для отправки на сервер. Выполняется в формате замыкания.
-    let task = session.dataTask(with: request) { (data, response, error) in
-      
-      // Запуск в основной очереди
-      app.mainQueue.addOperation({
-        
-        // TODO: расписать - что здесь, собственно, происходит
-        self.decreaseNetworkActivityCounter()
-        
-        // Если мы получили какие-либо данные после запроса к серверу, оборачиваем их в константу
-        if let responseData = data {
-          
-          // TODO: без некой проверки
-          if withoutProcessing {
-            
-            // TODO: comment
-            if let json = self.parseJSON(data: responseData) as? JsonDictionary {
-              completion(json)
-            }
-            
-            // TODO: с некой таинственной проверкой 
-          } else {
-            
-            let processed = self.processJsonDictionary(data: responseData)
-            
-            // Если имеем ошибку, вместо готовго JSON
-            if let processedError = processed.0 {
-              magic(processedError)
-              
-              // В противном случае...  
-            } else if let json = processed.1 {
-              magic(json)
-              // ... отдаём наш итоговый json в убегающее замыкание
-              completion(json)
-            }
-          }
-        }
-      })
-    }
-    
-    app.mainQueue.addOperation({
-      self.increaseNetworkActivityCounter()
-    })
-    
-    // Запуск задачи на выполнение
-    task.resume()
-  }
-  
-  
   func increaseNetworkActivityCounter() {
     networkActivityCounter += 1
     if (networkActivityCounter > 0 ) {
@@ -229,8 +89,6 @@ class API: NSObject, URLSessionDataDelegate {
     }
   }
   
-  //MARK: - API requests
-  
   /// Получение авторизационного токена, для использования в последующих запросах
   /// - Parameters:
   ///   - username: Имя пользователя (юзернейм/логин)
@@ -239,17 +97,14 @@ class API: NSObject, URLSessionDataDelegate {
   ///   - fallback: Обработка возможной ошибки
   func getToken(username: String, password: String, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
     
+    let request = cluckyService.makeRequest(method: "POST", path: "api/auth/login", parameters: ["login": username, "password": password], serialize: true)
     
-    let request = self.makeRequest(method: "POST", path: "api/auth/login", parameters: ["login": username, "password": password], serialize: true)
-    
-    
-    
-    self.sendRequest(request: request, completion: { (json) in
+    cluckyService.sendRequest(request: request, completion: { (json) in
       magic("GET TOKEN METHOD \(json)")
       if let result = json["result"] as? NSArray {
         if let tokenDict = result[0] as? NSDictionary {
           if let token = tokenDict["accessToken"] as? String {
-            self.token = token
+            UserToken.instance.token = token
             completion()
           }
         }
@@ -274,7 +129,7 @@ class API: NSObject, URLSessionDataDelegate {
   }
   
   func logout(queue: OperationQueue? = app.queue) {
-    token = ""
+    UserToken.instance.token = ""
     
     /*app.ud.set(false, forKey: "AuthorizationStatus")
      app.ud.set(nil, forKey: "userID")
@@ -311,10 +166,10 @@ class API: NSObject, URLSessionDataDelegate {
       let params = ["login": login, "password": password, "email": email]
       
       //
-      let request = self.makeRequest(method: "POST", path: "api/auth/register", parameters: params, serialize: true)
+      let request = cluckyService.makeRequest(method: "POST", path: "api/auth/register", parameters: params, serialize: true)
       
       // Отправка запроса к API
-      self.sendRequest(request: request, completion: { (json) in
+      cluckyService.sendRequest(request: request, completion: { (json) in
         
         if let result = json["result"] as? NSArray {
           if let resultDictionary = result[0] as? NSDictionary {
@@ -338,18 +193,18 @@ class API: NSObject, URLSessionDataDelegate {
   }
   
   func loadQuestionList(completion: @escaping (([Question]) -> Void), fallback: APIFallback? = nil) {
-    let request = self.makeRequest(method: "GET", path: "api/questions", tokenRequired: true)
-    self.sendRequest(request: request, completion: { (json) in
+    let request = cluckyService.makeRequest(method: "GET", path: "api/questions", tokenRequired: true)
+    cluckyService.sendRequest(request: request, completion: { (json) in
       magic("QUESTION LIST JSON \(json)")
-
+      
       let questionList = Question.insertQuestionList(json: json)
       completion(questionList)
     }, fallback: fallback)
   }
   
   func loadUserInfo(id: Int, completion: @escaping APICompletion, fallback: APIFallback? = nil) {
-    let request = self.makeRequest(method: "GET", path: "api/users/\(id)", tokenRequired: true)
-    self.sendRequest(request: request, completion: { (json) in
+    let request = cluckyService.makeRequest(method: "GET", path: "api/users/\(id)", tokenRequired: true)
+    cluckyService.sendRequest(request: request, completion: { (json) in
       magic("USER JSON \(json)")
       completion()
     }, fallback: fallback)
@@ -394,27 +249,4 @@ class API: NSObject, URLSessionDataDelegate {
       return nil
     }
   }
-  
-  func collectJSONData(parameters: [String: Any]) -> Data? {
-    do {
-      let data = try JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions(rawValue: 0))
-      return data
-    } catch let error as NSError {
-      magic(error)
-      return nil
-    }
-  }
-
-  /// Вспомогательный метод для обработки первоначальных данных перед отправкой запроса на сервер
-  func serializeParameters(parameters: [String: Any]) -> String {
-    var components = [String]()
-    
-    // Приводим входящие данные в формат: ключ-значение
-    for (key, value) in parameters {
-      components.append("\(key)=\(value)")
-    }
-    
-    return components.joined(separator: "&")
-  }
 }
-
