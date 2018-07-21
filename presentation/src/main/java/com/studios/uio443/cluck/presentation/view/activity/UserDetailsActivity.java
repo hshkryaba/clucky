@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
+
 import com.studios.uio443.cluck.presentation.R;
 import com.studios.uio443.cluck.presentation.internal.di.HasComponent;
 import com.studios.uio443.cluck.presentation.internal.di.components.DaggerUserComponent;

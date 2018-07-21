@@ -18,6 +18,7 @@ package com.studios.uio443.cluck.test.view.activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+
 import com.studios.uio443.cluck.presentation.R;
 import com.studios.uio443.cluck.presentation.view.activity.UserListActivity;
 

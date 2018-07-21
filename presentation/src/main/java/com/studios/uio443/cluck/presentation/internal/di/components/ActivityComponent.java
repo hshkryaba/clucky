@@ -16,8 +16,10 @@
 package com.studios.uio443.cluck.presentation.internal.di.components;
 
 import android.app.Activity;
+
 import com.studios.uio443.cluck.presentation.internal.di.PerActivity;
 import com.studios.uio443.cluck.presentation.internal.di.modules.ActivityModule;
+
 import dagger.Component;
 
 /**

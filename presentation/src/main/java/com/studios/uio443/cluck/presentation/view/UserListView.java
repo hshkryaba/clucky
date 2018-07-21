@@ -5,6 +5,7 @@
 package com.studios.uio443.cluck.presentation.view;
 
 import com.studios.uio443.cluck.presentation.model.UserModel;
+
 import java.util.Collection;
 
 /**

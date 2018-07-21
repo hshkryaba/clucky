@@ -16,6 +16,7 @@
 package com.studios.uio443.cluck.presentation.presenter;
 
 import android.support.annotation.NonNull;
+
 import com.studios.uio443.cluck.domain.User;
 import com.studios.uio443.cluck.domain.exception.DefaultErrorBundle;
 import com.studios.uio443.cluck.domain.exception.ErrorBundle;
@@ -26,8 +27,10 @@ import com.studios.uio443.cluck.presentation.internal.di.PerActivity;
 import com.studios.uio443.cluck.presentation.mapper.UserModelDataMapper;
 import com.studios.uio443.cluck.presentation.model.UserModel;
 import com.studios.uio443.cluck.presentation.view.UserListView;
+
 import java.util.Collection;
 import java.util.List;
+
 import javax.inject.Inject;
 
 /**

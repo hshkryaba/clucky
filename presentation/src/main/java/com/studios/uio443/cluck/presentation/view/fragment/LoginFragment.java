@@ -1,14 +1,12 @@
 package com.studios.uio443.cluck.presentation.view.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,16 +14,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.studios.uio443.cluck.presentation.R;
-import com.studios.uio443.cluck.presentation.model.User;
-import com.studios.uio443.cluck.presentation.services.DataService;
-import com.studios.uio443.cluck.presentation.view.activity.ModeSelectActivity;
+import com.studios.uio443.cluck.presentation.mvp.LoginFragmentVP;
+import com.studios.uio443.cluck.presentation.presenter.LoginFragmentPresenter;
+import com.studios.uio443.cluck.presentation.presenter.PresenterManager;
+import com.studios.uio443.cluck.presentation.util.Consts;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment implements LoginFragmentVP.View {
+
+    LoginFragmentPresenter presenter;
 
     private static final String[] sMyScope = new String[]{
             VKScope.FRIENDS,
@@ -59,55 +60,63 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+    protected int getLayout() {
+        return R.layout.fragment_login;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(Consts.TAG, "LoginFragment.onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        if (savedInstanceState == null) {
+            presenter = new LoginFragmentPresenter();
+        } else {
+            presenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+        }
+        presenter.bindView(this);
 
         //Если у пользователя не установлено приложение ВКонтакте,
         // то SDK будет использовать авторизацию через новую Activity при помощи OAuth.
         btnSignIn.setOnClickListener(v -> VKSdk.login(getActivity(), sMyScope));
 
-        btnLogin.setOnClickListener(v -> login());
+        btnLogin.setOnClickListener(v -> {
+            String email = loginEmailInput.getText().toString();
+            String password = loginPasswordInput.getText().toString();
 
-        linkSignUp.setOnClickListener(v -> showSignin());
+            presenter.onLogin(email, password);
+        });
 
-        return view;
+        linkSignUp.setOnClickListener(v -> presenter.onSignin());
+
     }
 
-    private void showSignin() {
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, new SignupFragment())
-                .commitAllowingStateLoss();
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        presenter.bindView(this);
     }
 
-    public void login() {
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(Consts.TAG, "NoteFragment.onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(presenter, outState);
+    }
 
-        Log.d("LoginActivity", "Loging in");
+    @Override
+    public void onPause() {
+        Log.d(Consts.TAG, "NoteFragment.onPause");
+        super.onPause();
 
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
+        presenter.unbindView();
+    }
 
-        String email = loginEmailInput.getText().toString();
-        String password = loginPasswordInput.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-
-        DataService dataService = DataService.getInstance();
-        User user = dataService.authentication(email, password);
-
-        dataService.testRest();
-
-        if (user == null) {
-            onLoginFailed();
-            return;
-        }
-
-        btnLogin.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(getContext(), R.style.AppTheme);
+    @Override
+    public void progressDialog() {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
@@ -115,25 +124,26 @@ public class LoginFragment extends Fragment {
         new android.os.Handler().postDelayed(
                 () -> {
                     // On complete call either onLoginSuccess or onLoginFailed
-                    onLoginSuccess();
+                    presenter.onLoginSuccess();
                     // onLoginFailed();
                     progressDialog.dismiss();
                 }, 3000);
-
     }
 
-    public void onLoginSuccess() {
-        btnLogin.setEnabled(true);
-        Intent intent = new Intent(getContext(), ModeSelectActivity.class);
-        startActivity(intent);
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
-
+    @Override
+    public void showLoginSuccess() {
         btnLogin.setEnabled(true);
     }
 
+
+    @Override
+    public void showLoginFailed() {
+        Toast.makeText(getActivity(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+
+        btnLogin.setEnabled(true);
+    }
+
+    @Override
     public boolean validate() {
         boolean valid = true;
 
@@ -155,5 +165,18 @@ public class LoginFragment extends Fragment {
         }
 
         return valid;
+    }
+
+    @Override
+    public void setFragment(BaseFragment fragment) {
+        try {
+            //ataching to fragment the navigation presenter
+            fragment.atachPresenter(presenter);
+            //showing the presenter on screen
+            replaceFragment(R.id.container, fragment);
+        } catch (NullPointerException e) {
+            Log.e(Consts.TAG, "LoginFragment.setFragment\n" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

@@ -10,15 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.studios.uio443.cluck.presentation.R;
 import com.studios.uio443.cluck.presentation.model.UserModel;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Adaptar that manages a collection of {@link UserModel}.

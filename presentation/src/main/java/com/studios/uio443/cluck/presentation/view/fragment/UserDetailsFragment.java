@@ -6,25 +6,25 @@ package com.studios.uio443.cluck.presentation.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
+import com.fernandocejas.arrow.checks.Preconditions;
 import com.studios.uio443.cluck.presentation.R;
 import com.studios.uio443.cluck.presentation.internal.di.components.UserComponent;
 import com.studios.uio443.cluck.presentation.model.UserModel;
 import com.studios.uio443.cluck.presentation.presenter.UserDetailsPresenter;
 import com.studios.uio443.cluck.presentation.view.UserDetailsView;
 import com.studios.uio443.cluck.presentation.view.component.AutoLoadImageView;
-import com.fernandocejas.arrow.checks.Preconditions;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Fragment that shows details of a certain user.
@@ -61,15 +61,14 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     this.getComponent(UserComponent.class).inject(this);
   }
 
-  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    final View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
-    unbinder = ButterKnife.bind(this, fragmentView);
-    return fragmentView;
+  @Override
+  protected int getLayout() {
+    return R.layout.fragment_user_details;
   }
 
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    unbinder = ButterKnife.bind(this, view);
     this.userDetailsPresenter.setView(this);
     if (savedInstanceState == null) {
       this.loadUserDetails();

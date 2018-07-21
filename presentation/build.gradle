@@ -92,6 +92,8 @@ dependencies {
   compileOnly presentationDependencies.javaxAnnotation
   implementation presentationDependencies.arrow
 
+  implementation 'com.google.guava:guava:22.0'
+
   testImplementation presentationTestDependencies.junit
   androidTestImplementation presentationTestDependencies.runner
   androidTestImplementation presentationTestDependencies.mockito

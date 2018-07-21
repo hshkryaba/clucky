@@ -2,10 +2,12 @@ package com.studios.uio443.cluck.presentation.view.activity;
 
 import android.os.Bundle;
 import android.widget.Button;
+
+import com.studios.uio443.cluck.presentation.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.studios.uio443.cluck.presentation.R;
 
 /**
  * Main application screen. This is the app entry point.

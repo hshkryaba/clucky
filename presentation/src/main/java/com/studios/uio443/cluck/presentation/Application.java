@@ -18,10 +18,10 @@ package com.studios.uio443.cluck.presentation;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.studios.uio443.cluck.presentation.internal.di.components.ApplicationComponent;
 import com.studios.uio443.cluck.presentation.internal.di.components.DaggerApplicationComponent;
 import com.studios.uio443.cluck.presentation.internal.di.modules.ApplicationModule;
-import com.squareup.leakcanary.LeakCanary;
 import com.studios.uio443.cluck.presentation.view.activity.LoginActivity;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKAccessTokenTracker;

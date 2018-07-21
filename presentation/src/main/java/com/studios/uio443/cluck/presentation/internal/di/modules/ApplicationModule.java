@@ -16,6 +16,7 @@
 package com.studios.uio443.cluck.presentation.internal.di.modules;
 
 import android.content.Context;
+
 import com.studios.uio443.cluck.data.cache.UserCache;
 import com.studios.uio443.cluck.data.cache.UserCacheImpl;
 import com.studios.uio443.cluck.data.executor.JobExecutor;
@@ -26,9 +27,10 @@ import com.studios.uio443.cluck.domain.repository.UserRepository;
 import com.studios.uio443.cluck.presentation.Application;
 import com.studios.uio443.cluck.presentation.UIThread;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * Dagger module that provides objects which will live during the application lifecycle.

@@ -46,7 +46,7 @@
 
   //ID приложения
   <integer name="com_vk_sdk_AppId">6635663</integer>
-  <!-- Strings related to login -->
+    <!-- Strings related to onLogin -->
   <string name="action_sign_in_short">Sign in with VK</string>
   <string name="action_sign_in_force">Force OAuth</string>
   <string name="continue_using_app">Continue using test application</string>
