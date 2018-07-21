@@ -28,7 +28,7 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".view.activity.SignupActivity" />
+    <!--<activity android:name=".view.activity.SignupActivity" />-->
     <activity android:name=".view.activity.ModeSelectActivity" />
     <activity android:name=".view.activity.AboutPageActivity" />
 
