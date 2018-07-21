@@ -1,11 +1,14 @@
-package com.studios.uio443.cluck.presentation.view.activity;
+package com.studios.uio443.cluck.presentation.view.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,12 +17,13 @@ import android.widget.Toast;
 import com.studios.uio443.cluck.presentation.R;
 import com.studios.uio443.cluck.presentation.model.User;
 import com.studios.uio443.cluck.presentation.services.DataService;
+import com.studios.uio443.cluck.presentation.view.activity.LoginActivity;
+import com.studios.uio443.cluck.presentation.view.activity.ModeSelectActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-//TODO переделать во фрагмент и засунуть в LoginActivity layout activity_start
-public class SignupActivity extends AppCompatActivity {
+public class SignupFragment extends Fragment {
 
     //используем butterknife
     //https://jakewharton.github.io/butterknife/
@@ -45,21 +49,24 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.link_login)
     TextView linkLogin;
 
+    public SignupFragment() {
+        super();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+        ButterKnife.bind(this, view);
 
         btnSignup.setOnClickListener(v -> signup());
 
         linkLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(getContext(), LoginActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         });
 
+        return view;
     }
 
     public void signup() {
@@ -87,8 +94,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(getContext(), R.style.AppTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.creating_acctount));
         progressDialog.show();
@@ -105,12 +111,12 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         btnSignup.setEnabled(true);
-        Intent intent = new Intent(SignupActivity.this, ModeSelectActivity.class);
+        Intent intent = new Intent(getContext(), ModeSelectActivity.class);
         startActivity(intent);
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
 
         btnSignup.setEnabled(true);
     }

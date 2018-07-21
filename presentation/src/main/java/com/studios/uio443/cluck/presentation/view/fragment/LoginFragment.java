@@ -19,7 +19,6 @@ import com.studios.uio443.cluck.presentation.R;
 import com.studios.uio443.cluck.presentation.model.User;
 import com.studios.uio443.cluck.presentation.services.DataService;
 import com.studios.uio443.cluck.presentation.view.activity.ModeSelectActivity;
-import com.studios.uio443.cluck.presentation.view.activity.SignupActivity;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 
@@ -70,13 +69,16 @@ public class LoginFragment extends Fragment {
 
         btnLogin.setOnClickListener(v -> login());
 
-        linkSignUp.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), SignupActivity.class);
-            startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-        });
+        linkSignUp.setOnClickListener(v -> showSignin());
 
         return view;
+    }
+
+    private void showSignin() {
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, new SignupFragment())
+                .commitAllowingStateLoss();
     }
 
     public void login() {
