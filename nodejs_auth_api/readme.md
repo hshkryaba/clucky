@@ -61,7 +61,7 @@ POST /api/auth/register
 GET /api/answers
 GET /api/answers/:id
 GET /api/answers/:id/question
-GET /api/ansver/:id/votes
+GET /api/answers/:id/votes
 GET /api/answers/:id/user
 POST /api/answers
 принимает { 
@@ -89,8 +89,7 @@ GET /api/questions
 GET /api/questions/:id
 GET /api/questions/:id/answers
 GET /api/questions/:id/tags
-GET /api/questions/:id/votes
-GET /api/questions/:id/category
+GET /api/questions/:id/categories
 GET /api/questions/:id/user
 POST /api/questions
 принимает {
@@ -98,12 +97,8 @@ POST /api/questions
   "question":"ответ на вопрос", (обязательный) 
   "user_id": "ид пользователя", (не обязателен, извлекается из JWT если не указан
 }
-
 PUT /api/questions/:id
 DELETE /api/questions/:id
-
--- API.question_votes -- ??? в разработке
-POST /api/question_votes
 
 -- API.tags, ожидает access_token
 GET /api/tags
