@@ -117,10 +117,10 @@ GET /api/users/:id
 GET /api/users/:id/answers
 GET /api/users/:id/questions
 POST /api/users
-принимает { 
-  "answer":"ответ на вопрос", (обязательный) 
-  "user_id": "ид пользователя", (не обязателен, извлекается из JWT если не указан)
-  "question_id": "ид вопроса"
+принимает {
+  "login": "имя пользователя", (обязательный) 
+  "password": "пароль пользователя" (обязательный)
+  "email": "email пользователя" (обязательный)
 }
 PUT /api/users/:id
 DELETE /api/users/:id
